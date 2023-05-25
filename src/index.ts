@@ -1,14 +1,13 @@
 import {ArcRotateCamera} from "@babylonjs/core/Cameras/arcRotateCamera"
 import {Engine} from "@babylonjs/core/Engines/engine"
-import {HemisphericLight} from "@babylonjs/core/Lights/hemisphericLight"
 import {MeshBuilder} from "@babylonjs/core/Meshes/meshBuilder"
 import {Scene} from "@babylonjs/core/scene"
 import {Vector3} from "@babylonjs/core/Maths/math.vector"
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
+import {MorphTarget} from '@babylonjs/core/Legacy/legacy';
 
 import {Color3, StandardMaterial} from '@babylonjs/core';
 import {Spiral_Top} from "./Spiral_Top";
-import {MorphTarget} from "@babylonjs/core/Legacy/legacy";
 
 
 const view = document.getElementById("view") as HTMLCanvasElement
@@ -41,15 +40,15 @@ let curr_n = 3;
 let new_n = curr_n;
 let do_transition = false;
 
-const light = new HemisphericLight(
+/*const light = new HemisphericLight(
     "light",
     new Vector3(0, -1, 0.3),
-    scene);
+    scene);*/
 
 const spirals = Spiral_Top.all_configs.map((s, n) => new Spiral_Top(n));
 spirals.forEach(s => s.calc_points());
 
-const meshes = [];
+// const meshes = [];
 
 const manager = new BABYLON.MorphTargetManager();
 const targets: MorphTarget[] = [];
@@ -66,7 +65,7 @@ function create_spiral_mesh(n, spiral: Spiral_Top) {
         tessellation: 4,
     }, scene);
 
-    meshes.push(mesh);
+    // meshes[n] = mesh;
 
     mesh.material = spiralMaterial;
     mesh.freezeNormals();
@@ -80,23 +79,20 @@ function create_spiral_mesh(n, spiral: Spiral_Top) {
 
     for (let n = 1; n < spiral.nRot; n++)
         mesh.clone().rotate(new Vector3(0, 0, 1), 2 * Math.PI / spiral.nRot * n);
+
+    return mesh;
 }
 
-for (const spiral of spirals) {
-    const n = spirals.indexOf(spiral);
-
-    create_spiral_mesh(n, spiral);
-}
+let curr_mesh =  create_spiral_mesh(curr_n, spirals[curr_n]);
 
 
-var randomColor = BABYLON.Color3.Random();
-randomColor = Color3.White();
+var randomColor = Color3.White();
 spiralMaterial.emissiveColor = randomColor
 
 var bulbLight = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(0, 0, 0), scene);
 bulbLight.diffuse = randomColor
 bulbLight.specular = randomColor
-bulbLight.position.copyFrom(meshes[0].position);
+bulbLight.position.copyFrom(curr_mesh.position);
 
 
 const di = 0.1;
@@ -185,6 +181,7 @@ scene.onPointerUp = function (p, pick) {
     let n = Math.round(scaledDistance);
     n = Math.min(n, Spiral_Top.all_configs.length - 1);
     if (n != new_n) {
+        create_spiral_mesh(n, spirals[n]);
         curr_n = new_n;
         new_n = n;
         do_transition = true;
