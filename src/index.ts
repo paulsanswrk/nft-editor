@@ -33,7 +33,7 @@ camera.upVector = new Vector3(0, 0, 1);
 camera.useAutoRotationBehavior = true;
 // camera.rotation = new Vector3(0,0,1);
 
-camera.autoRotationBehavior.idleRotationSpeed = 0;// -0.05;
+camera.autoRotationBehavior.idleRotationSpeed = -0.05;
 camera.autoRotationBehavior.idleRotationWaitTime = 0;
 camera.autoRotationBehavior.zoomStopsAnimation = false;
 
@@ -47,6 +47,7 @@ const light = new HemisphericLight(
     scene);
 
 const spirals = Spiral_Top.all_configs.map((s, n) => new Spiral_Top(n));
+spirals.forEach(s => s.calc_points());
 
 const meshes = [];
 
@@ -57,11 +58,7 @@ const targets: MorphTarget[] = [];
 const spiralMaterial = new StandardMaterial("spiralMaterial", scene);
 spiralMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
 
-for (const spiral of spirals) {
-    const n = spirals.indexOf(spiral);
-
-    spiral.calc_points();
-
+function create_spiral_mesh(n, spiral: Spiral_Top) {
     const mesh = MeshBuilder.CreateTube(`spiral_${n}`, {
         path: spiral.spiralPoints,
         radius: 0.004,
@@ -75,14 +72,20 @@ for (const spiral of spirals) {
     mesh.freezeNormals();
 
     mesh.setEnabled(n == curr_n);
-    mesh.setVerticesData("color", spiral.calc_colors(mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind)));
+    if (n == curr_n)
+        mesh.setVerticesData("color", spiral.calc_colors(mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind)));
     mesh.morphTargetManager = manager;
     targets[n] = BABYLON.MorphTarget.FromMesh(mesh, `spiral_${n}`, 0);
     manager.addTarget(targets[n]);
 
     for (let n = 1; n < spiral.nRot; n++)
         mesh.clone().rotate(new Vector3(0, 0, 1), 2 * Math.PI / spiral.nRot * n);
+}
 
+for (const spiral of spirals) {
+    const n = spirals.indexOf(spiral);
+
+    create_spiral_mesh(n, spiral);
 }
 
 
@@ -105,14 +108,14 @@ scene.registerBeforeRender(function () {
         targets.forEach(
             (target, n) => {
                 if (n == new_n) {
-                    if(Math.abs(target.influence - 1) < di)
+                    if (Math.abs(target.influence - 1) < di)
                         target.influence = 1;
                     else {
                         target.influence += di;
                         finished = false;
                     }
                 } else {
-                    if(Math.abs(target.influence) < di)
+                    if (Math.abs(target.influence) < di)
                         target.influence = 0;
                     else {
                         target.influence -= di;
