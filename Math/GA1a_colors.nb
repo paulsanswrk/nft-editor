@@ -1,0 +1,1662 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     77389,       1654]
+NotebookOptionsPosition[     76834,       1635]
+NotebookOutlinePosition[     77283,       1652]
+CellTagsIndexPosition[     77240,       1649]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "\"\<Global`*\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"pp", " ", "=", " ", "3"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"clist", "=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Table", "[", 
+       RowBox[{
+        SubscriptBox["c", 
+         RowBox[{"\[Alpha]", ",", "n"}]], ",", 
+        RowBox[{"{", 
+         RowBox[{"n", ",", "0", ",", "pp"}], "}"}]}], "]"}], "/.", " ", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"\[Alpha]", "->", "x"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"\[Alpha]", "->", "y"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"\[Alpha]", "->", "z"}], "}"}]}], "}"}]}], "//", 
+     "Flatten"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"Rot", "[", "\[Phi]_", "]"}], "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Cos", "[", "\[Phi]", "]"}], ",", " ", 
+        RowBox[{"Sin", "[", "\[Phi]", "]"}], ",", "0"}], "}"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", 
+         RowBox[{"Sin", "[", "\[Phi]", "]"}]}], ",", " ", 
+        RowBox[{"Cos", "[", "\[Phi]", "]"}], ",", " ", "0"}], "}"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"style", " ", "=", " ", 
+   RowBox[{"Sequence", "[", 
+    RowBox[{"PlotStyle", "->", 
+     RowBox[{"Directive", "[", 
+      RowBox[{
+       RowBox[{"Thickness", "[", "0.002", "]"}], ",", "White"}], "]"}]}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"U", "[", 
+     RowBox[{"t_", ",", "t0_", ",", "t1_", ",", "u0_", ",", "u1_"}], "]"}], 
+    "=", 
+    RowBox[{
+     RowBox[{"u0", "*", " ", 
+      RowBox[{
+       RowBox[{"Sech", "[", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"t", "-", "t0"}], ")"}], "*", "2"}], "]"}], "^", "10"}]}], 
+     "+", 
+     RowBox[{"u1", "*", 
+      RowBox[{"Sech", "[", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"t", "-", "t1"}], ")"}], "*", "2"}], "]"}]}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"Get3DView", "[", "gfx_", "]"}], ":=", 
+    RowBox[{"Options", "[", 
+     RowBox[{
+      RowBox[{"Unevaluated", "[", "gfx", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+       "ViewCenter", ",", "ViewVector", ",", "ViewVertical", ",", 
+        "ViewPoint"}], "}"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "u1", ",", "u2", ",", "m2", ",", "xf", ",", "v", ",", "o", ",", "ct", 
+      ",", "n", ",", "t1", ",", "t2", ",", "cTanh", ",", "at0", ",", "at4", 
+      ",", "hueG", ",", "zIrreg", ",", "nRot"}], "}"}], "=", 
+    RowBox[{"{", 
+     RowBox[{
+     "0.21`", ",", "25", ",", "4.5`", ",", "0.24`", ",", "0.1`", ",", "1.5`", 
+      ",", "0.2`", ",", "1.03`", ",", 
+      FractionBox["\[Pi]", "10"], ",", "2.11`", ",", "1", ",", "4.8`", ",", 
+      "8.8`", ",", "0.032`", ",", "0.15`", ",", "12"}], "}"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{"ClearAll", "[", 
+  RowBox[{"uicon", ",", "resizeU"}], "]"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"uicon", "[", 
+     RowBox[{"size_", ":", "30"}], "]"}], ":=", 
+    RowBox[{"Rasterize", "[", 
+     RowBox[{
+      RowBox[{"Graphics", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"GrayLevel", "[", ".7", "]"}], ",", 
+          RowBox[{"Disk", "[", "]"}], ",", 
+          RowBox[{"Inset", "[", 
+           RowBox[{"Style", "[", 
+            RowBox[{
+            "\"\<U\>\"", ",", "\"\<Panel\>\"", ",", "Bold", ",", "White", ",", 
+             RowBox[{"FontSize", "->", 
+              RowBox[{"Scaled", "[", ".7", "]"}]}], ",", 
+             RowBox[{"Background", "->", "None"}]}], "]"}], "]"}]}], "}"}], 
+        ",", 
+        RowBox[{"ImageSize", "->", "size"}]}], "]"}], ",", 
+      RowBox[{"ImageResolution", "->", "600"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"resizeU", "[", 
+     RowBox[{"size_", ":", "30"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{"RawBoxes", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"ToBoxes", "[", "#", "]"}], "/.", " ", 
+        RowBox[{"MapAt", "[", 
+         RowBox[{"RuleCondition", ",", 
+          RowBox[{"DownValues", "[", "Manipulate`ManipulateBoxes", "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"All", ",", "2"}], "}"}]}], "]"}]}], "/.", " ", 
+       RowBox[{
+        RowBox[{"FEPrivate`FrontEndResource", "[", 
+         RowBox[{"\"\<FEBitmaps\>\"", ",", "\"\<UpdateIcon\>\""}], "]"}], ":>", 
+        RowBox[{"ToBoxes", "@", 
+         RowBox[{"uicon", "[", "size", "]"}]}]}]}], "]"}], "&"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"resizeU", "[", "60", "]"}], "@", 
+  RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"global", " ", "=", " ", 
+      RowBox[{"{", 
+       RowBox[{
+       "u1", ",", "u2", ",", "m2", ",", "xf", ",", "v", ",", "o", ",", "ct", 
+        ",", "n", ",", "t1", ",", "t2", ",", "cTanh", ",", "at0", ",", "at4", 
+        ",", "hueG", ",", "zIrreg", ",", "nRot"}], "}"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"m1", "=", "6.1"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"F", "[", "t_", "]"}], "=", 
+      RowBox[{"{", 
+       RowBox[{"xf", ",", " ", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"v", " ", "t"}], "+", "ct"}], ")"}], 
+         RowBox[{"Cos", "[", 
+          RowBox[{"o", " ", 
+           RowBox[{"t", "^", "n"}]}], "]"}]}], ",", 
+        RowBox[{"z0", "+", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"v", " ", "t"}], "+", "ct"}], ")"}], 
+          RowBox[{"Sin", "[", 
+           RowBox[{"o", " ", 
+            RowBox[{"t", "^", "n"}]}], "]"}]}]}]}], "}"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"Gmod", "[", "t_", "]"}], "=", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         RowBox[{
+          RowBox[{"Cos", "[", 
+           RowBox[{"t", "*", "m1"}], "]"}], "/", "m2"}]}], ")"}], "*", 
+       RowBox[{"Tanh", "[", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"t", "-", "u1"}], ")"}], "*", "2"}], "]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"G", "[", "t_", "]"}], "=", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Gmod", "[", "t", "]"}], "*", " ", 
+         RowBox[{"Sin", "[", "t", "]"}]}], ",", 
+        RowBox[{
+         RowBox[{"Gmod", "[", "t", "]"}], "*", " ", 
+         RowBox[{"Cos", "[", "t", "]"}]}], ",", " ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"t", "/", "4"}], "*", 
+          RowBox[{"Tanh", "[", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"t", "-", "u1"}], ")"}], "*", "cTanh"}], "]"}]}], "+", 
+         RowBox[{
+          RowBox[{"Sin", "[", 
+           RowBox[{"t", "*", "m1"}], "]"}], "*", "zIrreg"}]}]}], "}"}]}], ";",
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"S", "[", "t_", "]"}], "=", 
+      RowBox[{
+       RowBox[{"Sum", "[", 
+        RowBox[{
+         RowBox[{
+          SubscriptBox["c", 
+           RowBox[{"\[Alpha]", ",", "n"}]], 
+          RowBox[{"t", "^", "n"}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"n", ",", "0", ",", "pp"}], "}"}]}], "]"}], "/.", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"\[Alpha]", "->", "x"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"\[Alpha]", "->", "y"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"\[Alpha]", "->", "z"}], "}"}]}], "}"}]}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"cc", "=", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Subscript", "[", 
+          RowBox[{"c", ",", "x", ",", "0"}], "]"}], "->", 
+         "18.68787912150557"}], ",", 
+        RowBox[{
+         RowBox[{"Subscript", "[", 
+          RowBox[{"c", ",", "x", ",", "1"}], "]"}], "->", 
+         RowBox[{"-", "9.073555114173894"}]}], ",", 
+        RowBox[{
+         RowBox[{"Subscript", "[", 
+          RowBox[{"c", ",", "x", ",", "2"}], "]"}], "->", 
+         "1.4286730242897996"}], ",", 
+        RowBox[{
+         RowBox[{"Subscript", "[", 
+          RowBox[{"c", ",", "x", ",", "3"}], "]"}], "->", 
+         RowBox[{"-", "0.07280310558727456"}]}], ",", 
+        RowBox[{
+         RowBox[{"Subscript", "[", 
+          RowBox[{"c", ",", "y", ",", "0"}], "]"}], "->", 
+         "69.09498377970515"}], ",", 
+        RowBox[{
+         RowBox[{"Subscript", "[", 
+          RowBox[{"c", ",", "y", ",", "1"}], "]"}], "->", 
+         RowBox[{"-", "32.444244018222896"}]}], ",", 
+        RowBox[{
+         RowBox[{"Subscript", "[", 
+          RowBox[{"c", ",", "y", ",", "2"}], "]"}], "->", 
+         "4.903327502637946"}], ",", 
+        RowBox[{
+         RowBox[{"Subscript", "[", 
+          RowBox[{"c", ",", "y", ",", "3"}], "]"}], "->", 
+         RowBox[{"-", "0.23813004695650256"}]}], ",", 
+        RowBox[{
+         RowBox[{"Subscript", "[", 
+          RowBox[{"c", ",", "z", ",", "0"}], "]"}], "->", 
+         "57.70944013537102"}], ",", 
+        RowBox[{
+         RowBox[{"Subscript", "[", 
+          RowBox[{"c", ",", "z", ",", "1"}], "]"}], "->", 
+         RowBox[{"-", "28.81299867544481"}]}], ",", 
+        RowBox[{
+         RowBox[{"Subscript", "[", 
+          RowBox[{"c", ",", "z", ",", "2"}], "]"}], "->", 
+         "4.57529287272901"}], ",", 
+        RowBox[{
+         RowBox[{"Subscript", "[", 
+          RowBox[{"c", ",", "z", ",", "3"}], "]"}], "->", 
+         RowBox[{"-", "0.22314497401661834"}]}]}], "}"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"\[CapitalDelta]\[Phi]", "=", 
+      RowBox[{"2", 
+       RowBox[{"\[Pi]", "/", "nRot"}]}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"allColors", "=", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", "bottomColor"}], "}"}], "}"}], "~", "Join", "~", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"midColorsPos", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+           RowBox[{"midColors", "[", 
+            RowBox[{"[", "i", "]"}], "]"}]}], "}"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", "middleColorsCnt"}], "}"}]}], "]"}], 
+       "~", "Join", " ", "~", 
+       RowBox[{"{", 
+        RowBox[{"{", 
+         RowBox[{"1", ",", "topColor"}], "}"}], "}"}]}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"Column", "[", "\[IndentingNewLine]", 
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Show", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"ParametricPlot3D", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Rot", "[", "\[Phi]", "]"}], ".", " ", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"S", "[", "t", "]"}], "/.", "cc"}], ")"}]}], ",", 
+               RowBox[{"{", 
+                RowBox[{"\[Phi]", ",", " ", "0", ",", " ", 
+                 RowBox[{"2", "\[Pi]"}], ",", "\[CapitalDelta]\[Phi]"}], 
+                "}"}]}], "]"}], "//", "Evaluate"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"t", ",", " ", "at0", ",", " ", "at4"}], "}"}], ",", 
+            RowBox[{"Evaluate", "[", "style", "]"}], ",", " ", 
+            RowBox[{"Background", "\[Rule]", "Black"}], ",", 
+            RowBox[{"ColorFunction", "->", 
+             RowBox[{"Function", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"x", ",", "y", ",", "z", ",", "t"}], "}"}], ",", 
+               RowBox[{"Blend", "[", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{"0", ",", "bottomColor"}], "}"}], ",", " ", 
+                   RowBox[{"{", 
+                    RowBox[{"0.25", ",", " ", "White"}], "}"}], ",", " ", 
+                   RowBox[{"{", 
+                    RowBox[{"0.8", ",", " ", "White"}], "}"}], ",", " ", 
+                   RowBox[{"{", 
+                    RowBox[{"1", ",", "topColor"}], "}"}]}], "}"}], ",", " ", 
+                 RowBox[{"Rescale", "[", 
+                  RowBox[{"t", ",", " ", 
+                   RowBox[{"{", 
+                    RowBox[{"at0", ",", "at4"}], "}"}]}], "]"}]}], "]"}]}], 
+              "]"}]}], ",", 
+            RowBox[{"ColorFunctionScaling", "\[Rule]", "False"}]}], "]"}], 
+          ",", "\[IndentingNewLine]", 
+          RowBox[{"ParametricPlot3D", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Rot", "[", "\[Phi]", "]"}], ".", " ", 
+                RowBox[{"G", "[", "t", "]"}]}], ",", " ", 
+               RowBox[{"{", 
+                RowBox[{"\[Phi]", ",", " ", "0", ",", " ", 
+                 RowBox[{"2", "\[Pi]"}], ",", "\[CapitalDelta]\[Phi]"}], 
+                "}"}]}], "]"}], " ", "//", "Evaluate"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"t", ",", "u1", ",", "u2"}], "}"}], ",", 
+            RowBox[{"Evaluate", "[", "style", "]"}], ",", 
+            RowBox[{"ColorFunction", "->", 
+             RowBox[{"Function", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"x", ",", "y", ",", "z", ",", "t"}], "}"}], ",", 
+               RowBox[{"Blend", "[", 
+                RowBox[{"allColors", ",", " ", 
+                 RowBox[{"Rescale", "[", 
+                  RowBox[{"t", ",", " ", 
+                   RowBox[{"{", 
+                    RowBox[{"u1", ",", "u2"}], "}"}]}], "]"}]}], "]"}]}], 
+              "]"}]}], ",", " ", 
+            RowBox[{"ColorFunctionScaling", "\[Rule]", "False"}]}], "]"}], 
+          ",", "  ", "\[IndentingNewLine]", 
+          RowBox[{"Method", "->", 
+           RowBox[{"{", 
+            RowBox[{"\"\<ShrinkWrap\>\"", "->", "True"}], "}"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"ImageSize", "->", 
+           RowBox[{
+            RowBox[{"AbsoluteCurrentValue", "[", 
+             RowBox[{
+              RowBox[{"EvaluationNotebook", "[", "]"}], ",", "WindowSize"}], 
+             "]"}], "[", 
+            RowBox[{"[", "2", "]"}], "]"}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"Boxed", "->", "False"}], ",", 
+          RowBox[{"PlotRangePadding", "->", "0.1"}], ",", " ", 
+          RowBox[{"Axes", "->", "False"}], ",", 
+          RowBox[{"ViewPoint", "->", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0", ",", "camH"}], "}"}]}]}], "]"}], ",", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"camH", ",", " ", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"{", 
+             RowBox[{"0", ",", "bottomColor"}], "}"}], "}"}], "~", "Join", 
+           "~", 
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"midColorsPos", "[", 
+                RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+               RowBox[{"midColors", "[", 
+                RowBox[{"[", "i", "]"}], "]"}]}], "}"}], ",", " ", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", "1", ",", "middleColorsCnt"}], "}"}]}], "]"}],
+            "~", "Join", " ", "~", 
+           RowBox[{"{", 
+            RowBox[{"{", 
+             RowBox[{"1", ",", "topColor"}], "}"}], "}"}]}]}], "}"}], ",", 
+        " ", "\"\< \>\""}], "\[IndentingNewLine]", "}"}], 
+      "\[IndentingNewLine]", "]"}]}], ",", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"camH", ",", " ", "1"}], "}"}], ",", " ", "0.5", ",", " ", 
+      "10"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"colors", ",", "\"\<Rainbow\>\""}], "}"}], ",", 
+        RowBox[{"ColorData", "[", "\"\<Gradients\>\"", "]"}], ",", 
+        RowBox[{"ControlType", "->", "PopupMenu"}]}], "}"}], ","}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{"topColor", ",", " ", 
+      RowBox[{"Hue", "[", "0.8", "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{"bottomColor", ",", " ", 
+      RowBox[{"Hue", "[", "0", "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"middleColorsCnt", ",", " ", "0"}], "}"}], ",", " ", "0", ",", 
+      " ", "5", ",", " ", "1", ",", " ", 
+      RowBox[{"ControlType", "->", "Setter"}]}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"midColors", ",", 
+        RowBox[{"RandomColor", "[", "10", "]"}]}], "}"}], ",", 
+      RowBox[{"ControlType", "->", "None"}]}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"midColorsPos", ",", 
+        RowBox[{
+         RowBox[{"RandomReal", "[", 
+          RowBox[{"1", ",", " ", "10"}], "]"}], "//", "Sort"}]}], "}"}], ",", 
+      RowBox[{"ControlType", "->", "None"}]}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Dynamic", "[", 
+     RowBox[{"Column", "[", 
+      RowBox[{"Outer", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Row", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"ColorSetter", "[", 
+              RowBox[{"Dynamic", "[", 
+               RowBox[{"midColors", "[", 
+                RowBox[{"[", "#1", "]"}], "]"}], "]"}], "]"}], ",", " ", 
+             RowBox[{"Slider", "[", 
+              RowBox[{
+               RowBox[{"Dynamic", "[", 
+                RowBox[{"midColorsPos", "[", 
+                 RowBox[{"[", "#1", "]"}], "]"}], "]"}], ",", " ", 
+               RowBox[{"Appearance", "->", "\"\<Labeled\>\""}]}], "]"}]}], 
+            "}"}], ",", " ", "\"\<   \>\""}], "]"}], "&"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Range", "[", "middleColorsCnt", "]"}]}], 
+       "\[IndentingNewLine]", "]"}], "]"}], "]"}], ",", "\[IndentingNewLine]",
+     "\[IndentingNewLine]", 
+    RowBox[{"Button", "[", 
+     RowBox[{"\"\<Copy to Clipboard\>\"", ",", " ", 
+      RowBox[{"CopyToClipboard", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"\"\<camH\>\"", "->", "camH"}], ",", " ", 
+          RowBox[{"\"\<allColors\>\"", "->", "allColors"}]}], "}"}], "//", 
+        "InputForm"}], "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"Button", "[", 
+     RowBox[{"\"\<Reset\>\"", ",", 
+      RowBox[{"Replace", "[", 
+       RowBox[{"Typeset`specs", ",", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Hold", "[", "var_Symbol", "]"}], ",", "val_"}], "}"}],
+              ",", "___"}], "}"}], ":>", 
+           RowBox[{"(", 
+            RowBox[{"var", "=", "val"}], ")"}]}], ",", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Hold", "[", "var_Symbol", "]"}], ",", "val_", ",", 
+             "___"}], "}"}], ":>", 
+           RowBox[{"(", 
+            RowBox[{"var", "=", "val"}], ")"}]}]}], "}"}], ",", "1"}], 
+       "]"}]}], "]"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"SaveDefinitions", "->", "True"}], ",", " ", 
+    RowBox[{"ContinuousAction", "->", "None"}], ",", " ", 
+    RowBox[{"ControlPlacement", "->", "Right"}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "]"}]}]}], "Input",
+ CellOpen->False,
+ CellChangeTimes->{{3.8936414213358994`*^9, 3.893641434445261*^9}, {
+   3.893641743492622*^9, 3.8936417536622114`*^9}, {3.893641789011036*^9, 
+   3.8936417953482924`*^9}, {3.893641868513737*^9, 3.8936418981729283`*^9}, {
+   3.8936419301406426`*^9, 3.8936419406746006`*^9}, {3.8936419773674774`*^9, 
+   3.893641983796133*^9}, 3.8936420431112785`*^9, {3.893642269433852*^9, 
+   3.89364227874271*^9}, {3.8936423359188614`*^9, 3.893642336533478*^9}, {
+   3.8936425474168477`*^9, 3.893642562997774*^9}, {3.8936428050867314`*^9, 
+   3.893642808370495*^9}, 3.8936428432975664`*^9, {3.893642887018221*^9, 
+   3.893642894393059*^9}, {3.8936429717307625`*^9, 3.8936429931354837`*^9}, 
+   3.8936430259700017`*^9, {3.8936431096920166`*^9, 3.893643212030324*^9}, {
+   3.8936432611858177`*^9, 3.8936433313974066`*^9}, {3.893643418236412*^9, 
+   3.8936434549579086`*^9}, {3.8936434972988424`*^9, 3.89364351870013*^9}, {
+   3.8936439833556595`*^9, 3.893643998794529*^9}, {3.8936442731995697`*^9, 
+   3.8936442974043417`*^9}, {3.8936454033432965`*^9, 
+   3.8936454418953037`*^9}, {3.893645512759162*^9, 3.893645525205468*^9}, {
+   3.893645607829743*^9, 3.8936456202553706`*^9}, 3.8936464754812984`*^9, {
+   3.893646763472481*^9, 3.8936468377504683`*^9}, {3.8936468949477353`*^9, 
+   3.893646895459979*^9}, {3.8936470466264677`*^9, 3.8936470844646783`*^9}, {
+   3.893647133503018*^9, 3.8936471609914474`*^9}, {3.893647309556304*^9, 
+   3.8936473103891287`*^9}, {3.8936482444259653`*^9, 3.893648270035553*^9}, {
+   3.8936483032445135`*^9, 3.893648342958252*^9}, {3.893648520117643*^9, 
+   3.8936485952563896`*^9}, {3.893669989872078*^9, 3.8936700199172363`*^9}, {
+   3.89367026903901*^9, 3.8936702840755606`*^9}, {3.893670403381839*^9, 
+   3.893670446607254*^9}, 3.8936704993577147`*^9, {3.8936705392966413`*^9, 
+   3.893670558538441*^9}, {3.893671237421818*^9, 3.8936712475304003`*^9}},
+ CellLabel->
+  "In[270]:=",ExpressionUUID->"aee636c4-c8df-4d9c-b69a-cf9cc1ce1f50"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`bottomColor$$ = Hue[
+    0], $CellContext`camH$$ = 1, $CellContext`midColors$$ = {
+     RGBColor[0.6796100421208002, 0.815177978199449, 0.019319581400286], 
+     RGBColor[0.9445393194475535, 0.7928276684003184, 0.9989600559911813], 
+     RGBColor[0.16904720675010454`, 0.932987367949009, 0.6337351223152756], 
+     RGBColor[
+     0.015770726569836357`, 0.25672821623458497`, 0.9891391029189611], 
+     RGBColor[0.01869702021747055, 0.5018743547299584, 0.7346198254030358], 
+     RGBColor[0.641257129888751, 0.7828562280142664, 0.2663982234281026], 
+     RGBColor[0.9837911702607147, 0.8483164654265483, 0.8627803371405998], 
+     RGBColor[0.8104721861090647, 0.6810020871099203, 0.508015621268552], 
+     RGBColor[0.5449017924082018, 0.5625960460076955, 0.4050093682233129], 
+     RGBColor[
+     0.9297346424901081, 0.9474271324287853, 
+      0.933219874981865]}, $CellContext`midColorsPos$$ = {
+    0.0015007591205529192`, 0.2434889238718856, 0.30633341126295877`, 
+    0.41187608477583426`, 0.5312436781370056, 0.7542897506595647, 
+    0.8083080749617304, 0.8159000126598062, 0.8479369393253069, 
+    0.9613685102690801}, $CellContext`middleColorsCnt$$ = 
+    0, $CellContext`topColor$$ = Hue[0.8], Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`camH$$], 1}, 0.5, 10}, {
+      Hold[$CellContext`topColor$$], 
+      Hue[0.8]}, {
+      Hold[$CellContext`bottomColor$$], 
+      Hue[0]}, {{
+       Hold[$CellContext`middleColorsCnt$$], 0}, 0, 5, 1}, {{
+       Hold[$CellContext`midColors$$], {
+        RGBColor[0.6796100421208002, 0.815177978199449, 0.019319581400286], 
+        RGBColor[0.9445393194475535, 0.7928276684003184, 0.9989600559911813], 
+        RGBColor[0.16904720675010454`, 0.932987367949009, 0.6337351223152756], 
+        RGBColor[
+        0.015770726569836357`, 0.25672821623458497`, 0.9891391029189611], 
+        RGBColor[0.01869702021747055, 0.5018743547299584, 0.7346198254030358], 
+        RGBColor[0.641257129888751, 0.7828562280142664, 0.2663982234281026], 
+        RGBColor[0.9837911702607147, 0.8483164654265483, 0.8627803371405998], 
+        RGBColor[0.8104721861090647, 0.6810020871099203, 0.508015621268552], 
+        RGBColor[0.5449017924082018, 0.5625960460076955, 0.4050093682233129], 
+        RGBColor[
+        0.9297346424901081, 0.9474271324287853, 0.933219874981865]}}}, {{
+       Hold[$CellContext`midColorsPos$$], {0.0015007591205529192`, 
+       0.2434889238718856, 0.30633341126295877`, 0.41187608477583426`, 
+       0.5312436781370056, 0.7542897506595647, 0.8083080749617304, 
+       0.8159000126598062, 0.8479369393253069, 0.9613685102690801}}}, {
+      Hold[
+       Dynamic[
+        Column[
+         Outer[Row[{
+            ColorSetter[
+             Dynamic[
+              Part[$CellContext`midColors$$, #]]], 
+            Slider[
+             Dynamic[
+              Part[$CellContext`midColorsPos$$, #]], Appearance -> 
+             "Labeled"]}, "   "]& , 
+          Range[$CellContext`middleColorsCnt$$]]]]], 
+      Manipulate`Dump`ThisIsNotAControl}, {
+      Hold[
+       Button["Copy to Clipboard", 
+        CopyToClipboard[
+         InputForm[{
+          "camH" -> $CellContext`camH$$, 
+           "allColors" -> $CellContext`allColors}]]]], 
+      Manipulate`Dump`ThisIsNotAControl}, {
+      Hold[
+       Button["Reset", 
+        Replace[Typeset`specs$$, {{{
+             Hold[
+              Pattern[$CellContext`var, 
+               Blank[Symbol]]], 
+             Pattern[$CellContext`val, 
+              Blank[]]}, 
+            BlankNullSequence[]} :> ($CellContext`var = $CellContext`val), {
+            Hold[
+             Pattern[$CellContext`var, 
+              Blank[Symbol]]], 
+            Pattern[$CellContext`val, 
+             Blank[]], 
+            BlankNullSequence[]} :> ($CellContext`var = $CellContext`val)}, 
+         1]]], Manipulate`Dump`ThisIsNotAControl}}, Typeset`size$$ = {
+    730., {379.334033098002, 385.0659669019981}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = False}, 
+    DynamicBox[PaneBox[
+      PanelBox[
+       PaneSelectorBox[{True -> GridBox[{{
+             PaneSelectorBox[{"NameField" -> ItemBox[
+                 PanelBox[
+                  GridBox[{{
+                    DynamicBox[
+                    ToBoxes[
+                    FEPrivate`FrontEndResource["FEStrings", "BookmarkMode"], 
+                    StandardForm]], "", ""}, {
+                    InputFieldBox[
+                    Dynamic[Typeset`name$$], String, 
+                    FieldSize -> {{20, 20}, {1, 
+                    DirectedInfinity[1]}}, DefaultBaseStyle -> "Manipulator"], 
+                    ButtonBox[
+                    TagBox[
+                    TooltipBox[
+                    DynamicModuleBox[{Typeset`down$$ = False}, 
+                    TagBox[
+                    PaneSelectorBox[{"Default" -> DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "ManipulateAddIcon"]], "Hover" -> DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "ManipulateAddIconHover"]], "Down" -> 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "ManipulateAddIconPressed"]]}, 
+                    Dynamic[
+                    Which[
+                    And[
+                    CurrentValue["MouseOver"], Typeset`down$$], "Down", 
+                    CurrentValue["MouseOver"], "Hover", True, "Default"]], 
+                    ImageSize -> Automatic, FrameMargins -> 0], 
+                    
+                    EventHandlerTag[{
+                    "MouseDown" :> FEPrivate`Set[Typeset`down$$, True], 
+                    "MouseUp" :> FEPrivate`Set[Typeset`down$$, False], 
+                    PassEventsDown -> True, Method -> "Preemptive", 
+                    PassEventsUp -> True}]], DynamicModuleValues :> {}], 
+                    DynamicBox[
+                    ToBoxes[
+                    FEPrivate`FrontEndResource["FEStrings", "BookmarkAdd"], 
+                    StandardForm]]], Annotation[#, 
+                    Dynamic[
+                    FEPrivate`FrontEndResource["FEStrings", "BookmarkAdd"]], 
+                    "Tooltip"]& ], ButtonFunction :> Manipulate`AddBookmark[
+                    Dynamic[Typeset`specs$$], 
+                    Dynamic[Typeset`bookmarkMode$$], 
+                    Dynamic[Typeset`bookmarkList$$], 
+                    Dynamic[Typeset`name$$]], Appearance -> 
+                    FEPrivate`FrontEndResource[
+                    "FEExpressions", "SuppressMouseDownNinePatchAppearance"], 
+                    DefaultBaseStyle -> {"Panel", Background -> None}, 
+                    BaselinePosition -> Baseline, Evaluator -> Automatic, 
+                    Method -> "Preemptive"], 
+                    ItemBox[
+                    ButtonBox[
+                    TagBox[
+                    TooltipBox[
+                    DynamicModuleBox[{Typeset`down$$ = False}, 
+                    TagBox[
+                    PaneSelectorBox[{"Default" -> DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "ManipulateCloseIcon"]], "Hover" -> 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "ManipulateCloseIconHover"]], "Down" -> 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "ManipulateCloseIconPressed"]]}, 
+                    Dynamic[
+                    Which[
+                    And[
+                    CurrentValue["MouseOver"], Typeset`down$$], "Down", 
+                    CurrentValue["MouseOver"], "Hover", True, "Default"]], 
+                    ImageSize -> Automatic, FrameMargins -> 0], 
+                    
+                    EventHandlerTag[{
+                    "MouseDown" :> FEPrivate`Set[Typeset`down$$, True], 
+                    "MouseUp" :> FEPrivate`Set[Typeset`down$$, False], 
+                    PassEventsDown -> True, Method -> "Preemptive", 
+                    PassEventsUp -> True}]], DynamicModuleValues :> {}], 
+                    DynamicBox[
+                    ToBoxes[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateCancel"], StandardForm]]], 
+                    Annotation[#, 
+                    Dynamic[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateCancel"]], "Tooltip"]& ], 
+                    ButtonFunction :> (Typeset`bookmarkMode$$ = "Menu"), 
+                    Appearance -> 
+                    FEPrivate`FrontEndResource[
+                    "FEExpressions", "SuppressMouseDownNinePatchAppearance"], 
+                    DefaultBaseStyle -> {"Panel", Background -> None}, 
+                    BaselinePosition -> Baseline, Evaluator -> Automatic, 
+                    Method -> "Preemptive"], Frame -> {False, 
+                    GrayLevel[0, 0.2], False, False}, StripOnInput -> 
+                    False]}}, GridBoxAlignment -> {"Columns" -> {{Left}}}, 
+                   AutoDelete -> False, 
+                   GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                   ColumnSpacings -> 2], FrameMargins -> 5, ImageMargins -> 
+                  5], Alignment -> {Left, Inherited}, StripOnInput -> False], 
+               "Animator" -> ItemBox[
+                 PanelBox[
+                  GridBox[{{
+                    DynamicBox[
+                    ToBoxes[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateAnimate"], StandardForm]], ""}, {
+                    DynamicBox[Typeset`animator$$], 
+                    ItemBox[
+                    ButtonBox[
+                    TagBox[
+                    TooltipBox[
+                    DynamicModuleBox[{Typeset`down$$ = False}, 
+                    TagBox[
+                    PaneSelectorBox[{"Default" -> DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "ManipulateCloseIcon"]], "Hover" -> 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "ManipulateCloseIconHover"]], "Down" -> 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "ManipulateCloseIconPressed"]]}, 
+                    Dynamic[
+                    Which[
+                    And[
+                    CurrentValue["MouseOver"], Typeset`down$$], "Down", 
+                    CurrentValue["MouseOver"], "Hover", True, "Default"]], 
+                    ImageSize -> Automatic, FrameMargins -> 0], 
+                    
+                    EventHandlerTag[{
+                    "MouseDown" :> FEPrivate`Set[Typeset`down$$, True], 
+                    "MouseUp" :> FEPrivate`Set[Typeset`down$$, False], 
+                    PassEventsDown -> True, Method -> "Preemptive", 
+                    PassEventsUp -> True}]], DynamicModuleValues :> {}], 
+                    DynamicBox[
+                    ToBoxes[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateCancel"], StandardForm]]], 
+                    Annotation[#, 
+                    Dynamic[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateCancel"]], "Tooltip"]& ], 
+                    ButtonFunction :> (Unset[Typeset`animator$$]; 
+                    Unset[Typeset`animvar$$]; 
+                    Typeset`bookmarkMode$$ = "Menu"), Appearance -> 
+                    FEPrivate`FrontEndResource[
+                    "FEExpressions", "SuppressMouseDownNinePatchAppearance"], 
+                    DefaultBaseStyle -> {"Panel", Background -> None}, 
+                    BaselinePosition -> Baseline, Evaluator -> Automatic, 
+                    Method -> "Preemptive"], Frame -> {False, 
+                    GrayLevel[0, 0.2], False, False}, StripOnInput -> 
+                    False]}}, GridBoxAlignment -> {"Columns" -> {{Left}}}, 
+                   AutoDelete -> False, 
+                   GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                   ColumnSpacings -> 2], FrameMargins -> 5, ImageMargins -> 
+                  5], Alignment -> {Left, Inherited}, StripOnInput -> False], 
+               "Autorun" -> ItemBox[
+                 PanelBox[
+                  GridBox[{{
+                    DynamicBox[
+                    ToBoxes[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateAutorun"], StandardForm]], ""}, {
+                    DynamicBox[Typeset`animator$$], 
+                    ItemBox[
+                    ButtonBox[
+                    TagBox[
+                    TooltipBox[
+                    DynamicModuleBox[{Typeset`down$$ = False}, 
+                    TagBox[
+                    PaneSelectorBox[{"Default" -> DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "ManipulateCloseIcon"]], "Hover" -> 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "ManipulateCloseIconHover"]], "Down" -> 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "ManipulateCloseIconPressed"]]}, 
+                    Dynamic[
+                    Which[
+                    And[
+                    CurrentValue["MouseOver"], Typeset`down$$], "Down", 
+                    CurrentValue["MouseOver"], "Hover", True, "Default"]], 
+                    ImageSize -> Automatic, FrameMargins -> 0], 
+                    
+                    EventHandlerTag[{
+                    "MouseDown" :> FEPrivate`Set[Typeset`down$$, True], 
+                    "MouseUp" :> FEPrivate`Set[Typeset`down$$, False], 
+                    PassEventsDown -> True, Method -> "Preemptive", 
+                    PassEventsUp -> True}]], DynamicModuleValues :> {}], 
+                    DynamicBox[
+                    ToBoxes[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateCancel"], StandardForm]]], 
+                    Annotation[#, 
+                    Dynamic[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateCancel"]], "Tooltip"]& ], 
+                    ButtonFunction :> (Unset[Typeset`animator$$]; 
+                    Unset[Typeset`animvar$$]; 
+                    Typeset`bookmarkMode$$ = "Menu"), Appearance -> 
+                    FEPrivate`FrontEndResource[
+                    "FEExpressions", "SuppressMouseDownNinePatchAppearance"], 
+                    DefaultBaseStyle -> {"Panel", Background -> None}, 
+                    BaselinePosition -> Baseline, Evaluator -> Automatic, 
+                    Method -> "Preemptive"], Frame -> {False, 
+                    GrayLevel[0, 0.2], False, False}, StripOnInput -> 
+                    False]}}, GridBoxAlignment -> {"Columns" -> {{Left}}}, 
+                   AutoDelete -> False, 
+                   GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                   ColumnSpacings -> 2], FrameMargins -> 5, ImageMargins -> 
+                  5], Alignment -> {Left, Inherited}, StripOnInput -> False], 
+               "Menu" -> ""}, 
+              Dynamic[Typeset`bookmarkMode$$], ImageSize -> Automatic, 
+              FrameMargins -> 0], 
+             StyleBox[
+              GridBox[{{
+                 TagBox[
+                  TooltipBox[
+                   ButtonBox[
+                    DynamicBox[
+                    ToBoxes[
+                    $CellContext`uicon[60]]], 
+                    ButtonFunction :> (Typeset`update$$ = AbsoluteTime[]), 
+                    Appearance -> None, DefaultBaseStyle -> {}, 
+                    BaseStyle -> {}, BaselinePosition -> (Center -> Center), 
+                    Evaluator -> Automatic, Method -> "Preemptive"], 
+                   DynamicBox[
+                    ToBoxes[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateUpdate"], StandardForm]]], 
+                  Annotation[#, 
+                   Dynamic[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateUpdate"]], "Tooltip"]& ], 
+                 
+                 PaneSelectorBox[{
+                  "NameField" -> "", "Animator" -> "", "Autorun" -> "", 
+                   "Menu" -> DynamicBox[
+                    ToBoxes[
+                    ActionMenu[
+                    Tooltip[
+                    RawBoxes[
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "CirclePlusIcon"]]], 
+                    If[False, 
+                    Dynamic[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateBookmarks"]], 
+                    Dynamic[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateBookmarksAutorun"]]]], 
+                    Flatten[{Dynamic[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateHide"]] :> (Typeset`show$$ = 
+                    False), Delimiter, Dynamic[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulatePaste"]] :> 
+                    Manipulate`PasteSnapshot[
+                    Hold[Typeset`specs$$], 
+                    
+                    Hold[$CellContext`global = {$CellContext`u1, \
+$CellContext`u2, $CellContext`m2, $CellContext`xf, $CellContext`v, \
+$CellContext`o, $CellContext`ct, $CellContext`n, $CellContext`t1, \
+$CellContext`t2, $CellContext`cTanh, $CellContext`at0, $CellContext`at4, \
+$CellContext`hueG, $CellContext`zIrreg, $CellContext`nRot}; $CellContext`m1 = 
+                    6.1; $CellContext`F[
+                    Pattern[$CellContext`t, 
+                    
+                    Blank[]]] = {$CellContext`xf, ($CellContext`v \
+$CellContext`t + $CellContext`ct) 
+                    Cos[$CellContext`o $CellContext`t^$CellContext`n], \
+$CellContext`z0 + ($CellContext`v $CellContext`t + $CellContext`ct) 
+                    Sin[$CellContext`o $CellContext`t^$CellContext`n]}; \
+$CellContext`Gmod[
+                    Pattern[$CellContext`t, 
+                    Blank[]]] = (1 - 
+                    Cos[$CellContext`t $CellContext`m1]/$CellContext`m2) 
+                    Tanh[($CellContext`t - $CellContext`u1) 2]; $CellContext`G[
+                    Pattern[$CellContext`t, 
+                    Blank[]]] = {$CellContext`Gmod[$CellContext`t] 
+                    Sin[$CellContext`t], $CellContext`Gmod[$CellContext`t] 
+                    Cos[$CellContext`t], ($CellContext`t/4) 
+                    Tanh[($CellContext`t - $CellContext`u1) \
+$CellContext`cTanh] + 
+                    Sin[$CellContext`t $CellContext`m1] $CellContext`zIrreg}; \
+$CellContext`S[
+                    Pattern[$CellContext`t, 
+                    Blank[]]] = ReplaceAll[
+                    Sum[
+                    Subscript[$CellContext`c, $CellContext`\[Alpha], \
+$CellContext`n] $CellContext`t^$CellContext`n, {$CellContext`n, 
+                    0, $CellContext`pp}], {{$CellContext`\[Alpha] -> \
+$CellContext`x}, {$CellContext`\[Alpha] -> $CellContext`y}, {$CellContext`\
+\[Alpha] -> $CellContext`z}}]; $CellContext`cc = {
+                    Subscript[$CellContext`c, $CellContext`x, 0] -> 
+                    18.68787912150557, 
+                    Subscript[$CellContext`c, $CellContext`x, 
+                    1] -> -9.073555114173894, 
+                    Subscript[$CellContext`c, $CellContext`x, 2] -> 
+                    1.4286730242897996`, 
+                    Subscript[$CellContext`c, $CellContext`x, 
+                    3] -> -0.07280310558727456, 
+                    Subscript[$CellContext`c, $CellContext`y, 0] -> 
+                    69.09498377970515, 
+                    Subscript[$CellContext`c, $CellContext`y, 
+                    1] -> -32.444244018222896`, 
+                    Subscript[$CellContext`c, $CellContext`y, 2] -> 
+                    4.903327502637946, 
+                    Subscript[$CellContext`c, $CellContext`y, 
+                    3] -> -0.23813004695650256`, 
+                    Subscript[$CellContext`c, $CellContext`z, 0] -> 
+                    57.70944013537102, 
+                    Subscript[$CellContext`c, $CellContext`z, 
+                    1] -> -28.81299867544481, 
+                    Subscript[$CellContext`c, $CellContext`z, 2] -> 
+                    4.57529287272901, 
+                    Subscript[$CellContext`c, $CellContext`z, 
+                    3] -> -0.22314497401661834`}; \
+$CellContext`\[CapitalDelta]\[Phi] = 
+                    2 (Pi/$CellContext`nRot); $CellContext`allColors = Join[
+                    Join[{{0, $CellContext`bottomColor$$}}, 
+                    Table[{
+                    Part[$CellContext`midColorsPos$$, $CellContext`i], 
+                    
+                    Part[$CellContext`midColors$$, $CellContext`i]}, \
+{$CellContext`i, 1, $CellContext`middleColorsCnt$$}]], {{
+                    1, $CellContext`topColor$$}}]; Column[{
+                    Show[
+                    ParametricPlot3D[
+                    Evaluate[
+                    Table[
+                    Dot[
+                    $CellContext`Rot[$CellContext`\[Phi]], 
+                    ReplaceAll[
+                    $CellContext`S[$CellContext`t], $CellContext`cc]], \
+{$CellContext`\[Phi], 0, 2 
+                    Pi, $CellContext`\[CapitalDelta]\[Phi]}]], \
+{$CellContext`t, $CellContext`at0, $CellContext`at4}, 
+                    Evaluate[$CellContext`style], Background -> Black, 
+                    ColorFunction -> 
+                    Function[{$CellContext`x$, $CellContext`y$, \
+$CellContext`z$, $CellContext`t$}, 
+                    
+                    Blend[{{0, $CellContext`bottomColor$$}, {0.25, White}, {
+                    0.8, White}, {1, $CellContext`topColor$$}}, 
+                    
+                    Rescale[$CellContext`t$, {$CellContext`at0, \
+$CellContext`at4}]]], ColorFunctionScaling -> False], 
+                    ParametricPlot3D[
+                    Evaluate[
+                    Table[
+                    Dot[
+                    $CellContext`Rot[$CellContext`\[Phi]], 
+                    $CellContext`G[$CellContext`t]], {$CellContext`\[Phi], 0, 
+                    2 
+                    Pi, $CellContext`\[CapitalDelta]\[Phi]}]], \
+{$CellContext`t, $CellContext`u1, $CellContext`u2}, 
+                    Evaluate[$CellContext`style], ColorFunction -> 
+                    Function[{$CellContext`x, $CellContext`y, $CellContext`z, \
+$CellContext`t}, 
+                    Blend[$CellContext`allColors, 
+                    
+                    Rescale[$CellContext`t, {$CellContext`u1, \
+$CellContext`u2}]]], ColorFunctionScaling -> False], 
+                    Method -> {"ShrinkWrap" -> True}, ImageSize -> Part[
+                    AbsoluteCurrentValue[
+                    EvaluationNotebook[], WindowSize], 2], Boxed -> False, 
+                    PlotRangePadding -> 0.1, Axes -> False, 
+                    ViewPoint -> {
+                    0, 0, $CellContext`camH$$}], {$CellContext`camH$$, 
+                    Join[
+                    Join[{{0, $CellContext`bottomColor$$}}, 
+                    Table[{
+                    Part[$CellContext`midColorsPos$$, $CellContext`i], 
+                    
+                    Part[$CellContext`midColors$$, $CellContext`i]}, \
+{$CellContext`i, 1, $CellContext`middleColorsCnt$$}]], {{
+                    1, $CellContext`topColor$$}}]}, " "}]]], Delimiter, 
+                    Dynamic[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateAddBookmark"]] :> 
+                    If[DeleteCases[Typeset`specs$$, {
+                    Blank[], Manipulate`Dump`ThisIsNotAControl}] === {}, 
+                    Message[
+                    MessageName[Manipulate, "novars"]], 
+                    Typeset`bookmarkMode$$ = "NameField"], Delimiter, RawBoxes[
+                    RowBox[{
+                    RowBox[{
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "BookmarkBullet"]], "  "}], 
+                    DynamicBox[
+                    ToBoxes[
+                    FEPrivate`FrontEndResource["FEStrings", "ManipulateInit"],
+                     StandardForm]]}]] :> FixedPoint[
+                    
+                    Function[{}, {$CellContext`bottomColor$$ = 
+                    Hue[0], $CellContext`camH$$ = 
+                    1, $CellContext`midColorsPos$$ = {0.0015007591205529192`, 
+                    0.2434889238718856, 0.30633341126295877`, 
+                    0.41187608477583426`, 0.5312436781370056, 
+                    0.7542897506595647, 0.8083080749617304, 
+                    0.8159000126598062, 0.8479369393253069, 
+                    0.9613685102690801}, $CellContext`midColors$$ = {
+                    RGBColor[
+                    0.6796100421208002, 0.815177978199449, 0.019319581400286], 
+                    RGBColor[
+                    0.9445393194475535, 0.7928276684003184, 
+                    0.9989600559911813], 
+                    RGBColor[
+                    0.16904720675010454`, 0.932987367949009, 
+                    0.6337351223152756], 
+                    RGBColor[
+                    0.015770726569836357`, 0.25672821623458497`, 
+                    0.9891391029189611], 
+                    RGBColor[
+                    0.01869702021747055, 0.5018743547299584, 
+                    0.7346198254030358], 
+                    RGBColor[
+                    0.641257129888751, 0.7828562280142664, 
+                    0.2663982234281026], 
+                    RGBColor[
+                    0.9837911702607147, 0.8483164654265483, 
+                    0.8627803371405998], 
+                    RGBColor[
+                    0.8104721861090647, 0.6810020871099203, 
+                    0.508015621268552], 
+                    RGBColor[
+                    0.5449017924082018, 0.5625960460076955, 
+                    0.4050093682233129], 
+                    RGBColor[
+                    0.9297346424901081, 0.9474271324287853, 
+                    0.933219874981865]}, $CellContext`middleColorsCnt$$ = 
+                    0, $CellContext`topColor$$ = Hue[0.8]}], None, 3], 
+                    If[Typeset`bookmarkList$$ === {}, {}, 
+                    Map[
+                    Function[Manipulate`Dump`bookmark$, 
+                    If[
+                    Manipulate`Dump`bookmark$ === Delimiter, 
+                    Manipulate`Dump`bookmark$, RawBoxes[
+                    RowBox[{
+                    RowBox[{
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "BookmarkBullet"]], "  "}], 
+                    First[Manipulate`Dump`bookmark$]}]] :> 
+                    Part[Manipulate`Dump`bookmark$, 2]], HoldFirst], 
+                    Typeset`bookmarkList$$]], Delimiter, Dynamic[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulatePasteBookmarks"]] :> 
+                    Manipulate`PasteBookmarks[
+                    Hold[Typeset`specs$$], Typeset`bookmarkList$$], 
+                    If[False, {}, {Dynamic[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateAnimate"]] :> 
+                    Which[DeleteCases[Typeset`specs$$, {
+                    Blank[], Manipulate`Dump`ThisIsNotAControl}] === {}, 
+                    Message[
+                    MessageName[Manipulate, "novars"]], 
+                    Length[Typeset`bookmarkList$$] < 2, 
+                    Message[
+                    MessageName[Manipulate, "nobks"], 2], True, 
+                    Typeset`animator$$ = ToBoxes[
+                    Manipulate`BookmarksAnimator[
+                    Hold[Typeset`specs$$], Typeset`bookmarkList$$, 
+                    Dynamic[Typeset`animvar$$], Automatic, {1.5, True}]]; 
+                    Typeset`bookmarkMode$$ = "Animator"], Delimiter, Dynamic[
+                    FEPrivate`FrontEndResource[
+                    "FEStrings", "ManipulateAutorun"]] :> 
+                    If[DeleteCases[Typeset`specs$$, {
+                    Blank[], Manipulate`Dump`ThisIsNotAControl}] === {}, 
+                    Message[
+                    MessageName[Manipulate, "novars"]], 
+                    Typeset`animator$$ = ToBoxes[
+                    Manipulate`AutorunAnimator[
+                    Hold[Typeset`specs$$], 
+                    Dynamic[Typeset`animvar$$], {Automatic}]]; 
+                    Typeset`bookmarkMode$$ = "Autorun"]}]}], Appearance -> 
+                    None, MenuAppearance -> "Menu"], StandardForm]]}, 
+                  Dynamic[Typeset`bookmarkMode$$], ImageSize -> Automatic, 
+                  FrameMargins -> 0]}}, AutoDelete -> False, 
+               GridBoxItemSize -> {
+                "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+               ColumnSpacings -> 0.2, RowAlignments -> Baseline], 
+              CacheGraphics -> False, StripOnInput -> False]}, {
+             GridBox[{{
+                ItemBox[
+                 TagBox[
+                  StyleBox[
+                   PaneBox[
+                    DynamicBox[
+                    ToBoxes[
+                    If[
+                    TrueQ[
+                    Or[Typeset`skipInitDone$$, Typeset`initDone$$]], 
+                    Refresh[
+                    Typeset`update$$; 
+                    Manipulate`SelectableTagBox[$CellContext`global = \
+{$CellContext`u1, $CellContext`u2, $CellContext`m2, $CellContext`xf, \
+$CellContext`v, $CellContext`o, $CellContext`ct, $CellContext`n, \
+$CellContext`t1, $CellContext`t2, $CellContext`cTanh, $CellContext`at0, \
+$CellContext`at4, $CellContext`hueG, $CellContext`zIrreg, $CellContext`nRot}; \
+$CellContext`m1 = 6.1; $CellContext`F[
+                    Pattern[$CellContext`t, 
+                    
+                    Blank[]]] = {$CellContext`xf, ($CellContext`v \
+$CellContext`t + $CellContext`ct) 
+                    Cos[$CellContext`o $CellContext`t^$CellContext`n], \
+$CellContext`z0 + ($CellContext`v $CellContext`t + $CellContext`ct) 
+                    Sin[$CellContext`o $CellContext`t^$CellContext`n]}; \
+$CellContext`Gmod[
+                    Pattern[$CellContext`t, 
+                    Blank[]]] = (1 - 
+                    Cos[$CellContext`t $CellContext`m1]/$CellContext`m2) 
+                    Tanh[($CellContext`t - $CellContext`u1) 2]; $CellContext`G[
+                    Pattern[$CellContext`t, 
+                    Blank[]]] = {$CellContext`Gmod[$CellContext`t] 
+                    Sin[$CellContext`t], $CellContext`Gmod[$CellContext`t] 
+                    Cos[$CellContext`t], ($CellContext`t/4) 
+                    Tanh[($CellContext`t - $CellContext`u1) \
+$CellContext`cTanh] + 
+                    Sin[$CellContext`t $CellContext`m1] $CellContext`zIrreg}; \
+$CellContext`S[
+                    Pattern[$CellContext`t, 
+                    Blank[]]] = ReplaceAll[
+                    Sum[
+                    Subscript[$CellContext`c, $CellContext`\[Alpha], \
+$CellContext`n] $CellContext`t^$CellContext`n, {$CellContext`n, 
+                    0, $CellContext`pp}], {{$CellContext`\[Alpha] -> \
+$CellContext`x}, {$CellContext`\[Alpha] -> $CellContext`y}, {$CellContext`\
+\[Alpha] -> $CellContext`z}}]; $CellContext`cc = {
+                    Subscript[$CellContext`c, $CellContext`x, 0] -> 
+                    18.68787912150557, 
+                    Subscript[$CellContext`c, $CellContext`x, 
+                    1] -> -9.073555114173894, 
+                    Subscript[$CellContext`c, $CellContext`x, 2] -> 
+                    1.4286730242897996`, 
+                    Subscript[$CellContext`c, $CellContext`x, 
+                    3] -> -0.07280310558727456, 
+                    Subscript[$CellContext`c, $CellContext`y, 0] -> 
+                    69.09498377970515, 
+                    Subscript[$CellContext`c, $CellContext`y, 
+                    1] -> -32.444244018222896`, 
+                    Subscript[$CellContext`c, $CellContext`y, 2] -> 
+                    4.903327502637946, 
+                    Subscript[$CellContext`c, $CellContext`y, 
+                    3] -> -0.23813004695650256`, 
+                    Subscript[$CellContext`c, $CellContext`z, 0] -> 
+                    57.70944013537102, 
+                    Subscript[$CellContext`c, $CellContext`z, 
+                    1] -> -28.81299867544481, 
+                    Subscript[$CellContext`c, $CellContext`z, 2] -> 
+                    4.57529287272901, 
+                    Subscript[$CellContext`c, $CellContext`z, 
+                    3] -> -0.22314497401661834`}; \
+$CellContext`\[CapitalDelta]\[Phi] = 
+                    2 (Pi/$CellContext`nRot); $CellContext`allColors = Join[
+                    Join[{{0, $CellContext`bottomColor$$}}, 
+                    Table[{
+                    Part[$CellContext`midColorsPos$$, $CellContext`i], 
+                    
+                    Part[$CellContext`midColors$$, $CellContext`i]}, \
+{$CellContext`i, 1, $CellContext`middleColorsCnt$$}]], {{
+                    1, $CellContext`topColor$$}}]; Column[{
+                    Show[
+                    ParametricPlot3D[
+                    Evaluate[
+                    Table[
+                    Dot[
+                    $CellContext`Rot[$CellContext`\[Phi]], 
+                    ReplaceAll[
+                    $CellContext`S[$CellContext`t], $CellContext`cc]], \
+{$CellContext`\[Phi], 0, 2 
+                    Pi, $CellContext`\[CapitalDelta]\[Phi]}]], \
+{$CellContext`t, $CellContext`at0, $CellContext`at4}, 
+                    Evaluate[$CellContext`style], Background -> Black, 
+                    ColorFunction -> 
+                    Function[{$CellContext`x$, $CellContext`y$, \
+$CellContext`z$, $CellContext`t$}, 
+                    
+                    Blend[{{0, $CellContext`bottomColor$$}, {0.25, White}, {
+                    0.8, White}, {1, $CellContext`topColor$$}}, 
+                    
+                    Rescale[$CellContext`t$, {$CellContext`at0, \
+$CellContext`at4}]]], ColorFunctionScaling -> False], 
+                    ParametricPlot3D[
+                    Evaluate[
+                    Table[
+                    Dot[
+                    $CellContext`Rot[$CellContext`\[Phi]], 
+                    $CellContext`G[$CellContext`t]], {$CellContext`\[Phi], 0, 
+                    2 Pi, $CellContext`\[CapitalDelta]\[Phi]}]], \
+{$CellContext`t, $CellContext`u1, $CellContext`u2}, 
+                    Evaluate[$CellContext`style], ColorFunction -> 
+                    Function[{$CellContext`x, $CellContext`y, $CellContext`z, \
+$CellContext`t}, 
+                    Blend[$CellContext`allColors, 
+                    
+                    Rescale[$CellContext`t, {$CellContext`u1, \
+$CellContext`u2}]]], ColorFunctionScaling -> False], 
+                    Method -> {"ShrinkWrap" -> True}, ImageSize -> Part[
+                    AbsoluteCurrentValue[
+                    EvaluationNotebook[], WindowSize], 2], Boxed -> False, 
+                    PlotRangePadding -> 0.1, Axes -> False, 
+                    ViewPoint -> {
+                    0, 0, $CellContext`camH$$}], {$CellContext`camH$$, 
+                    Join[
+                    Join[{{0, $CellContext`bottomColor$$}}, 
+                    Table[{
+                    Part[$CellContext`midColorsPos$$, $CellContext`i], 
+                    
+                    Part[$CellContext`midColors$$, $CellContext`i]}, \
+{$CellContext`i, 1, $CellContext`middleColorsCnt$$}]], {{
+                    1, $CellContext`topColor$$}}]}, " "}]], 
+                    TrackedSymbols :> {Typeset`update$$}], 
+                    Manipulate`Dump`initDisplay[True]], StandardForm], 
+                    SynchronousUpdating -> Automatic, ImageSizeCache -> 
+                    Dynamic[Typeset`size$$]], ImageMargins -> 10], Deployed -> 
+                   False, ScriptLevel -> 0, 
+                   GraphicsBoxOptions -> {PreserveImageOptions -> True}, 
+                   Graphics3DBoxOptions -> {PreserveImageOptions -> True}, 
+                   StripOnInput -> False], Identity, Selectable -> False, 
+                  Editable -> False], Alignment -> {Left, Center}, Background -> 
+                 GrayLevel[1], Frame -> 1, FrameStyle -> GrayLevel[0, 0.2], 
+                 ItemSize -> Automatic, StripOnInput -> False], 
+                ItemBox[
+                 ItemBox[
+                  TagBox[
+                   StyleBox[
+                    GridBox[{{"camH", 
+                    TagBox[
+                    PaneBox[
+                    
+                    DynamicModuleBox[{
+                    Typeset`open$$ = False, Typeset`paused$$ = Automatic, 
+                    Typeset`running$$ = False, Typeset`index$$ = Automatic, 
+                    Typeset`rate$$ = Automatic, Typeset`dir$$ = Forward}, 
+                    StyleBox[
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEExpressions", "Manipulator06"][
+                    Dynamic[$CellContext`camH$$], 
+                    Dynamic[$CellContext`camH$$], {0.5, 10}, Medium, Small, 
+                    Automatic, True, Automatic, False, True, True, All, 
+                    False, {}, 
+                    Dynamic[Typeset`open$$], 
+                    Dynamic[Typeset`running$$], 
+                    Dynamic[Typeset`index$$], 
+                    Dynamic[Typeset`rate$$], 
+                    Dynamic[Typeset`dir$$]]], DynamicUpdating -> True], 
+                    DynamicModuleValues -> Automatic], ImageMargins -> 0, 
+                    BaselinePosition -> Baseline], 
+                    Manipulate`InterpretManipulator[
+                    Dynamic[$CellContext`camH$$], {0.5, 10}, {
+                    AutoAction -> False}]]}, {"topColor", 
+                    ColorSetterBox[
+                    Dynamic[$CellContext`topColor$$], "SwatchSpectrum", 
+                    AutoAction -> False, DefaultBaseStyle -> 
+                    "ColorSliderManipulate"]}, {"bottomColor", 
+                    ColorSetterBox[
+                    Dynamic[$CellContext`bottomColor$$], "SwatchSpectrum", 
+                    AutoAction -> False, DefaultBaseStyle -> 
+                    "ColorSliderManipulate"]}, {"middleColorsCnt", 
+                    InterpretationBox[
+                    StyleBox[
+                    GridBox[{{
+                    SetterBox[
+                    Dynamic[$CellContext`middleColorsCnt$$], {0}, "0", 
+                    AutoAction -> False], 
+                    SetterBox[
+                    Dynamic[$CellContext`middleColorsCnt$$], {1}, "1", 
+                    AutoAction -> False], 
+                    SetterBox[
+                    Dynamic[$CellContext`middleColorsCnt$$], {2}, "2", 
+                    AutoAction -> False], 
+                    SetterBox[
+                    Dynamic[$CellContext`middleColorsCnt$$], {3}, "3", 
+                    AutoAction -> False], 
+                    SetterBox[
+                    Dynamic[$CellContext`middleColorsCnt$$], {4}, "4", 
+                    AutoAction -> False], 
+                    SetterBox[
+                    Dynamic[$CellContext`middleColorsCnt$$], {5}, "5", 
+                    AutoAction -> False]}}, ColumnSpacings -> 0, 
+                    BaselinePosition -> {1, 1}], Deployed -> True], 
+                    SetterBar[
+                    Dynamic[$CellContext`middleColorsCnt$$], {0, 1, 2, 3, 4, 
+                    5}, AutoAction -> False]]}, {
+                    ItemBox[
+                    DynamicBox[
+                    ToBoxes[
+                    Column[
+                    Outer[Row[{
+                    ColorSetter[
+                    Dynamic[
+                    Part[$CellContext`midColors$$, #]]], 
+                    Slider[
+                    Dynamic[
+                    Part[$CellContext`midColorsPos$$, #]], Appearance -> 
+                    "Labeled"]}, "   "]& , 
+                    Range[$CellContext`middleColorsCnt$$]]], StandardForm]], 
+                    Alignment -> Left, StripOnInput -> False], 
+                    "\[SpanFromLeft]"}, {
+                    ItemBox[
+                    ButtonBox[
+                    "\"Copy to Clipboard\"", ButtonFunction :> CopyToClipboard[
+                    
+                    InputForm[{
+                    "camH" -> $CellContext`camH$$, 
+                    "allColors" -> $CellContext`allColors}]], Appearance -> 
+                    Automatic, Evaluator -> Automatic, Method -> 
+                    "Preemptive"], Alignment -> Left, StripOnInput -> False], 
+                    "\[SpanFromLeft]"}, {
+                    ItemBox[
+                    ButtonBox[
+                    "\"Reset\"", ButtonFunction :> Replace[Typeset`specs$$, {{{
+                    Hold[
+                    Pattern[$CellContext`var, 
+                    Blank[Symbol]]], 
+                    Pattern[$CellContext`val, 
+                    Blank[]]}, 
+                    
+                    BlankNullSequence[]} :> ($CellContext`var = \
+$CellContext`val), {
+                    Hold[
+                    Pattern[$CellContext`var, 
+                    Blank[Symbol]]], 
+                    Pattern[$CellContext`val, 
+                    Blank[]], 
+                    
+                    BlankNullSequence[]} :> ($CellContext`var = \
+$CellContext`val)}, 1], Appearance -> Automatic, Evaluator -> Automatic, 
+                    Method -> "Preemptive"], Alignment -> Left, StripOnInput -> 
+                    False], "\[SpanFromLeft]"}}, AutoDelete -> False, 
+                    GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                    ColumnAlignments -> {Right, Left}], "ManipulateLabel", 
+                    StripOnInput -> False], {"ControlArea", Right}], 
+                  Alignment -> {Automatic, Inherited}, StripOnInput -> False],
+                  Background -> None, StripOnInput -> False]}}, AutoDelete -> 
+              False, GridBoxItemSize -> {
+               "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+              ColumnAlignments -> Left, GridFrame -> False, GridFrameMargins -> 
+              1, RowSpacings -> 2, RowAlignments -> Top], "\[SpanFromLeft]"}},
+            AutoDelete -> False, 
+           GridBoxItemSize -> {
+            "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+           ColumnAlignments -> {Left, Right}, RowSpacings -> Dynamic[
+             FEPrivate`If[
+              FEPrivate`SameQ[Typeset`bookmarkMode$$, "Menu"], 0, 1.]]], 
+         False -> TagBox[
+           TooltipBox[
+            ButtonBox[
+             GridBox[{{
+                ItemBox[
+                 TagBox[
+                  StyleBox[
+                   PaneBox[
+                    DynamicBox[
+                    ToBoxes[
+                    If[
+                    TrueQ[
+                    Or[Typeset`skipInitDone$$, Typeset`initDone$$]], 
+                    Refresh[
+                    Typeset`update$$; 
+                    Manipulate`SelectableTagBox[$CellContext`global = \
+{$CellContext`u1, $CellContext`u2, $CellContext`m2, $CellContext`xf, \
+$CellContext`v, $CellContext`o, $CellContext`ct, $CellContext`n, \
+$CellContext`t1, $CellContext`t2, $CellContext`cTanh, $CellContext`at0, \
+$CellContext`at4, $CellContext`hueG, $CellContext`zIrreg, $CellContext`nRot}; \
+$CellContext`m1 = 6.1; $CellContext`F[
+                    Pattern[$CellContext`t, 
+                    
+                    Blank[]]] = {$CellContext`xf, ($CellContext`v \
+$CellContext`t + $CellContext`ct) 
+                    Cos[$CellContext`o $CellContext`t^$CellContext`n], \
+$CellContext`z0 + ($CellContext`v $CellContext`t + $CellContext`ct) 
+                    Sin[$CellContext`o $CellContext`t^$CellContext`n]}; \
+$CellContext`Gmod[
+                    Pattern[$CellContext`t, 
+                    Blank[]]] = (1 - 
+                    Cos[$CellContext`t $CellContext`m1]/$CellContext`m2) 
+                    Tanh[($CellContext`t - $CellContext`u1) 2]; $CellContext`G[
+                    Pattern[$CellContext`t, 
+                    Blank[]]] = {$CellContext`Gmod[$CellContext`t] 
+                    Sin[$CellContext`t], $CellContext`Gmod[$CellContext`t] 
+                    Cos[$CellContext`t], ($CellContext`t/4) 
+                    Tanh[($CellContext`t - $CellContext`u1) \
+$CellContext`cTanh] + 
+                    Sin[$CellContext`t $CellContext`m1] $CellContext`zIrreg}; \
+$CellContext`S[
+                    Pattern[$CellContext`t, 
+                    Blank[]]] = ReplaceAll[
+                    Sum[
+                    Subscript[$CellContext`c, $CellContext`\[Alpha], \
+$CellContext`n] $CellContext`t^$CellContext`n, {$CellContext`n, 
+                    0, $CellContext`pp}], {{$CellContext`\[Alpha] -> \
+$CellContext`x}, {$CellContext`\[Alpha] -> $CellContext`y}, {$CellContext`\
+\[Alpha] -> $CellContext`z}}]; $CellContext`cc = {
+                    Subscript[$CellContext`c, $CellContext`x, 0] -> 
+                    18.68787912150557, 
+                    Subscript[$CellContext`c, $CellContext`x, 
+                    1] -> -9.073555114173894, 
+                    Subscript[$CellContext`c, $CellContext`x, 2] -> 
+                    1.4286730242897996`, 
+                    Subscript[$CellContext`c, $CellContext`x, 
+                    3] -> -0.07280310558727456, 
+                    Subscript[$CellContext`c, $CellContext`y, 0] -> 
+                    69.09498377970515, 
+                    Subscript[$CellContext`c, $CellContext`y, 
+                    1] -> -32.444244018222896`, 
+                    Subscript[$CellContext`c, $CellContext`y, 2] -> 
+                    4.903327502637946, 
+                    Subscript[$CellContext`c, $CellContext`y, 
+                    3] -> -0.23813004695650256`, 
+                    Subscript[$CellContext`c, $CellContext`z, 0] -> 
+                    57.70944013537102, 
+                    Subscript[$CellContext`c, $CellContext`z, 
+                    1] -> -28.81299867544481, 
+                    Subscript[$CellContext`c, $CellContext`z, 2] -> 
+                    4.57529287272901, 
+                    Subscript[$CellContext`c, $CellContext`z, 
+                    3] -> -0.22314497401661834`}; \
+$CellContext`\[CapitalDelta]\[Phi] = 
+                    2 (Pi/$CellContext`nRot); $CellContext`allColors = Join[
+                    Join[{{0, $CellContext`bottomColor$$}}, 
+                    Table[{
+                    Part[$CellContext`midColorsPos$$, $CellContext`i], 
+                    
+                    Part[$CellContext`midColors$$, $CellContext`i]}, \
+{$CellContext`i, 1, $CellContext`middleColorsCnt$$}]], {{
+                    1, $CellContext`topColor$$}}]; Column[{
+                    Show[
+                    ParametricPlot3D[
+                    Evaluate[
+                    Table[
+                    Dot[
+                    $CellContext`Rot[$CellContext`\[Phi]], 
+                    ReplaceAll[
+                    $CellContext`S[$CellContext`t], $CellContext`cc]], \
+{$CellContext`\[Phi], 0, 2 
+                    Pi, $CellContext`\[CapitalDelta]\[Phi]}]], \
+{$CellContext`t, $CellContext`at0, $CellContext`at4}, 
+                    Evaluate[$CellContext`style], Background -> Black, 
+                    ColorFunction -> 
+                    Function[{$CellContext`x$, $CellContext`y$, \
+$CellContext`z$, $CellContext`t$}, 
+                    
+                    Blend[{{0, $CellContext`bottomColor$$}, {0.25, White}, {
+                    0.8, White}, {1, $CellContext`topColor$$}}, 
+                    
+                    Rescale[$CellContext`t$, {$CellContext`at0, \
+$CellContext`at4}]]], ColorFunctionScaling -> False], 
+                    ParametricPlot3D[
+                    Evaluate[
+                    Table[
+                    Dot[
+                    $CellContext`Rot[$CellContext`\[Phi]], 
+                    $CellContext`G[$CellContext`t]], {$CellContext`\[Phi], 0, 
+                    2 Pi, $CellContext`\[CapitalDelta]\[Phi]}]], \
+{$CellContext`t, $CellContext`u1, $CellContext`u2}, 
+                    Evaluate[$CellContext`style], ColorFunction -> 
+                    Function[{$CellContext`x, $CellContext`y, $CellContext`z, \
+$CellContext`t}, 
+                    Blend[$CellContext`allColors, 
+                    
+                    Rescale[$CellContext`t, {$CellContext`u1, \
+$CellContext`u2}]]], ColorFunctionScaling -> False], 
+                    Method -> {"ShrinkWrap" -> True}, ImageSize -> Part[
+                    AbsoluteCurrentValue[
+                    EvaluationNotebook[], WindowSize], 2], Boxed -> False, 
+                    PlotRangePadding -> 0.1, Axes -> False, 
+                    ViewPoint -> {
+                    0, 0, $CellContext`camH$$}], {$CellContext`camH$$, 
+                    Join[
+                    Join[{{0, $CellContext`bottomColor$$}}, 
+                    Table[{
+                    Part[$CellContext`midColorsPos$$, $CellContext`i], 
+                    
+                    Part[$CellContext`midColors$$, $CellContext`i]}, \
+{$CellContext`i, 1, $CellContext`middleColorsCnt$$}]], {{
+                    1, $CellContext`topColor$$}}]}, " "}]], 
+                    TrackedSymbols :> {Typeset`update$$}], 
+                    Manipulate`Dump`initDisplay[True]], StandardForm], 
+                    SynchronousUpdating -> Automatic, ImageSizeCache -> 
+                    Dynamic[Typeset`size$$]], ImageMargins -> 10], Deployed -> 
+                   False, ScriptLevel -> 0, 
+                   GraphicsBoxOptions -> {PreserveImageOptions -> True}, 
+                   Graphics3DBoxOptions -> {PreserveImageOptions -> True}, 
+                   StripOnInput -> False], Identity, Selectable -> False, 
+                  Editable -> False], Alignment -> {Left, Center}, Background -> 
+                 GrayLevel[1], Frame -> 1, FrameStyle -> GrayLevel[0, 0.2], 
+                 ItemSize -> Manipulate`Dump`$AutomaticContentSize, 
+                 StripOnInput -> False]}}, AutoDelete -> False, 
+              GridBoxItemSize -> {
+               "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+             ButtonFunction :> (Typeset`show$$ = True), Appearance -> None, 
+             DefaultBaseStyle -> {}, BaseStyle -> {}, Evaluator -> Automatic, 
+             Method -> "Preemptive"], 
+            DynamicBox[
+             ToBoxes[
+              FEPrivate`FrontEndResource["FEStrings", "ManipulateShow"], 
+              StandardForm]]], Annotation[#, 
+            Dynamic[
+             FEPrivate`FrontEndResource["FEStrings", "ManipulateShow"]], 
+            "Tooltip"]& ]}, 
+        Dynamic[Typeset`show$$], ImageSize -> Automatic], 
+       DefaultBaseStyle -> {}, FrameMargins -> {{5, 5}, {5, 5}}], 
+      ImageMargins -> 0, BaselinePosition -> Automatic],
+     ImageSizeCache->{1054., {433.63403309800196`, 439.36596690199804`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>({$CellContext`u1 = 0.21, $CellContext`u2 = 
+       25, $CellContext`m2 = 4.5, $CellContext`xf = 0.24, $CellContext`v = 
+       0.1, $CellContext`o = 1.5, $CellContext`ct = 0.2, $CellContext`n = 
+       1.03, $CellContext`t1 = Pi/10, $CellContext`t2 = 
+       2.11, $CellContext`cTanh = 1, $CellContext`at0 = 4.8, $CellContext`at4 = 
+       8.8, $CellContext`hueG = 0.032, $CellContext`zIrreg = 
+       0.15, $CellContext`nRot = 12, $CellContext`pp = 3, $CellContext`Rot[
+         Pattern[$CellContext`\[Phi], 
+          Blank[]]] = {{
+          Cos[$CellContext`\[Phi]], 
+          Sin[$CellContext`\[Phi]], 0}, {-Sin[$CellContext`\[Phi]], 
+          Cos[$CellContext`\[Phi]], 0}, {0, 0, 1}}, $CellContext`style = 
+       Sequence[PlotStyle -> Directive[
+           Thickness[0.002], 
+           GrayLevel[1]]]}; Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.8936443034353137`*^9, 3.893645388810158*^9, 3.893645443011094*^9, {
+   3.89364551833576*^9, 3.893645527163375*^9}, {3.8936456112095594`*^9, 
+   3.893645622032463*^9}, 3.8936457411347084`*^9, 3.893646233782407*^9, 
+   3.8936462817803106`*^9, 3.8936464902912374`*^9, 3.8936467439835167`*^9, 
+   3.893646774313163*^9, {3.8936468229033265`*^9, 3.8936468386050377`*^9}, {
+   3.893646868885561*^9, 3.8936469126538935`*^9}, 3.8936470113740683`*^9, 
+   3.893647085381773*^9, {3.8936471367189665`*^9, 3.8936471840654364`*^9}, 
+   3.893647255203046*^9, 3.893647323291704*^9, 3.8936478063197093`*^9, 
+   3.893648271627269*^9, {3.893648319040194*^9, 3.89364834406067*^9}, {
+   3.8936485285975266`*^9, 3.8936485659453335`*^9}, 3.8936485964272337`*^9, 
+   3.893648633924014*^9, 3.8936487054907255`*^9, 3.893669966182006*^9, {
+   3.893669996345067*^9, 3.8936700212601147`*^9}, 3.8936702858387675`*^9, 
+   3.8936704059905524`*^9, 3.8936704478363457`*^9, {3.893670543232148*^9, 
+   3.893670560934988*^9}, 3.893670617476816*^9, 3.893671214151599*^9, 
+   3.8936712483046737`*^9, 3.8936713120279903`*^9},
+ CellLabel->
+  "Out[281]=",ExpressionUUID->"e1cd42d4-39b7-4d52-abaf-fef218681800"]
+}, Open  ]]
+},
+WindowSize->{1428., 729.75},
+WindowMargins->{{-6, Automatic}, {Automatic, -6}},
+TaggingRules-><|"TryRealOnly" -> False|>,
+FrontEndVersion->"13.2 for Microsoft Windows (64-bit) (November 18, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"3059b4c7-2b17-41b7-bc65-1d63b4990840"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 22224, 559, 19, "Input",ExpressionUUID->"aee636c4-c8df-4d9c-b69a-cf9cc1ce1f50",
+ CellOpen->False],
+Cell[22807, 583, 54011, 1049, 892, "Output",ExpressionUUID->"e1cd42d4-39b7-4d52-abaf-fef218681800"]
+}, Open  ]]
+}
+]
+*)
+
