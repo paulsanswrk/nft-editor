@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babylonjs/gui": "^6.5.0",
+    "@babylonjs/inspector": "^6.5.0",
     "@babylonjs/materials": "^6.4.1",
     "copy-webpack-plugin": "^11.0.0",
     "handlebars": "^4.7.7",

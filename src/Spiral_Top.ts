@@ -4,7 +4,7 @@ import {FloatArray} from "@babylonjs/core/Legacy/legacy";
 import {Color3} from "@babylonjs/core";
 
 const u1 = 0.21, u2 = 25;
-const G_steps = 1000, S_steps = 1000, du = (u2 - u1) / G_steps;
+const G_steps = 2000, S_steps = 2000, du = (u2 - u1) / G_steps;
 const hueG = 0.032;
 const at0 = 4.8, at4 = 8.8, dt = (at4 - at0) / S_steps;
 
@@ -20,7 +20,7 @@ export class Spiral_Top {
 
     readonly n_config: number;
 
-    public static readonly config_len = 5;
+    public static readonly config_len = 22;
     public static readonly all_configs = s_data.slice(0, Spiral_Top.config_len);
 
     constructor(n_config: number = 0) {
@@ -33,6 +33,7 @@ export class Spiral_Top {
         [this.cx0, this.cx1, this.cx2, this.cx3, this.cy0, this.cy1, this.cy2, this.cy3, this.cz0, this.cz1, this.cz2, this.cz3] = s_data[this.n_config].cc;
         this.m1 = s_data[this.n_config].m1;
 
+        this.calc_points();
     }
 
     spiralPoints = new Array<Vector3>(G_steps + S_steps);
@@ -57,7 +58,7 @@ export class Spiral_Top {
         ]
     }
 
-    calc_points(full = true) {
+    private calc_points(full = true) {
         let p = 0;
         for (let i = 0, t = u1; i < G_steps; i++, t += du) {
             this.spiralPoints[p++] = new Vector3(...this.G(t));
@@ -82,7 +83,7 @@ export class Spiral_Top {
             } else {
                 let colorFunc = this.ColorFunc_z(z);
                 let c = Color3.FromHSV(colorFunc[0] * 360, colorFunc[1], colorFunc[2]);
-                // colors.push(...Color3.White().asArray(), 1)
+                // colors.push(0,0,0, 0)
                 colors.push(...c.asArray(), 1);
             }
         }

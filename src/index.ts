@@ -3,196 +3,218 @@ import {Engine} from "@babylonjs/core/Engines/engine"
 import {MeshBuilder} from "@babylonjs/core/Meshes/meshBuilder"
 import {Scene} from "@babylonjs/core/scene"
 import {Vector3} from "@babylonjs/core/Maths/math.vector"
-import * as BABYLON from '@babylonjs/core/Legacy/legacy';
+import * as BABYLON from "@babylonjs/core";
+import {Color3, Mesh, StandardMaterial} from "@babylonjs/core";
 import {MorphTarget} from '@babylonjs/core/Legacy/legacy';
-
-import {Color3, StandardMaterial} from '@babylonjs/core';
 import {Spiral_Top} from "./Spiral_Top";
+import ISpiralParams from "./ISpiralParams";
+import SceneGUI from "./SceneGUI";
+import {Inspector} from '@babylonjs/inspector';
 
+class SpiralView implements ISpiralParams {
 
-const view = document.getElementById("view") as HTMLCanvasElement
-const engine = new Engine(view, true)
+    curr_n = 12;
+    new_n = this.curr_n;
+    do_transition = false;
+    spirals = Spiral_Top.all_configs.map((s, n) => new Spiral_Top(n));
 
-const scene = new Scene(engine);
-scene.clearColor = new BABYLON.Color4(0, 0, 0);
+    view = document.getElementById("view") as HTMLCanvasElement;
+    engine = new Engine(this.view, true);
+    scene = new Scene(this.engine);
 
-// const axes = new BABYLON.AxesViewer(scene, 3);
+    gui = new SceneGUI(this);
 
-const camera = new ArcRotateCamera(
-    "camera",
-    Math.PI / 2,
-    0,
-    8,
-    new Vector3(0, 0, 3),
-    scene);
+    camera = new ArcRotateCamera(
+        "camera",
+        Math.PI / 2,
+        0,
+        8,
+        new Vector3(0, 0, 3),
+        this.scene);
 
-camera.attachControl(view);
-camera.upVector = new Vector3(0, 0, 1);
+    manager = new BABYLON.MorphTargetManager();
+    targets: MorphTarget[] = [];
+    spiralMaterial = new StandardMaterial("spiralMaterial", this.scene);
+    randomColor = Color3.White();
+    curr_mesh = this.create_spiral_mesh(this.curr_n, this.spirals[this.curr_n]);
 
-camera.useAutoRotationBehavior = true;
+    // bulbLight = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(0, 0, 15), this.scene);
+// bulbLight.diffuse = randomColor
+// bulbLight.specular = randomColor
+// bulbLight.position.copyFrom(curr_mesh.position);
+
+    light = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(0, 0, -1), this.scene);
+
+    // light2 = new BABYLON.SpotLight("SpotLight", new BABYLON.Vector3(0, 0, 5), new BABYLON.Vector3(0, 0, -10), 90, 2, this.scene);
+
+    public init() {
+        this.scene.clearColor = new BABYLON.Color4(0, 0, 0);
+
+        this.camera.attachControl(this.view);
+        this.camera.upVector = new Vector3(0, 0, 1);
+        this.camera.lowerBetaLimit = 0;
+
+        this.camera.useAutoRotationBehavior = true;
 // camera.rotation = new Vector3(0,0,1);
 
-camera.autoRotationBehavior.idleRotationSpeed = -0.05;
-camera.autoRotationBehavior.idleRotationWaitTime = 0;
-camera.autoRotationBehavior.zoomStopsAnimation = false;
+        this.camera.autoRotationBehavior.idleRotationSpeed = -0.05;
+        this.camera.autoRotationBehavior.idleRotationWaitTime = 0;
+        this.camera.autoRotationBehavior.zoomStopsAnimation = false;
 
-let curr_n = 3;
-let new_n = curr_n;
-let do_transition = false;
+        /*this.spiralMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+        this.spiralMaterial.emissiveColor = this.randomColor;*/
 
-/*const light = new HemisphericLight(
-    "light",
-    new Vector3(0, -1, 0.3),
-    scene);*/
+        this.scene.registerBeforeRender(() => this.render_handler());
 
-const spirals = Spiral_Top.all_configs.map((s, n) => new Spiral_Top(n));
-spirals.forEach(s => s.calc_points());
+        this.engine.runRenderLoop(() => {
+            this.scene.render();
+        });
 
-// const meshes = [];
+        // this.gui.init();
+        this.scene.onPointerUp = (evt, pickInfo) => this.click_handler(evt, pickInfo);
 
-const manager = new BABYLON.MorphTargetManager();
-const targets: MorphTarget[] = [];
+        this.light.diffuse = new BABYLON.Color3(1, 1, 1);
+        this.light.specular = new BABYLON.Color3(1, 1, 1);
+        this.light.intensity = 5;
+        // this.light.groundColor = new BABYLON.Color3(0, 1, 0);
 
-// Create the spiral material
-const spiralMaterial = new StandardMaterial("spiralMaterial", scene);
-spiralMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+        Inspector.Show(this.scene, {
+            overlay: true,
+        });
+    }
 
-function create_spiral_mesh(n, spiral: Spiral_Top) {
-    const mesh = MeshBuilder.CreateTube(`spiral_${n}`, {
-        path: spiral.spiralPoints,
-        radius: 0.004,
-        updatable: false,
-        tessellation: 4,
-    }, scene);
 
-    // meshes[n] = mesh;
+    create_spiral_mesh(n, spiral: Spiral_Top) {
+        const mesh: Mesh = MeshBuilder.CreateTube(`spiral_${n}`, {
+            path: spiral.spiralPoints,
+            radius: 0.006,
+            updatable: false,
+            tessellation: 4,
+        }, this.scene);
 
-    mesh.material = spiralMaterial;
-    mesh.freezeNormals();
+        // meshes[n] = mesh;
 
-    mesh.setEnabled(n == curr_n);
-    if (n == curr_n)
+        mesh.material = this.spiralMaterial;
+        this.spiralMaterial.specularColor = Color3.Black();
+        mesh.freezeNormals();
+
+        mesh.setEnabled(n == this.curr_n);
+        // if (n == this.curr_n)
         mesh.setVerticesData("color", spiral.calc_colors(mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind)));
-    mesh.morphTargetManager = manager;
-    targets[n] = BABYLON.MorphTarget.FromMesh(mesh, `spiral_${n}`, 0);
-    manager.addTarget(targets[n]);
+        mesh.morphTargetManager = this.manager;
+        this.targets[n] = BABYLON.MorphTarget.FromMesh(mesh, `spiral_${n}`, 0);
+        this.manager.addTarget(this.targets[n]);
 
-    for (let n = 1; n < spiral.nRot; n++)
-        mesh.clone().rotate(new Vector3(0, 0, 1), 2 * Math.PI / spiral.nRot * n);
+        for (let n = 1; n < spiral.nRot; n++)
+            mesh.clone().rotate(new Vector3(0, 0, 1), 2 * Math.PI / spiral.nRot * n).name = `${mesh.name} rot ${n}`;
 
-    return mesh;
-}
+        return mesh;
+    }
 
-let curr_mesh =  create_spiral_mesh(curr_n, spirals[curr_n]);
+    render_handler() {
+        const di = 0.01;
 
+        if (this.do_transition) {
+            let finished = true;
 
-var randomColor = Color3.White();
-spiralMaterial.emissiveColor = randomColor
-
-var bulbLight = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(0, 0, 0), scene);
-bulbLight.diffuse = randomColor
-bulbLight.specular = randomColor
-bulbLight.position.copyFrom(curr_mesh.position);
-
-
-const di = 0.1;
-scene.registerBeforeRender(function () {
-
-    if (do_transition) {
-        let finished = true;
-
-        targets.forEach(
-            (target, n) => {
-                if (n == new_n) {
-                    if (Math.abs(target.influence - 1) < di)
-                        target.influence = 1;
-                    else {
-                        target.influence += di;
-                        finished = false;
-                    }
-                } else {
-                    if (Math.abs(target.influence) < di)
-                        target.influence = 0;
-                    else {
-                        target.influence -= di;
-                        finished = false;
+            this.targets.forEach(
+                (target, n) => {
+                    if (n == this.new_n) {
+                        if (Math.abs(target.influence - 1) < di)
+                            target.influence = 1;
+                        else {
+                            target.influence += di;
+                            finished = false;
+                        }
+                    } else {
+                        if (Math.abs(target.influence) < di)
+                            target.influence = 0;
+                        else {
+                            target.influence -= di;
+                            finished = false;
+                        }
                     }
                 }
-            }
-        )
+            )
 
-        do_transition = !finished;
+            this.do_transition = !finished;
+        }
+
     }
 
-})
-/*scene.registerBeforeRender(function () {
-    if(!need_recalc) return;
-    // var_m1();
-    calc_points(true);
-    spiral = MeshBuilder.CreateTube(null, {path: spiralPoints, instance: spiral});
-    set_colors();
-    need_recalc = false;
-});*/
+    click_handler(p, pick) {
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const screenCenterX = screenWidth / 2;
+        const screenCenterY = screenHeight / 2;
 
-engine.runRenderLoop(() => {
-    scene.render();
-});
+        const pointX = p.pageX;
+        const pointY = p.pageY;
 
-/*scene.onPointerObservable.add(function (pointerInfo) {
-    switch (pointerInfo.type) {
-        case BABYLON.PointerEventTypes.POINTERDOWN:
-            console.log("POINTER DOWN");
-            break;
-        case BABYLON.PointerEventTypes.POINTERUP:
-            console.log("POINTER UP", arguments);
-            break;
-        case BABYLON.PointerEventTypes.POINTERMOVE:
-            console.log("POINTER MOVE");
-            break;
-        case BABYLON.PointerEventTypes.POINTERWHEEL:
-            console.log("POINTER WHEEL");
-            break;
-        case BABYLON.PointerEventTypes.POINTERPICK:
-            console.log("POINTER PICK");
-            break;
-        case BABYLON.PointerEventTypes.POINTERTAP:
-            console.log("POINTER TAP");
-            break;
-        case BABYLON.PointerEventTypes.POINTERDOUBLETAP:
-            console.log("POINTER DOUBLE-TAP");
-            break;
+        const distance = Math.sqrt((pointX - screenCenterX) ** 2 + (pointY - screenCenterY) ** 2);
+
+        const maxDistance = Math.sqrt(screenWidth ** 2 + screenHeight ** 2) / 2;
+        const scaledDistance = distance / maxDistance * Spiral_Top.config_len;
+
+        let n = Math.round(scaledDistance);
+        n = Math.min(n, Spiral_Top.all_configs.length - 1);
+        if (n != this.new_n) {
+            this.create_spiral_mesh(n, this.spirals[n]);
+            this.curr_n = this.new_n;
+            this.new_n = n;
+            this.do_transition = true;
+            this.gui.m1_changed();
+        }
+        console.log(n, Spiral_Top.all_configs.length, this.targets.map(t => t.influence), this.do_transition, this.spirals[this.new_n].m1);
+        this.camera.autoRotationBehavior.resetLastInteractionTime(0);
+
+
+        if (pick.hit) {
+            // console.log(pick.pickedPoint.z)
+            // handle_z_click(pick.pickedPoint.z)
+            // console.log(pick.pickedPoint)
+        }
     }
-});*/
 
-scene.onPointerUp = function (p, pick) {
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-    const screenCenterX = screenWidth / 2;
-    const screenCenterY = screenHeight / 2;
-
-    const pointX = p.pageX;
-    const pointY = p.pageY;
-
-    const distance = Math.sqrt((pointX - screenCenterX) ** 2 + (pointY - screenCenterY) ** 2);
-
-    const maxDistance = Math.sqrt(screenWidth ** 2 + screenHeight ** 2) / 2;
-    const scaledDistance = distance / maxDistance * Spiral_Top.config_len;
-
-    let n = Math.round(scaledDistance);
-    n = Math.min(n, Spiral_Top.all_configs.length - 1);
-    if (n != new_n) {
-        create_spiral_mesh(n, spirals[n]);
-        curr_n = new_n;
-        new_n = n;
-        do_transition = true;
+    get camera_h(): number {
+        return this.camera.radius;
     }
-    console.log(n, Spiral_Top.all_configs.length, targets.map(t => t.influence), do_transition, spirals[new_n].m1);
-    camera.autoRotationBehavior.resetLastInteractionTime(0);
 
-
-    if (pick.hit) {
-        // console.log(pick.pickedPoint.z)
-        // handle_z_click(pick.pickedPoint.z)
-        // console.log(pick.pickedPoint)
+    set camera_h(v) {
+        this.camera.radius = v;
     }
+
+    get spiral_m1(): number {
+        return this.spirals[this.curr_n].m1;
+    }
+
+
+    /*scene.onPointerObservable.add(function (pointerInfo) {
+        switch (pointerInfo.type) {
+            case BABYLON.PointerEventTypes.POINTERDOWN:
+                console.log("POINTER DOWN");
+                break;
+            case BABYLON.PointerEventTypes.POINTERUP:
+                console.log("POINTER UP", arguments);
+                break;
+            case BABYLON.PointerEventTypes.POINTERMOVE:
+                console.log("POINTER MOVE");
+                break;
+            case BABYLON.PointerEventTypes.POINTERWHEEL:
+                console.log("POINTER WHEEL");
+                break;
+            case BABYLON.PointerEventTypes.POINTERPICK:
+                console.log("POINTER PICK");
+                break;
+            case BABYLON.PointerEventTypes.POINTERTAP:
+                console.log("POINTER TAP");
+                break;
+            case BABYLON.PointerEventTypes.POINTERDOUBLETAP:
+                console.log("POINTER DOUBLE-TAP");
+                break;
+        }
+    });*/
+
 }
+
+new SpiralView().init();
