@@ -20,7 +20,7 @@ export class Spiral_Top {
 
     readonly n_config: number;
 
-    public static readonly config_len = 22;
+    public static readonly config_len = s_data.length;
     public static readonly all_configs = s_data.slice(0, Spiral_Top.config_len);
 
     constructor(n_config: number = 0) {
@@ -73,16 +73,19 @@ export class Spiral_Top {
     }
 
     public calc_colors(positions: FloatArray) {
+        const vertices_cnt = positions.length / 3;
+        const g_vertices_cnt = vertices_cnt / 2;
+        const s_vertices_cnt = vertices_cnt / 2;
         const colors = [];
-        const coeff = 1;//Math.random();
-        for (let p = 0; p < positions.length / 3; p++) {
-            let z = Math.abs(positions[p * 3 + 2])
-            if (p < positions.length / 6) {
-                let c = Color3.FromHSV(z / this.z_max * u2 * hueG * 360, 1, 1).scale(coeff)
+        for (let p = 0; p < positions.length; p += 3) {
+            let z = Math.abs(positions[p + 2])
+            if (p < g_vertices_cnt * 3) {
+                let c = Color3.FromHSV(z / this.z_max * u2 * hueG * 360, 1, 1);
                 colors.push(...c.asArray(), 1);
             } else {
-                let colorFunc = this.ColorFunc_z(z);
-                let c = Color3.FromHSV(colorFunc[0] * 360, colorFunc[1], colorFunc[2]);
+                let t = at4 + (at0 - at4) * (p / 3 - g_vertices_cnt) / s_vertices_cnt;
+                let colorFunc = this.ColorFunc(t);
+                let c = Color3.FromHSV(colorFunc[0] * 360, colorFunc[1], colorFunc[2]); //
                 // colors.push(0,0,0, 0)
                 colors.push(...c.asArray(), 1);
             }
@@ -90,15 +93,15 @@ export class Spiral_Top {
         return colors;
     }
 
-    private ColorFunc_z(z): number[] {
-        let t = at4 - (1 - z / this.z_max) * (at4 - at0) - 0.1;
-        return this.ColorFunc(t)
-    }
+    /*    private ColorFunc_z(z): number[] {
+            let t = at4 - (1 - z / this.z_max) * (at4 - at0) - 0.1;
+            return this.ColorFunc(t)
+        }*/
 
     private ColorFunc(t): number[] {
         return [
-            u1 * hueG / Math.cosh((t - at0) * 2) + u2 * hueG / Math.cosh((t - at4) * 2),
-            1 / Math.cosh((t - at0) * 2) + 1 / Math.cosh((t - at4) * 2),
+            u1 * hueG / Math.cosh((t - at0) * 8) + u2 * hueG / Math.cosh((t - at4) * 5),
+            1 / Math.cosh((t - at0) * 8) + 1 / Math.cosh((t - at4) * 5),
             1
         ];
     }
