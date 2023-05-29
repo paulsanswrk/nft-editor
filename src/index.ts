@@ -138,7 +138,7 @@ class SpiralView implements ISpiralParams {
                 }
             );
 
-            if (finished) {
+            /*if (finished) {
                 for (let n = 0; n < Spiral_Top.config_len; n++) {
                     if (n === this.curr_n || n === this.new_n) continue;
                     if (this.meshes[n]) {
@@ -150,7 +150,7 @@ class SpiralView implements ISpiralParams {
                         delete this.targets[n];
                     }
                 }
-            }
+            }*/
 
             this.do_transition = !finished;
         }
