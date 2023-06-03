@@ -1,6 +1,8 @@
 const path = require("path")
 const { merge } = require("webpack-merge")
 
+global.CONTROLS = true;
+
 const common = require("./webpack.config.common")
 
 module.exports = merge(common, {

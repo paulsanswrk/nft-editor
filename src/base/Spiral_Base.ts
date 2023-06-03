@@ -1,40 +1,47 @@
-import * as s_data from './spiral_top.json';
 import {Vector3} from "@babylonjs/core/Maths/math.vector";
 import {FloatArray} from "@babylonjs/core/Legacy/legacy";
 import {Color3} from "@babylonjs/core";
 
 const u1 = 0.21, u2 = 25;
-const G_steps = 2000, S_steps = 2000, du = (u2 - u1) / G_steps;
+const G_steps = 2500, S_steps = 400, du = (u2 - u1) / G_steps;
 const hueG = 0.032;
 const at0 = 4.8, at4 = 8.8, dt = (at4 - at0) / S_steps;
 
-export class Spiral_Top {
+export abstract class Spiral_Base {
 
-    readonly nRot = 8;
+    readonly nRot: number = 6;
     readonly m1: number = 1.19;
-    readonly m2 = 4.5;
+    readonly m2: number = 4.5;
 
-    readonly z_Irreg = 0.15;
-    readonly cTanh = 1;
-    readonly rot_G = Math.PI / 10;
+    readonly z_Irreg: number = 0.15;
+    readonly cTanh: number = 1;
+    readonly rot_G: number = Math.PI / 10;
 
     readonly n_config: number;
 
-    public static readonly config_len = s_data.length;
-    public static readonly all_configs = s_data.slice(0, Spiral_Top.config_len);
+    static readonly factory: Spiral_Base;
 
-    constructor(n_config: number = 0) {
+    protected get s_data(): { m1: number, cc: number[] }[] {
+        return [];
+    }
+
+    public abstract readonly config_len: number;
+
+    // public readonly all_configs = this.s_data.slice(0, this.config_len);
+
+    protected constructor(n_config: number = 0) {
         /*        if (p.m1 !== undefined) this.m1 = p.m1;
                 if (p.z !== undefined) {
                     this.set_cc(closestValue(this.z_values, p.z));
                 }*/
         this.n_config = n_config;
 
-        [this.cx0, this.cx1, this.cx2, this.cx3, this.cy0, this.cy1, this.cy2, this.cy3, this.cz0, this.cz1, this.cz2, this.cz3] = s_data[this.n_config].cc;
-        this.m1 = s_data[this.n_config].m1;
+        [this.cx0, this.cx1, this.cx2, this.cx3, this.cy0, this.cy1, this.cy2, this.cy3, this.cz0, this.cz1, this.cz2, this.cz3] = this.s_data[this.n_config].cc;
+        this.m1 = this.s_data[this.n_config].m1;
 
-        this.calc_points();
     }
+
+    public abstract create_spiral(n: number): Spiral_Base;
 
     spiralPoints = new Array<Vector3>(G_steps + S_steps);
 
@@ -58,7 +65,7 @@ export class Spiral_Top {
         ]
     }
 
-    private calc_points(full = true) {
+    protected calc_points(full = true) {
         let p = 0;
         for (let i = 0, t = u1; i < G_steps; i++, t += du) {
             this.spiralPoints[p++] = new Vector3(...this.G(t));
@@ -69,13 +76,13 @@ export class Spiral_Top {
                 this.spiralPoints[p++] = new Vector3(...this.S(t));
             }
 
-        return this;
+        // return this;
     }
 
     public calc_colors(positions: FloatArray) {
         const vertices_cnt = positions.length / 3;
-        const g_vertices_cnt = vertices_cnt / 2;
-        const s_vertices_cnt = vertices_cnt / 2;
+        const g_vertices_cnt = vertices_cnt * G_steps / (G_steps + S_steps);
+        const s_vertices_cnt = vertices_cnt * S_steps / (G_steps + S_steps);
         const colors = [];
         for (let p = 0; p < positions.length; p += 3) {
             let z = Math.abs(positions[p + 2])

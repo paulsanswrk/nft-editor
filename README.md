@@ -50,7 +50,7 @@ https://oktinaut.itch.io/babylon-example.
 
 - `src/` *source code folder*
 
-    - `index.ts` *application entry point*
+    - `SpiralViewBot6.ts` *application entry point*
 
 - `public` *folder containing static assets*
 
