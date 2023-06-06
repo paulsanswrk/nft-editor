@@ -19,7 +19,8 @@ module.exports = {
             {test: /\.tsx?$/, loader: "ts-loader"},
             {
                 test: /\.tsx?$/, loader: "ifdef-loader", options: {
-                    CONTROLS: global.CONTROLS
+                    CONTROLS: global.CONTROLS,
+                    INSPECTOR: global.INSPECTOR,
                 }
             }
             // { test: /\.glsl$/, loader: "webpack-glsl-loader" },
@@ -34,6 +35,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "!!handlebars-loader!src/index.hbs",
         }),
-        new BundleAnalyzerPlugin(),
+        // new BundleAnalyzerPlugin(),
     ],
 }

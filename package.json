@@ -8,6 +8,8 @@
     "start_top_8": "webpack-dev-server --config src/top_8_rot/webpack.config.top_8.dev.js",
     "start_bot_6": "webpack-dev-server --config src/bot_6_rot/webpack.config.bot_6.dev.js",
     "build": "webpack --config webpack.config.prod.js",
+    "multipage": "webpack --config webpack.config.multipage.prod.js",
+    "multipage-dev": "webpack-dev-server --config webpack.config.multipage.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

@@ -5,7 +5,7 @@ import {Scene} from "@babylonjs/core/scene"
 import {Vector3} from "@babylonjs/core/Maths/math.vector"
 import * as BABYLON from "@babylonjs/core";
 // import { Inspector } from '@babylonjs/inspector';
-import { Inspector } from '@babylonjs/inspector';
+import {Inspector} from '@babylonjs/inspector';
 import {Color3, DirectionalLight, Mesh, StandardMaterial} from "@babylonjs/core";
 import {MorphTarget} from '@babylonjs/core/Legacy/legacy';
 import ISpiralParams from "../ISpiralParams";
@@ -21,8 +21,8 @@ export abstract class SpiralViewBase implements ISpiralParams {
     do_transition = false;
     spirals: Spiral_Base[];
 
-    view = document.getElementById("view") as HTMLCanvasElement;
-    engine = new Engine(this.view, true, {}, true);
+    canvas = document.getElementById("view") as HTMLCanvasElement;
+    engine = new Engine(this.canvas, true, {}, true);
     scene = new Scene(this.engine);
 
     /// #if CONTROLS
@@ -54,14 +54,14 @@ export abstract class SpiralViewBase implements ISpiralParams {
 
         this.scene.clearColor = new BABYLON.Color4(0, 0, 0);
 
-        this.camera.attachControl(this.view);
+        this.camera.attachControl(this.canvas);
 
 
         /*this.spiralMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
         this.spiralMaterial.emissiveColor = this.randomColor;*/
 
         this.scene.registerBeforeRender(() => this.render_handler());
-
+        this.engine.setHardwareScalingLevel(0.7);
         this.engine.runRenderLoop(() => {
             this.scene.render();
         });
@@ -75,7 +75,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
 
         this.create_spiral_mesh(this.curr_n, this.spirals[this.curr_n]);
 
-        /// #if CONTROLS
+        /// #if INSPECTOR
         Inspector.Show(this.scene, {
             overlay: true,
         });
@@ -84,6 +84,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
         // Watch for browser/canvas resize events
         window.addEventListener("resize", () => this.numberOfTimes = 5);
 
+        this.auto_change = true;
     }
 
 
@@ -164,15 +165,18 @@ export abstract class SpiralViewBase implements ISpiralParams {
     }
 
     click_handler(p, pick) {
-        return;
+        this.last_click_time = new Date();
+        // return;
 
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
+        const screenWidth = this.canvas.clientWidth;
+        const screenHeight = this.canvas.clientHeight;
         const screenCenterX = screenWidth / 2;
         const screenCenterY = screenHeight / 2;
 
-        const pointX = p.pageX;
-        const pointY = p.pageY;
+        // console.log(screenWidth, screenHeight, arguments);
+
+        const pointX = p.x;
+        const pointY = p.y;
 
         const distance = Math.sqrt((pointX - screenCenterX) ** 2 + (pointY - screenCenterY) ** 2);
 
@@ -218,8 +222,65 @@ export abstract class SpiralViewBase implements ISpiralParams {
         this.camera.radius = v;
     }
 
+    get camera_speed(): number {
+        return this.camera.autoRotationBehavior.idleRotationSpeed;
+    }
+
+    set camera_speed(v) {
+        this.camera.autoRotationBehavior.idleRotationSpeed = v;
+    }
+
+    private _auto_change = false;
+    private is_first_auto_change = true;
+    private _auto_change_interval = 0;
+    auto_change_time_sec = 5;
+    auto_change_time2_sec = 20;
+    no_auto_change_after_click_sec = 30;
+    private last_click_time: Date = new Date(0);
+
+    get auto_change(): boolean {
+        return this._auto_change;
+    }
+
+    set auto_change(v) {
+        this._auto_change = v;
+
+        if (this._auto_change)
+            this._auto_change_interval = window.setInterval(() => this.handle_auto_change(), this.auto_change_time_sec * 1000);
+        else window.clearInterval(this._auto_change_interval);
+    }
+
+    protected handle_auto_change() {
+        if ((new Date().getTime() - this.last_click_time.getTime()) < this.no_auto_change_after_click_sec * 1000) return;
+
+        const new_n_opts = this.spirals.map((x, n) => n)
+            .filter(n => n != this.curr_n && n != this.new_n);
+        this.fisherYates(new_n_opts);
+        const new_n = new_n_opts[0];
+
+        this.switch_spiral_to(new_n);
+
+        if (this.is_first_auto_change) {
+            this.is_first_auto_change = false;
+            this.auto_change = false;
+            this.auto_change_time_sec = this.auto_change_time2_sec;
+            this.auto_change = true;
+        }
+
+    }
+
     get spiral_m1(): number {
         return this.spirals[this.curr_n].m1;
+    }
+
+    fisherYates(array: number[]) {
+        var count = array.length, randomnumber, temp;
+        while (count) {
+            randomnumber = Math.random() * count-- | 0;
+            temp = array[count];
+            array[count] = array[randomnumber];
+            array[randomnumber] = temp
+        }
     }
 
 }

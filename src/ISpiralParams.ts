@@ -9,6 +9,14 @@ export default interface ISpiralParams {
 
     set camera_h(v: number);
 
+    get camera_speed(): number;
+
+    set camera_speed(v: number);
+
+    get auto_change(): boolean;
+
+    set auto_change(v: boolean);
+
     get spiral_m1(): number;
 
     switch_spiral_to(n: number): void;

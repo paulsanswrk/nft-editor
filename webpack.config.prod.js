@@ -1,6 +1,7 @@
 const { merge } = require("webpack-merge")
 
-global.CONTROLS = false;
+global.INSPECTOR = false;
+global.CONTROLS = true;
 
 const common = require("./webpack.config.common")
 

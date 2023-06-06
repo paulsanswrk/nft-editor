@@ -3,7 +3,7 @@ import {FloatArray} from "@babylonjs/core/Legacy/legacy";
 import {Color3} from "@babylonjs/core";
 
 const u1 = 0.21, u2 = 25;
-const G_steps = 2500, S_steps = 400, du = (u2 - u1) / G_steps;
+const G_steps = 1200, S_steps = 400, du = (u2 - u1) / G_steps;
 const hueG = 0.032;
 const at0 = 4.8, at4 = 8.8, dt = (at4 - at0) / S_steps;
 
