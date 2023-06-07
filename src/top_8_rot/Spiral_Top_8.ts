@@ -6,7 +6,7 @@ export class Spiral_Top_8 extends Spiral_Base {
 
     // public static readonly config_len = s_data.length;
 
-    readonly nRot: number = 8;
+    readonly rot_cnt: number = 8;
 
     readonly config_len: number = s_data.length;
 

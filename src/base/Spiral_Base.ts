@@ -9,7 +9,7 @@ const at0 = 4.8, at4 = 8.8, dt = (at4 - at0) / S_steps;
 
 export abstract class Spiral_Base {
 
-    readonly nRot: number = 6;
+    readonly rot_cnt: number = 6;
     readonly m1: number = 1.19;
     readonly m2: number = 4.5;
 

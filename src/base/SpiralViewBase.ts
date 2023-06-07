@@ -4,9 +4,9 @@ import {MeshBuilder} from "@babylonjs/core/Meshes/meshBuilder"
 import {Scene} from "@babylonjs/core/scene"
 import {Vector3} from "@babylonjs/core/Maths/math.vector"
 import * as BABYLON from "@babylonjs/core";
+import {Color3, DirectionalLight, Mesh, StandardMaterial} from "@babylonjs/core";
 // import { Inspector } from '@babylonjs/inspector';
 import {Inspector} from '@babylonjs/inspector';
-import {Color3, DirectionalLight, Mesh, StandardMaterial} from "@babylonjs/core";
 import {MorphTarget} from '@babylonjs/core/Legacy/legacy';
 import ISpiralParams from "../ISpiralParams";
 import SceneGUI from "../SceneGUI";
@@ -17,7 +17,8 @@ export abstract class SpiralViewBase implements ISpiralParams {
     protected abstract spiral_factory: Spiral_Base;
     // curr_n = 14; //m1 == 8.6
     curr_n = 0;
-    new_n = this.curr_n;
+    new_n: number;
+    start_n: number;
     do_transition = false;
     spirals: Spiral_Base[];
 
@@ -32,7 +33,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
     camera: ArcRotateCamera;
 
     manager = new BABYLON.MorphTargetManager();
-    meshes: Mesh[] = [];
+    meshes: Mesh[][] = [];
     targets: MorphTarget[] = [];
     spiralMaterial = new StandardMaterial("spiralMaterial", this.scene);
     // randomColor = Color3.White();
@@ -48,6 +49,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
     protected abstract setup_camera();
 
     public init() {
+        this.start_n = this.new_n = this.curr_n;
         this.spirals = Array.from(Array(this.spiral_factory.config_len), () => 0).map((s, n) => this.spiral_factory.create_spiral(n));
 
         this.setup_camera();
@@ -88,29 +90,34 @@ export abstract class SpiralViewBase implements ISpiralParams {
     }
 
 
-    create_spiral_mesh(n, spiral: Spiral_Base) {
-        const mesh: Mesh = MeshBuilder.CreateTube(`spiral_${n}`, {
+    create_spiral_mesh(n_config, spiral: Spiral_Base) {
+        if (this.meshes[n_config]) return;
+
+        const mesh: Mesh = MeshBuilder.CreateTube(`spiral_${n_config}`, {
             path: spiral.spiralPoints,
             radius: 0.006,
             updatable: false,
             tessellation: 4,
         }, this.scene);
 
-        this.meshes[n] = mesh;
+        this.meshes[n_config] = [mesh];
 
         mesh.material = this.spiralMaterial;
         this.spiralMaterial.specularColor = Color3.Black();
         mesh.freezeNormals();
 
-        mesh.setEnabled(n == this.curr_n);
+        mesh.setEnabled(n_config == this.curr_n);
         // if (n == this.curr_n)
         mesh.setVerticesData("color", spiral.calc_colors(mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind)));
         mesh.morphTargetManager = this.manager;
-        this.targets[n] = BABYLON.MorphTarget.FromMesh(mesh, `spiral_${n}`, 0);
-        this.manager.addTarget(this.targets[n]);
+        this.targets[n_config] = BABYLON.MorphTarget.FromMesh(mesh, `spiral_${n_config}`, 0);
+        this.manager.addTarget(this.targets[n_config]);
 
-        for (let n = 1; n < spiral.nRot; n++)
-            mesh.clone().rotate(new Vector3(0, 0, 1), 2 * Math.PI / spiral.nRot * n).name = `${mesh.name} rot ${n}`;
+        for (let n_rot = 1; n_rot < spiral.rot_cnt; n_rot++) {
+            const clone = mesh.clone();
+            clone.rotate(new Vector3(0, 0, 1), 2 * Math.PI / spiral.rot_cnt * n_rot).name = `${mesh.name} rot ${n_rot}`;
+            this.meshes[n_config].push(clone);
+        }
 
         return mesh;
     }
@@ -145,19 +152,21 @@ export abstract class SpiralViewBase implements ISpiralParams {
                 }
             );
 
-            /*if (finished) {
-                for (let n = 0; n < Spiral_Top.config_len; n++) {
-                    if (n === this.curr_n || n === this.new_n) continue;
-                    if (this.meshes[n]) {
-                        this.meshes[n].dispose();
+            if (finished) {
+                for (let n = 0; n < this.spiral_factory.config_len; n++) {
+                    if (n === this.start_n) continue;
+                    if (this.meshes[n]?.length) {
+                        console.log('remove', n)
+
+                        this.meshes[n].forEach(m => m.dispose());
                         delete this.meshes[n];
                     }
                     if (this.targets[n]) {
-                        this.manager.removeTarget(this.targets[n]);
-                        delete this.targets[n];
+                        // this.manager.removeTarget(this.targets[n]);
+                        // delete this.targets[n];
                     }
                 }
-            }*/
+            }
 
             this.do_transition = !finished;
         }
@@ -199,6 +208,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
 
     switch_spiral_to(n: number) {
         if (this.do_transition || n === this.new_n) return;
+        console.log('switch to', n);
 
         this.create_spiral_mesh(n, this.spirals[n]);
         this.curr_n = this.new_n;

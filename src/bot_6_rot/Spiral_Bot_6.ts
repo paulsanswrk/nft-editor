@@ -5,7 +5,7 @@ export class Spiral_Bot_6 extends Spiral_Base {
 
     // public static readonly config_len = s_data.length;
 
-    readonly nRot: number = 6;
+    readonly rot_cnt: number = 6;
 
     readonly config_len: number = s_data.length;
 
