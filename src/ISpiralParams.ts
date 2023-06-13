@@ -19,5 +19,9 @@ export default interface ISpiralParams {
 
     get spiral_m1(): number;
 
+    get hw_scaling_level(): number;
+
+    set hw_scaling_level(v: number);
+
     switch_spiral_to(n: number): void;
 }

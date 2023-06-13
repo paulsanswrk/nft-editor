@@ -63,7 +63,8 @@ export abstract class SpiralViewBase implements ISpiralParams {
         this.spiralMaterial.emissiveColor = this.randomColor;*/
 
         this.scene.registerBeforeRender(() => this.render_handler());
-        this.engine.setHardwareScalingLevel(0.7);
+        this.engine.setHardwareScalingLevel(this.engine.getHardwareScalingLevel() * 0.5);
+        // this.engine.adaptToDeviceRatio = true;
         this.engine.runRenderLoop(() => {
             this.scene.render();
         });
@@ -102,13 +103,19 @@ export abstract class SpiralViewBase implements ISpiralParams {
 
         this.meshes[n_config] = [mesh];
 
-        mesh.material = this.spiralMaterial;
         this.spiralMaterial.specularColor = Color3.Black();
         mesh.freezeNormals();
 
         mesh.setEnabled(n_config == this.curr_n);
         // if (n == this.curr_n)
         mesh.setVerticesData("color", spiral.calc_colors(mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind)));
+
+        this.spiralMaterial.disableLighting = true;
+        this.spiralMaterial.emissiveColor = BABYLON.Color3.White();
+        this.spiralMaterial.reservedDataStore = {hidden: true, isVertexColorMaterial: true};
+        mesh.useVertexColors = true;
+        mesh.material = this.spiralMaterial;
+
         mesh.morphTargetManager = this.manager;
         this.targets[n_config] = BABYLON.MorphTarget.FromMesh(mesh, `spiral_${n_config}`, 0);
         this.manager.addTarget(this.targets[n_config]);
@@ -156,7 +163,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
                 for (let n = 0; n < this.spiral_factory.config_len; n++) {
                     if (n === this.start_n) continue;
                     if (this.meshes[n]?.length) {
-                        console.log('remove', n)
+                        // console.log('remove', n)
 
                         this.meshes[n].forEach(m => m.dispose());
                         delete this.meshes[n];
@@ -208,7 +215,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
 
     switch_spiral_to(n: number) {
         if (this.do_transition || n === this.new_n) return;
-        console.log('switch to', n);
+        // console.log('switch to', n);
 
         this.create_spiral_mesh(n, this.spirals[n]);
         this.curr_n = this.new_n;
@@ -244,8 +251,8 @@ export abstract class SpiralViewBase implements ISpiralParams {
     private is_first_auto_change = true;
     private _auto_change_interval = 0;
     auto_change_time_sec = 5;
-    auto_change_time2_sec = 20;
-    no_auto_change_after_click_sec = 30;
+    auto_change_time2_sec = 15;
+    no_auto_change_after_click_sec = 60;
     private last_click_time: Date = new Date(0);
 
     get auto_change(): boolean {
@@ -261,6 +268,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
     }
 
     protected handle_auto_change() {
+        // console.log(new Date().getTime() - this.last_click_time.getTime(), this.no_auto_change_after_click_sec * 1000)
         if ((new Date().getTime() - this.last_click_time.getTime()) < this.no_auto_change_after_click_sec * 1000) return;
 
         const new_n_opts = this.spirals.map((x, n) => n)
@@ -291,6 +299,14 @@ export abstract class SpiralViewBase implements ISpiralParams {
             array[count] = array[randomnumber];
             array[randomnumber] = temp
         }
+    }
+
+    get hw_scaling_level(): number {
+        return this.engine.getHardwareScalingLevel();
+    }
+
+    set hw_scaling_level(v: number) {
+        this.engine.setHardwareScalingLevel(v);
     }
 
 }

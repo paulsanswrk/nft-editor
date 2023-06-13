@@ -30,7 +30,7 @@ export class SpiralViewTop8 extends SpiralViewBase implements ISpiralParams {
         this.camera.useAutoRotationBehavior = true;
 // camera.rotation = new Vector3(0,0,1);
 
-        this.camera.autoRotationBehavior.idleRotationSpeed = -0.12;
+        this.camera.autoRotationBehavior.idleRotationSpeed = -0.05;
         this.camera.autoRotationBehavior.idleRotationWaitTime = 0;
         this.camera.autoRotationBehavior.zoomStopsAnimation = false;
         this.camera.inputs.clear();
