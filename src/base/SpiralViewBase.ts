@@ -55,6 +55,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
         this.setup_camera();
 
         this.scene.clearColor = new BABYLON.Color4(0, 0, 0);
+        // this.scene.performancePriority = ScenePerformancePriority.Aggressive;
 
         this.camera.attachControl(this.canvas);
 
@@ -63,7 +64,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
         this.spiralMaterial.emissiveColor = this.randomColor;*/
 
         this.scene.registerBeforeRender(() => this.render_handler());
-        this.engine.setHardwareScalingLevel(this.engine.getHardwareScalingLevel() * 0.5);
+        this.engine.setHardwareScalingLevel(this.engine.getHardwareScalingLevel() * 0.7);
         // this.engine.adaptToDeviceRatio = true;
         this.engine.runRenderLoop(() => {
             this.scene.render();
@@ -76,7 +77,12 @@ export abstract class SpiralViewBase implements ISpiralParams {
         this.scene.onPointerUp = (evt, pickInfo) => this.click_handler(evt, pickInfo);
 
 
-        this.create_spiral_mesh(this.curr_n, this.spirals[this.curr_n]);
+        // this.create_spiral_mesh(this.curr_n, this.spirals[this.curr_n]);
+        this.spirals.forEach((s, n) => this.create_spiral_mesh(n, s));
+
+        // this.scene.freezeActiveMeshes();
+        // this.scene.blockMaterialDirtyMechanism = true;
+        this.scene.getAnimationRatio();
 
         /// #if INSPECTOR
         Inspector.Show(this.scene, {
@@ -109,6 +115,9 @@ export abstract class SpiralViewBase implements ISpiralParams {
         mesh.setEnabled(n_config == this.curr_n);
         // if (n == this.curr_n)
         mesh.setVerticesData("color", spiral.calc_colors(mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind)));
+
+        // this.spiralMaterial.freeze();
+        // mesh.doNotSyncBoundingInfo = true;
 
         this.spiralMaterial.disableLighting = true;
         this.spiralMaterial.emissiveColor = BABYLON.Color3.White();
@@ -159,7 +168,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
                 }
             );
 
-            if (finished) {
+            /*if (finished) {
                 for (let n = 0; n < this.spiral_factory.config_len; n++) {
                     if (n === this.start_n) continue;
                     if (this.meshes[n]?.length) {
@@ -173,7 +182,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
                         // delete this.targets[n];
                     }
                 }
-            }
+            }*/
 
             this.do_transition = !finished;
         }
@@ -217,7 +226,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
         if (this.do_transition || n === this.new_n) return;
         // console.log('switch to', n);
 
-        this.create_spiral_mesh(n, this.spirals[n]);
+        // this.create_spiral_mesh(n, this.spirals[n]);
         this.curr_n = this.new_n;
         this.new_n = n;
         this.do_transition = true;

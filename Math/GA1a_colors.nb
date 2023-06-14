@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     77389,       1654]
-NotebookOptionsPosition[     76834,       1635]
-NotebookOutlinePosition[     77283,       1652]
-CellTagsIndexPosition[     77240,       1649]
+NotebookDataLength[     80175,       1717]
+NotebookOptionsPosition[     79617,       1698]
+NotebookOutlinePosition[     80068,       1715]
+CellTagsIndexPosition[     80025,       1712]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -118,7 +118,7 @@ Cell[BoxData[{
       ",", "0.2`", ",", "1.03`", ",", 
       FractionBox["\[Pi]", "10"], ",", "2.11`", ",", "1", ",", "4.8`", ",", 
       "8.8`", ",", "0.032`", ",", "0.15`", ",", "12"}], "}"}]}], ";"}], 
-  "\n"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\n", 
  RowBox[{"ClearAll", "[", 
   RowBox[{"uicon", ",", "resizeU"}], "]"}], "\n", 
  RowBox[{
@@ -144,7 +144,7 @@ Cell[BoxData[{
         ",", 
         RowBox[{"ImageSize", "->", "size"}]}], "]"}], ",", 
       RowBox[{"ImageResolution", "->", "600"}]}], "]"}]}], ";"}], 
-  "\[IndentingNewLine]"}], "\n", 
+  "\n"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{
@@ -178,7 +178,7 @@ Cell[BoxData[{
         ",", "n", ",", "t1", ",", "t2", ",", "cTanh", ",", "at0", ",", "at4", 
         ",", "hueG", ",", "zIrreg", ",", "nRot"}], "}"}]}], ";", 
      "\[IndentingNewLine]", 
-     RowBox[{"m1", "=", "6.1"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"m1", "=", "5.6"}], ";", "\[IndentingNewLine]", 
      "\[IndentingNewLine]", 
      RowBox[{
       RowBox[{"F", "[", "t_", "]"}], "=", 
@@ -352,7 +352,7 @@ Cell[BoxData[{
             RowBox[{"{", 
              RowBox[{"t", ",", " ", "at0", ",", " ", "at4"}], "}"}], ",", 
             RowBox[{"Evaluate", "[", "style", "]"}], ",", " ", 
-            RowBox[{"Background", "\[Rule]", "Black"}], ",", 
+            RowBox[{"Background", "\[Rule]", "bgColor"}], ",", 
             RowBox[{"ColorFunction", "->", 
              RowBox[{"Function", "[", 
               RowBox[{
@@ -463,6 +463,9 @@ Cell[BoxData[{
         RowBox[{"ControlType", "->", "PopupMenu"}]}], "}"}], ","}], "*)"}], 
     "\[IndentingNewLine]", 
     RowBox[{"{", 
+     RowBox[{"bgColor", ",", " ", "Black"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"{", 
      RowBox[{"topColor", ",", " ", 
       RowBox[{"Hue", "[", "0.8", "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
     RowBox[{"{", 
@@ -526,6 +529,25 @@ Cell[BoxData[{
           RowBox[{"\"\<allColors\>\"", "->", "allColors"}]}], "}"}], "//", 
         "InputForm"}], "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
     RowBox[{"Button", "[", 
+     RowBox[{"\"\<Random\>\"", ",", " ", 
+      RowBox[{"For", "[", 
+       RowBox[{
+        RowBox[{"i", "=", "1"}], ",", 
+        RowBox[{"i", "<=", "middleColorsCnt"}], ",", 
+        RowBox[{"i", "++"}], ",", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"midColors", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], "=", 
+          RowBox[{"RandomColor", "[", "]"}]}], ";", 
+         RowBox[{
+          RowBox[{"midColorsPos", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], "=", 
+          RowBox[{"i", "/", 
+           RowBox[{"(", 
+            RowBox[{"middleColorsCnt", "+", "1"}], ")"}]}]}]}]}], "]"}]}], 
+     "]"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"Button", "[", 
      RowBox[{"\"\<Reset\>\"", ",", 
       RowBox[{"Replace", "[", 
        RowBox[{"Typeset`specs", ",", 
@@ -577,59 +599,73 @@ Cell[BoxData[{
    3.8936485952563896`*^9}, {3.893669989872078*^9, 3.8936700199172363`*^9}, {
    3.89367026903901*^9, 3.8936702840755606`*^9}, {3.893670403381839*^9, 
    3.893670446607254*^9}, 3.8936704993577147`*^9, {3.8936705392966413`*^9, 
-   3.893670558538441*^9}, {3.893671237421818*^9, 3.8936712475304003`*^9}},
+   3.893670558538441*^9}, {3.893671237421818*^9, 3.8936712475304003`*^9}, {
+   3.8944222074107494`*^9, 3.894422309046154*^9}, {3.8944227518526735`*^9, 
+   3.8944227915209813`*^9}, {3.8944228408473716`*^9, 3.894422845061839*^9}, {
+   3.894423025869667*^9, 3.8944230269872026`*^9}, {3.894423063956414*^9, 
+   3.8944230898198767`*^9}},
  CellLabel->
-  "In[270]:=",ExpressionUUID->"aee636c4-c8df-4d9c-b69a-cf9cc1ce1f50"],
+  "In[152]:=",ExpressionUUID->"aee636c4-c8df-4d9c-b69a-cf9cc1ce1f50"],
 
 Cell[BoxData[
  TagBox[
   StyleBox[
-   DynamicModuleBox[{$CellContext`bottomColor$$ = Hue[
-    0], $CellContext`camH$$ = 1, $CellContext`midColors$$ = {
-     RGBColor[0.6796100421208002, 0.815177978199449, 0.019319581400286], 
-     RGBColor[0.9445393194475535, 0.7928276684003184, 0.9989600559911813], 
-     RGBColor[0.16904720675010454`, 0.932987367949009, 0.6337351223152756], 
+   DynamicModuleBox[{$CellContext`bgColor$$ = GrayLevel[
+    0], $CellContext`bottomColor$$ = Hue[0], $CellContext`camH$$ = 
+    1, $CellContext`midColors$$ = {
+     RGBColor[0.5617265106981528, 0.5589682856371672, 0.47181051669858953`], 
+     RGBColor[0.3610925410835466, 0.6922548588014845, 0.09727846792457329], 
      RGBColor[
-     0.015770726569836357`, 0.25672821623458497`, 0.9891391029189611], 
-     RGBColor[0.01869702021747055, 0.5018743547299584, 0.7346198254030358], 
-     RGBColor[0.641257129888751, 0.7828562280142664, 0.2663982234281026], 
-     RGBColor[0.9837911702607147, 0.8483164654265483, 0.8627803371405998], 
-     RGBColor[0.8104721861090647, 0.6810020871099203, 0.508015621268552], 
-     RGBColor[0.5449017924082018, 0.5625960460076955, 0.4050093682233129], 
+     0.41344939488868837`, 0.28230670055447327`, 0.22307219493712482`], 
      RGBColor[
-     0.9297346424901081, 0.9474271324287853, 
-      0.933219874981865]}, $CellContext`midColorsPos$$ = {
-    0.0015007591205529192`, 0.2434889238718856, 0.30633341126295877`, 
-    0.41187608477583426`, 0.5312436781370056, 0.7542897506595647, 
-    0.8083080749617304, 0.8159000126598062, 0.8479369393253069, 
-    0.9613685102690801}, $CellContext`middleColorsCnt$$ = 
-    0, $CellContext`topColor$$ = Hue[0.8], Typeset`show$$ = True, 
+     0.5180978691608622, 0.032427791983849596`, 0.19420811476308142`], 
+     RGBColor[0.29703217971777995`, 0.3874814694264881, 0.4763363202987356], 
+     RGBColor[0.8543825225835928, 0.6075961913449686, 0.908140228412812], 
+     RGBColor[0.68585340396247, 0.6884618815006665, 0.1971646001664651], 
+     RGBColor[0.39966933585734044`, 0.7739620524150574, 0.5922466126004009], 
+     RGBColor[0.5243752889095508, 0.7884382748742578, 0.19892773677246134`], 
+     RGBColor[
+     0.44535404606089757`, 0.06442226102791904, 
+      0.36538052102822416`]}, $CellContext`midColorsPos$$ = {
+     Rational[1, 6], 
+     Rational[1, 3], 
+     Rational[1, 2], 
+     Rational[2, 3], 
+     Rational[5, 6], 0.6351057037125367, 0.7912601527991165, 
+     0.8236643187330728, 0.8670256134843035, 
+     0.9712200033554765}, $CellContext`middleColorsCnt$$ = 
+    5, $CellContext`topColor$$ = Hue[0.8], Typeset`show$$ = True, 
     Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
     Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
     "\"untitled\"", Typeset`specs$$ = {{{
        Hold[$CellContext`camH$$], 1}, 0.5, 10}, {
+      Hold[$CellContext`bgColor$$], 
+      GrayLevel[0]}, {
       Hold[$CellContext`topColor$$], 
       Hue[0.8]}, {
       Hold[$CellContext`bottomColor$$], 
       Hue[0]}, {{
        Hold[$CellContext`middleColorsCnt$$], 0}, 0, 5, 1}, {{
        Hold[$CellContext`midColors$$], {
-        RGBColor[0.6796100421208002, 0.815177978199449, 0.019319581400286], 
-        RGBColor[0.9445393194475535, 0.7928276684003184, 0.9989600559911813], 
-        RGBColor[0.16904720675010454`, 0.932987367949009, 0.6337351223152756], 
         RGBColor[
-        0.015770726569836357`, 0.25672821623458497`, 0.9891391029189611], 
-        RGBColor[0.01869702021747055, 0.5018743547299584, 0.7346198254030358], 
-        RGBColor[0.641257129888751, 0.7828562280142664, 0.2663982234281026], 
-        RGBColor[0.9837911702607147, 0.8483164654265483, 0.8627803371405998], 
-        RGBColor[0.8104721861090647, 0.6810020871099203, 0.508015621268552], 
-        RGBColor[0.5449017924082018, 0.5625960460076955, 0.4050093682233129], 
+        0.18201722603560144`, 0.26038109416466404`, 0.482005510064873], 
+        RGBColor[0.08362511696651631, 0.442312062838385, 0.5387197791950509], 
         RGBColor[
-        0.9297346424901081, 0.9474271324287853, 0.933219874981865]}}}, {{
-       Hold[$CellContext`midColorsPos$$], {0.0015007591205529192`, 
-       0.2434889238718856, 0.30633341126295877`, 0.41187608477583426`, 
-       0.5312436781370056, 0.7542897506595647, 0.8083080749617304, 
-       0.8159000126598062, 0.8479369393253069, 0.9613685102690801}}}, {
+        0.6505335349199957, 0.36612014085842226`, 0.08348624212444733], 
+        RGBColor[0.3292107533750557, 0.3836771749255985, 0.611444917767793], 
+        RGBColor[0.2962444779458908, 0.02742021542242945, 0.6512514347185563], 
+        RGBColor[0.8543825225835928, 0.6075961913449686, 0.908140228412812], 
+        RGBColor[0.68585340396247, 0.6884618815006665, 0.1971646001664651], 
+        RGBColor[
+        0.39966933585734044`, 0.7739620524150574, 0.5922466126004009], 
+        RGBColor[
+        0.5243752889095508, 0.7884382748742578, 0.19892773677246134`], 
+        RGBColor[
+        0.44535404606089757`, 0.06442226102791904, 0.36538052102822416`]}}}, {{
+       Hold[$CellContext`midColorsPos$$], {0.055752208720579954`, 
+       0.28626202990782224`, 0.29030217514860657`, 0.4572915015711212, 
+       0.5410983162146463, 0.6351057037125367, 0.7912601527991165, 
+       0.8236643187330728, 0.8670256134843035, 0.9712200033554765}}}, {
       Hold[
        Dynamic[
         Column[
@@ -651,6 +687,15 @@ Cell[BoxData[
            "allColors" -> $CellContext`allColors}]]]], 
       Manipulate`Dump`ThisIsNotAControl}, {
       Hold[
+       Button["Random", 
+        For[$CellContext`i = 
+         1, $CellContext`i <= $CellContext`middleColorsCnt$$, 
+         Increment[$CellContext`i], 
+         Part[$CellContext`midColors$$, $CellContext`i] = RandomColor[]; 
+         Part[$CellContext`midColorsPos$$, $CellContext`i] = \
+$CellContext`i/($CellContext`middleColorsCnt$$ + 1)]]], 
+      Manipulate`Dump`ThisIsNotAControl}, {
+      Hold[
        Button["Reset", 
         Replace[Typeset`specs$$, {{{
              Hold[
@@ -666,8 +711,9 @@ Cell[BoxData[
              Blank[]], 
             BlankNullSequence[]} :> ($CellContext`var = $CellContext`val)}, 
          1]]], Manipulate`Dump`ThisIsNotAControl}}, Typeset`size$$ = {
-    730., {379.334033098002, 385.0659669019981}}, Typeset`update$$ = 0, 
-    Typeset`initDone$$, Typeset`skipInitDone$$ = False}, 
+    1012., {524.334033098002, 530.0659669019981}}, Typeset`update$$ = 
+    3.8944447762712018`17.343020539027435*^9, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = False}, 
     DynamicBox[PaneBox[
       PanelBox[
        PaneSelectorBox[{True -> GridBox[{{
@@ -943,7 +989,7 @@ $CellContext`u2, $CellContext`m2, $CellContext`xf, $CellContext`v, \
 $CellContext`o, $CellContext`ct, $CellContext`n, $CellContext`t1, \
 $CellContext`t2, $CellContext`cTanh, $CellContext`at0, $CellContext`at4, \
 $CellContext`hueG, $CellContext`zIrreg, $CellContext`nRot}; $CellContext`m1 = 
-                    6.1; $CellContext`F[
+                    5.6; $CellContext`F[
                     Pattern[$CellContext`t, 
                     
                     Blank[]]] = {$CellContext`xf, ($CellContext`v \
@@ -1016,11 +1062,10 @@ $CellContext`\[CapitalDelta]\[Phi] =
 {$CellContext`\[Phi], 0, 2 
                     Pi, $CellContext`\[CapitalDelta]\[Phi]}]], \
 {$CellContext`t, $CellContext`at0, $CellContext`at4}, 
-                    Evaluate[$CellContext`style], Background -> Black, 
-                    ColorFunction -> 
+                    Evaluate[$CellContext`style], 
+                    Background -> $CellContext`bgColor$$, ColorFunction -> 
                     Function[{$CellContext`x$, $CellContext`y$, \
 $CellContext`z$, $CellContext`t$}, 
-                    
                     Blend[{{0, $CellContext`bottomColor$$}, {0.25, White}, {
                     0.8, White}, {1, $CellContext`topColor$$}}, 
                     
@@ -1032,8 +1077,7 @@ $CellContext`at4}]]], ColorFunctionScaling -> False],
                     Dot[
                     $CellContext`Rot[$CellContext`\[Phi]], 
                     $CellContext`G[$CellContext`t]], {$CellContext`\[Phi], 0, 
-                    2 
-                    Pi, $CellContext`\[CapitalDelta]\[Phi]}]], \
+                    2 Pi, $CellContext`\[CapitalDelta]\[Phi]}]], \
 {$CellContext`t, $CellContext`u1, $CellContext`u2}, 
                     Evaluate[$CellContext`style], ColorFunction -> 
                     Function[{$CellContext`x, $CellContext`y, $CellContext`z, \
@@ -1074,49 +1118,49 @@ $CellContext`u2}]]], ColorFunctionScaling -> False],
                     FEPrivate`FrontEndResource["FEStrings", "ManipulateInit"],
                      StandardForm]]}]] :> FixedPoint[
                     
-                    Function[{}, {$CellContext`bottomColor$$ = 
+                    Function[{}, {$CellContext`bgColor$$ = 
+                    GrayLevel[0], $CellContext`bottomColor$$ = 
                     Hue[0], $CellContext`camH$$ = 
-                    1, $CellContext`midColorsPos$$ = {0.0015007591205529192`, 
-                    0.2434889238718856, 0.30633341126295877`, 
-                    0.41187608477583426`, 0.5312436781370056, 
-                    0.7542897506595647, 0.8083080749617304, 
-                    0.8159000126598062, 0.8479369393253069, 
-                    0.9613685102690801}, $CellContext`midColors$$ = {
+                    1, $CellContext`midColorsPos$$ = {0.055752208720579954`, 
+                    0.28626202990782224`, 0.29030217514860657`, 
+                    0.4572915015711212, 0.5410983162146463, 
+                    0.6351057037125367, 0.7912601527991165, 
+                    0.8236643187330728, 0.8670256134843035, 
+                    0.9712200033554765}, $CellContext`midColors$$ = {
                     RGBColor[
-                    0.6796100421208002, 0.815177978199449, 0.019319581400286], 
+                    0.18201722603560144`, 0.26038109416466404`, 
+                    0.482005510064873], 
                     RGBColor[
-                    0.9445393194475535, 0.7928276684003184, 
-                    0.9989600559911813], 
+                    0.08362511696651631, 0.442312062838385, 
+                    0.5387197791950509], 
                     RGBColor[
-                    0.16904720675010454`, 0.932987367949009, 
-                    0.6337351223152756], 
+                    0.6505335349199957, 0.36612014085842226`, 
+                    0.08348624212444733], 
                     RGBColor[
-                    0.015770726569836357`, 0.25672821623458497`, 
-                    0.9891391029189611], 
+                    0.3292107533750557, 0.3836771749255985, 
+                    0.611444917767793], 
                     RGBColor[
-                    0.01869702021747055, 0.5018743547299584, 
-                    0.7346198254030358], 
+                    0.2962444779458908, 0.02742021542242945, 
+                    0.6512514347185563], 
                     RGBColor[
-                    0.641257129888751, 0.7828562280142664, 
-                    0.2663982234281026], 
+                    0.8543825225835928, 0.6075961913449686, 
+                    0.908140228412812], 
                     RGBColor[
-                    0.9837911702607147, 0.8483164654265483, 
-                    0.8627803371405998], 
+                    0.68585340396247, 0.6884618815006665, 0.1971646001664651], 
                     RGBColor[
-                    0.8104721861090647, 0.6810020871099203, 
-                    0.508015621268552], 
+                    0.39966933585734044`, 0.7739620524150574, 
+                    0.5922466126004009], 
                     RGBColor[
-                    0.5449017924082018, 0.5625960460076955, 
-                    0.4050093682233129], 
+                    0.5243752889095508, 0.7884382748742578, 
+                    0.19892773677246134`], 
                     RGBColor[
-                    0.9297346424901081, 0.9474271324287853, 
-                    0.933219874981865]}, $CellContext`middleColorsCnt$$ = 
+                    0.44535404606089757`, 0.06442226102791904, 
+                    0.36538052102822416`]}, $CellContext`middleColorsCnt$$ = 
                     0, $CellContext`topColor$$ = Hue[0.8]}], None, 3], 
                     If[Typeset`bookmarkList$$ === {}, {}, 
                     Map[
                     Function[Manipulate`Dump`bookmark$, 
-                    If[
-                    Manipulate`Dump`bookmark$ === Delimiter, 
+                    If[Manipulate`Dump`bookmark$ === Delimiter, 
                     Manipulate`Dump`bookmark$, RawBoxes[
                     RowBox[{
                     RowBox[{
@@ -1180,7 +1224,7 @@ $CellContext`u2}]]], ColorFunctionScaling -> False],
 $CellContext`v, $CellContext`o, $CellContext`ct, $CellContext`n, \
 $CellContext`t1, $CellContext`t2, $CellContext`cTanh, $CellContext`at0, \
 $CellContext`at4, $CellContext`hueG, $CellContext`zIrreg, $CellContext`nRot}; \
-$CellContext`m1 = 6.1; $CellContext`F[
+$CellContext`m1 = 5.6; $CellContext`F[
                     Pattern[$CellContext`t, 
                     
                     Blank[]]] = {$CellContext`xf, ($CellContext`v \
@@ -1253,8 +1297,8 @@ $CellContext`\[CapitalDelta]\[Phi] =
 {$CellContext`\[Phi], 0, 2 
                     Pi, $CellContext`\[CapitalDelta]\[Phi]}]], \
 {$CellContext`t, $CellContext`at0, $CellContext`at4}, 
-                    Evaluate[$CellContext`style], Background -> Black, 
-                    ColorFunction -> 
+                    Evaluate[$CellContext`style], 
+                    Background -> $CellContext`bgColor$$, ColorFunction -> 
                     Function[{$CellContext`x$, $CellContext`y$, \
 $CellContext`z$, $CellContext`t$}, 
                     
@@ -1332,7 +1376,11 @@ $CellContext`u2}]]], ColorFunctionScaling -> False],
                     BaselinePosition -> Baseline], 
                     Manipulate`InterpretManipulator[
                     Dynamic[$CellContext`camH$$], {0.5, 10}, {
-                    AutoAction -> False}]]}, {"topColor", 
+                    AutoAction -> False}]]}, {"bgColor", 
+                    ColorSetterBox[
+                    Dynamic[$CellContext`bgColor$$], "SwatchSpectrum", 
+                    AutoAction -> False, DefaultBaseStyle -> 
+                    "ColorSliderManipulate"]}, {"topColor", 
                     ColorSetterBox[
                     Dynamic[$CellContext`topColor$$], "SwatchSpectrum", 
                     AutoAction -> False, DefaultBaseStyle -> 
@@ -1393,6 +1441,19 @@ $CellContext`u2}]]], ColorFunctionScaling -> False],
                     "\[SpanFromLeft]"}, {
                     ItemBox[
                     ButtonBox[
+                    "\"Random\"", ButtonFunction :> 
+                    For[$CellContext`i = 
+                    1, $CellContext`i <= $CellContext`middleColorsCnt$$, 
+                    Increment[$CellContext`i], 
+                    Part[$CellContext`midColors$$, $CellContext`i] = 
+                    RandomColor[]; 
+                    Part[$CellContext`midColorsPos$$, $CellContext`i] = \
+$CellContext`i/($CellContext`middleColorsCnt$$ + 1)], Appearance -> Automatic,
+                     Evaluator -> Automatic, Method -> "Preemptive"], 
+                    Alignment -> Left, StripOnInput -> False], 
+                    "\[SpanFromLeft]"}, {
+                    ItemBox[
+                    ButtonBox[
                     "\"Reset\"", ButtonFunction :> Replace[Typeset`specs$$, {{{
                     Hold[
                     Pattern[$CellContext`var, 
@@ -1448,7 +1509,7 @@ $CellContext`val)}, 1], Appearance -> Automatic, Evaluator -> Automatic,
 $CellContext`v, $CellContext`o, $CellContext`ct, $CellContext`n, \
 $CellContext`t1, $CellContext`t2, $CellContext`cTanh, $CellContext`at0, \
 $CellContext`at4, $CellContext`hueG, $CellContext`zIrreg, $CellContext`nRot}; \
-$CellContext`m1 = 6.1; $CellContext`F[
+$CellContext`m1 = 5.6; $CellContext`F[
                     Pattern[$CellContext`t, 
                     
                     Blank[]]] = {$CellContext`xf, ($CellContext`v \
@@ -1521,8 +1582,8 @@ $CellContext`\[CapitalDelta]\[Phi] =
 {$CellContext`\[Phi], 0, 2 
                     Pi, $CellContext`\[CapitalDelta]\[Phi]}]], \
 {$CellContext`t, $CellContext`at0, $CellContext`at4}, 
-                    Evaluate[$CellContext`style], Background -> Black, 
-                    ColorFunction -> 
+                    Evaluate[$CellContext`style], 
+                    Background -> $CellContext`bgColor$$, ColorFunction -> 
                     Function[{$CellContext`x$, $CellContext`y$, \
 $CellContext`z$, $CellContext`t$}, 
                     
@@ -1587,7 +1648,7 @@ $CellContext`u2}]]], ColorFunctionScaling -> False],
         Dynamic[Typeset`show$$], ImageSize -> Automatic], 
        DefaultBaseStyle -> {}, FrameMargins -> {{5, 5}, {5, 5}}], 
       ImageMargins -> 0, BaselinePosition -> Automatic],
-     ImageSizeCache->{1054., {433.63403309800196`, 439.36596690199804`}},
+     ImageSizeCache->{1350., {578.634033098002, 584.365966901998}},
      SingleEvaluation->True],
     Deinitialization:>None,
     DynamicModuleValues:>{},
@@ -1628,13 +1689,15 @@ $CellContext`u2}]]], ColorFunctionScaling -> False],
    3.893669996345067*^9, 3.8936700212601147`*^9}, 3.8936702858387675`*^9, 
    3.8936704059905524`*^9, 3.8936704478363457`*^9, {3.893670543232148*^9, 
    3.893670560934988*^9}, 3.893670617476816*^9, 3.893671214151599*^9, 
-   3.8936712483046737`*^9, 3.8936713120279903`*^9},
+   3.8936712483046737`*^9, 3.8936713120279903`*^9, 3.894422187191231*^9, 
+   3.8944223298765063`*^9, 3.894422793253126*^9, 3.8944228461776114`*^9, 
+   3.894423092682872*^9},
  CellLabel->
-  "Out[281]=",ExpressionUUID->"e1cd42d4-39b7-4d52-abaf-fef218681800"]
+  "Out[163]=",ExpressionUUID->"62ece2e5-c99f-44f0-82a2-4e6c91ea9d76"]
 }, Open  ]]
 },
-WindowSize->{1428., 729.75},
-WindowMargins->{{-6, Automatic}, {Automatic, -6}},
+WindowSize->{2580., 1011.75},
+WindowMargins->{{1434, Automatic}, {0, Automatic}},
 TaggingRules-><|"TryRealOnly" -> False|>,
 FrontEndVersion->"13.2 for Microsoft Windows (64-bit) (November 18, 2022)",
 StyleDefinitions->"Default.nb",
@@ -1652,9 +1715,9 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 22224, 559, 19, "Input",ExpressionUUID->"aee636c4-c8df-4d9c-b69a-cf9cc1ce1f50",
+Cell[580, 22, 23281, 585, 19, "Input",ExpressionUUID->"aee636c4-c8df-4d9c-b69a-cf9cc1ce1f50",
  CellOpen->False],
-Cell[22807, 583, 54011, 1049, 892, "Output",ExpressionUUID->"e1cd42d4-39b7-4d52-abaf-fef218681800"]
+Cell[23864, 609, 55737, 1086, 1182, "Output",ExpressionUUID->"62ece2e5-c99f-44f0-82a2-4e6c91ea9d76"]
 }, Open  ]]
 }
 ]
