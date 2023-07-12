@@ -1,7 +1,7 @@
-import {Spiral_Base} from "./base/Spiral_Base";
+import {Spiral_Predefined_Base} from "./base/Spiral_Predefined_Base";
 
 export default interface ISpiralParams {
-    spirals: Spiral_Base[];
+    spirals: Spiral_Predefined_Base[];
 
     get configs_count(): number;
 

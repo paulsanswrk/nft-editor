@@ -10,17 +10,17 @@ import {Inspector} from '@babylonjs/inspector';
 import {MorphTarget} from '@babylonjs/core/Legacy/legacy';
 import ISpiralParams from "../ISpiralParams";
 import SceneGUI from "../SceneGUI";
-import {Spiral_Base} from "./Spiral_Base";
+import {Spiral_Predefined_Base} from "./Spiral_Predefined_Base";
 
 export abstract class SpiralViewBase implements ISpiralParams {
 
-    protected abstract spiral_factory: Spiral_Base;
+    protected abstract spiral_factory: Spiral_Predefined_Base;
     // curr_n = 14; //m1 == 8.6
     curr_n = 0;
     new_n: number;
     start_n: number;
     do_transition = false;
-    spirals: Spiral_Base[];
+    spirals: Spiral_Predefined_Base[];
 
     canvas = document.getElementById("view") as HTMLCanvasElement;
     engine = new Engine(this.canvas, true, {}, true);
@@ -50,7 +50,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
 
     public init() {
         this.start_n = this.new_n = this.curr_n;
-        this.spirals = Array.from(Array(this.spiral_factory.config_len), () => 0).map((s, n) => this.spiral_factory.create_spiral(n));
+        this.spirals = Array.from(Array(this.spiral_factory.config_len), () => 0).map((s, n) => this.spiral_factory.create_spiral({n_config: n}));
 
         this.setup_camera();
 
@@ -97,7 +97,7 @@ export abstract class SpiralViewBase implements ISpiralParams {
     }
 
 
-    create_spiral_mesh(n_config, spiral: Spiral_Base) {
+    create_spiral_mesh(n_config, spiral: Spiral_Predefined_Base) {
         if (this.meshes[n_config]) return;
 
         const mesh: Mesh = MeshBuilder.CreateTube(`spiral_${n_config}`, {

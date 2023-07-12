@@ -5,7 +5,7 @@ import Button from 'primevue/button';
 </script>
 
 <template>
-  <div class="message mb-2">Controls</div>
+  <div class="message mb-2 text-white">Controls</div>
   <Button label="Submit">Submit</Button>
 </template>
 
