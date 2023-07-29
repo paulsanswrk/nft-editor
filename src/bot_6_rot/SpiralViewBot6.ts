@@ -1,11 +1,11 @@
 import ISpiralParams from "../ISpiralParams";
-import {SpiralViewBase} from "../base/SpiralViewBase";
+import {SpiralViewPredefinedBase} from "../base/SpiralViewPredefinedBase";
 import {Spiral_Bot_6} from "./Spiral_Bot_6";
 import {ArcRotateCamera} from "@babylonjs/core/Cameras/arcRotateCamera";
 import {Vector3} from "@babylonjs/core/Maths/math.vector";
 import * as BABYLON from "@babylonjs/core";
 
-export class SpiralViewBot6 extends SpiralViewBase implements ISpiralParams {
+export class SpiralViewBot6 extends SpiralViewPredefinedBase implements ISpiralParams {
     protected spiral_factory = new Spiral_Bot_6();
 
     protected setup_camera() {

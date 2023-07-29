@@ -4,57 +4,64 @@ import {Color3} from "@babylonjs/core";
 
 export interface Spiral_Config {
     n_config?: number;
+//not used here
+    m1?: number;
 }
 
-const u1 = 0.21, u2 = 25;
-const G_steps = 1200, S_steps = 400, du = (u2 - u1) / G_steps;
-const hueG = 0.032;
-
 export abstract class Spiral_Base {
-    public rot_cnt: number = 6;
     public m1: number = 1.19;
-    protected m2: number = 4.5;
+    public m2: number = 4.5;
 
-    protected at0: number = 4.8;
-    protected at4: number = 8.8;
+    public at0: number = 4.8;
+    public at4: number = 8.8;
 
-    protected z_Irreg: number = 0.15;
-    protected cTanh: number = 1;
-    readonly rot_G: number = Math.PI / 10;
+    public z_Irreg: number = 0.15;
+    public cTanh: number = 1;
+    // readonly rot_G: number = Math.PI / 10;
 
-    private cx0: number;
-    private cx1: number;
-    private cx2: number;
-    private cx3: number;
-    private cy0: number;
-    private cy1: number;
-    private cy2: number;
-    private cy3: number;
-    private cz0: number;
-    private cz1: number;
-    private cz2: number;
-    private cz3: number;
+    public u1 = 0.21;
+    public u2 = 25;
+    protected readonly G_steps = 1200;
+    protected readonly S_steps = 400;
+    protected readonly hueG = 0.032;
+
+    protected cx0: number = 0;
+    protected cx1: number = 0;
+    protected cx2: number = 0;
+    protected cx3: number = 0;
+    protected cy0: number = 0;
+    protected cy1: number = 0;
+    protected cy2: number = 0;
+    protected cy3: number = 0;
+    protected cz0: number = 0;
+    protected cz1: number = 0;
+    protected cz2: number = 0;
+    protected cz3: number = 0;
+
+    public abstract get id(): string;
 
     protected abstract set_config(config: Spiral_Config);
 
+    abstract get_config(): Spiral_Config;
+
     protected get dt() {
-        return (this.at4 - this.at0) / S_steps;
+        return (this.at4 - this.at0) / this.S_steps;
     }
 
     public abstract create_spiral(config: Spiral_Config): Spiral_Base;
 
-    spiralPoints = new Array<Vector3>(G_steps + S_steps);
+    spiralPoints = new Array<Vector3>(this.G_steps + this.S_steps);
 
     private Gmod(t) {
-        return (1 - Math.cos(this.m1 * t) / this.m2) * Math.tanh(2 * (t - u1));
+        return (1 - Math.cos(this.m1 * t) / this.m2) * Math.tanh(2 * (t - this.u1));
     }
 
     private G(t) {
         //BJS implements left-handed coordinate system, so negate x
-        return [-this.Gmod(t) * Math.sin(t), Math.cos(t) * this.Gmod(t), this.z_Irreg * Math.sin(this.m1 * t) + (t * Math.tanh(this.cTanh * (t - u1))) / 4];
+        return [-this.Gmod(t) * Math.sin(t), Math.cos(t) * this.Gmod(t), this.z_Irreg * Math.sin(this.m1 * t) + (t * Math.tanh(this.cTanh * (t - this.u1))) / 4];
     }
 
-    private z_max = this.G(u2)[2];
+    private z_max = this.G(this.u2)[2];
 
     private S(t) {
         return [
@@ -67,7 +74,8 @@ export abstract class Spiral_Base {
 
     public calc_points(full = true) {
         let p = 0;
-        for (let i = 0, t = u1; i < G_steps; i++, t += du) {
+        const du = (this.u2 - this.u1) / this.G_steps;
+        for (let i = 0, t = this.u1; i < this.G_steps; i++, t += du) {
             this.spiralPoints[p++] = new Vector3(...this.G(t));
         }
 
@@ -76,18 +84,17 @@ export abstract class Spiral_Base {
                 this.spiralPoints[p++] = new Vector3(...this.S(t));
             }
 
-        // return this;
     }
 
     public calc_colors(positions: FloatArray) {
         const vertices_cnt = positions.length / 3;
-        const g_vertices_cnt = vertices_cnt * G_steps / (G_steps + S_steps);
-        const s_vertices_cnt = vertices_cnt * S_steps / (G_steps + S_steps);
+        const g_vertices_cnt = vertices_cnt * this.G_steps / (this.G_steps + this.S_steps);
+        const s_vertices_cnt = vertices_cnt * this.S_steps / (this.G_steps + this.S_steps);
         const colors = [];
         for (let p = 0; p < positions.length; p += 3) {
             let z = Math.abs(positions[p + 2])
             if (p < g_vertices_cnt * 3) {
-                let c = Color3.FromHSV(z / this.z_max * u2 * hueG * 360, 1, 1);
+                let c = Color3.FromHSV(z / this.z_max * this.u2 * this.hueG * 360, 1, 1);
                 colors.push(...c.asArray(), 1);
             } else {
                 let t = this.at4 + (this.at0 - this.at4) * (p / 3 - g_vertices_cnt) / s_vertices_cnt;
@@ -102,7 +109,7 @@ export abstract class Spiral_Base {
 
     private ColorFunc(t): number[] {
         return [
-            u1 * hueG / Math.cosh((t - this.at0) * 8) + u2 * hueG / Math.cosh((t - this.at4) * 5),
+            this.u1 * this.hueG / Math.cosh((t - this.at0) * 8) + this.u2 * this.hueG / Math.cosh((t - this.at4) * 5),
             1 / Math.cosh((t - this.at0) * 8) + 1 / Math.cosh((t - this.at4) * 5),
             1
         ];

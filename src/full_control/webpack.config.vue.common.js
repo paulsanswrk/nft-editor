@@ -3,22 +3,32 @@ const CopyPlugin = require("copy-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const {VueLoaderPlugin} = require("vue-loader");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 global.__basedir = __dirname;
 
 module.exports = {
     mode: "development",
+    devtool: "inline-source-map",
     entry: "./src/full_control/main.ts",
     output: {
         path: path.resolve(__dirname, "./dist"),
         filename: '[name].[contenthash].js',
+        clean: true,
+    },
+    optimization: {
+        splitChunks: {chunks: "all"}
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".glsl"],
+        extensions: [".ts", ".tsx", ".js"],
     },
     module: {
         rules: [
-            {test: /\.tsx?$/, loader: "ts-loader"},
+            {
+                test: /\.ts$/,
+                loader: 'ts-loader',
+                options: {appendTsSuffixTo: [/\.vue$/]}
+            },
             {
                 test: /\.tsx?$/, loader: "ifdef-loader", options: {
                     CONTROLS: global.CONTROLS,
@@ -67,6 +77,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "!!handlebars-loader!src/full_control/index.hbs",
         }),
+        // new BundleAnalyzerPlugin(),
+
     ],
     devServer: {
         static: {

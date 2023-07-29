@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Bootstrap" level="project" />
+    <orderEntry type="library" name="vectorious" level="application" />
   </component>
 </module>

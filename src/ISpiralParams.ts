@@ -23,5 +23,5 @@ export default interface ISpiralParams {
 
     set hw_scaling_level(v: number);
 
-    switch_spiral_to(n: number): void;
+    switch_spiral_to({n_config}: { n_config: number }): void;
 }

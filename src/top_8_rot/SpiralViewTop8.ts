@@ -1,14 +1,18 @@
 import ISpiralParams from "../ISpiralParams";
-import {SpiralViewBase} from "../base/SpiralViewBase";
+import {SpiralViewPredefinedBase} from "../base/SpiralViewPredefinedBase";
 import {ArcRotateCamera} from "@babylonjs/core/Cameras/arcRotateCamera";
 import {Vector3} from "@babylonjs/core/Maths/math.vector";
 import * as BABYLON from "@babylonjs/core";
 import {Spiral_Top_8} from "./Spiral_Top_8";
 
-export class SpiralViewTop8 extends SpiralViewBase implements ISpiralParams {
+export class SpiralViewTop8 extends SpiralViewPredefinedBase implements ISpiralParams {
     protected spiral_factory = new Spiral_Top_8();
 
     curr_n = 11;
+
+    auto_change_time_sec = 5;
+    auto_change_time2_sec = 10;
+    no_auto_change_after_click_sec = 10;
 
     protected setup_camera() {
         this.camera = new ArcRotateCamera(
@@ -27,13 +31,14 @@ export class SpiralViewTop8 extends SpiralViewBase implements ISpiralParams {
         // this.camera.upperBetaLimit = Math.PI;
         // this.camera.lowerBetaLimit = Math.PI;
 
-        this.camera.useAutoRotationBehavior = true;
+        this.camera.useAutoRotationBehavior = false;
 // camera.rotation = new Vector3(0,0,1);
 
-        this.camera.autoRotationBehavior.idleRotationSpeed = -0.05;
-        this.camera.autoRotationBehavior.idleRotationWaitTime = 0;
+        // this.camera.autoRotationBehavior.idleRotationSpeed = -0.05;
+        // this.camera.autoRotationBehavior.idleRotationSpeed = -0.15;
+        /*this.camera.autoRotationBehavior.idleRotationWaitTime = 0;
         this.camera.autoRotationBehavior.zoomStopsAnimation = false;
-        this.camera.inputs.clear();
+        this.camera.inputs.clear();*/
 
         this.light = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(0, 0, -1), this.scene);
         this.light.diffuse = new BABYLON.Color3(1, 1, 1);

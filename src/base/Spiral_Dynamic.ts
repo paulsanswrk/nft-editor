@@ -1,0 +1,88 @@
+import {Spiral_Base, Spiral_Config} from "./Spiral_Base";
+import {Cos, Power, Sech, Sin, Tanh} from "../CommonMath";
+import {solve} from "@bluemath/linalg";
+import {NDArray} from "@bluemath/common";
+
+// import {NDArray, solve} from "vectorious";
+
+export interface Spiral_Dynamic_Config extends Spiral_Config {
+    // n_config?: number;
+    m2?: number;
+    z_Irreg?: number;
+    at0?: number;
+    at4?: number;
+    cTanh?: number;
+    u1?: number;
+    u2?: number;
+}
+
+export class Spiral_Dynamic extends Spiral_Base {
+    public m1: number = 15.6;
+
+    get id(): string {
+        return `m1_${this.m1}_m2_${this.m2}`;
+    }
+
+    static readonly factory = new Spiral_Dynamic();
+
+    create_spiral(config: Spiral_Dynamic_Config): Spiral_Dynamic {
+        let spiral = new Spiral_Dynamic();
+        spiral.calc_cc();
+        spiral.calc_points();
+        return spiral;
+    }
+
+    public get_config(): Spiral_Dynamic_Config {
+        return {m1: this.m1, m2: this.m2, z_Irreg: this.z_Irreg, at0: this.at0, at4: this.at4, cTanh: this.cTanh, u1: this.u1, u2: this.u2};
+    }
+
+    public set_config(config: Spiral_Dynamic_Config) {
+        if (config.m1 !== undefined) this.m1 = config.m1;
+        if (config.m2 !== undefined) this.m2 = config.m2;
+        if (config.z_Irreg !== undefined) this.z_Irreg = config.z_Irreg;
+        if (config.at0 !== undefined) this.at0 = config.at0;
+        if (config.at4 !== undefined) this.at4 = config.at4;
+        if (config.cTanh !== undefined) this.cTanh = config.cTanh;
+        if (config.u1 !== undefined) this.u1 = config.u1;
+        if (config.u2 !== undefined) this.u2 = config.u2;
+
+        this.calc_cc();
+        this.calc_points();
+    }
+
+    protected calc_cc() {
+        function List(...elements: any[]) {
+            return elements
+        }
+
+        const m1 = this.m1;
+        const m2 = this.m2;
+        const u1 = this.u1;
+        const u2 = this.u2;
+        const at0 = this.at0;
+        const at4 = this.at4;
+
+        const zIrreg = this.z_Irreg;
+        const cTanh = this.cTanh;
+
+        const lp = List(List(1, at0, Power(at0, 2), Power(at0, 3), 0, 0, 0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 1, at0, Power(at0, 2), Power(at0, 3), 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0, 0, 0, 1, at0, Power(at0, 2), Power(at0, 3)),
+            List(0, 1, 2 * at0, 3 * Power(at0, 2), 0, 0, 0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 0, 1, 2 * at0, 3 * Power(at0, 2), 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2 * at0, 3 * Power(at0, 2)),
+            List(1, at4, Power(at4, 2), Power(at4, 3), 0, 0, 0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 1, at4, Power(at4, 2), Power(at4, 3), 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0, 0, 0, 1, at4, Power(at4, 2), Power(at4, 3)),
+            List(0, 1, 2 * at4, 3 * Power(at4, 2), 0, 0, 0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 0, 1, 2 * at4, 3 * Power(at4, 2), 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2 * at4, 3 * Power(at4, 2)));
+
+        const rp = List(0, 0, zIrreg * Sin(m1 * u1), -2 * (1 - Cos(m1 * u1) / m2) * Sin(u1), -2 * Cos(u1) * (1 - Cos(m1 * u1) / m2), -0.25 * (cTanh * u1) - m1 * zIrreg * Cos(m1 * u1), (1 - Cos(m1 * u2) / m2) * Sin(u2) * Tanh(2 * (-u1 + u2)),
+            Cos(u2) * (1 - Cos(m1 * u2) / m2) * Tanh(2 * (-u1 + u2)), zIrreg * Sin(m1 * u2) + (u2 * Tanh(cTanh * (-u1 + u2))) / 4.,
+            -2 * (1 - Cos(m1 * u2) / m2) * Power(Sech(2 * (-u1 + u2)), 2) * Sin(u2) - Cos(u2) * (1 - Cos(m1 * u2) / m2) * Tanh(2 * (-u1 + u2)) - (m1 * Sin(u2) * Sin(m1 * u2) * Tanh(2 * (-u1 + u2))) / m2,
+            -2 * Cos(u2) * (1 - Cos(m1 * u2) / m2) * Power(Sech(2 * (-u1 + u2)), 2) + (1 - Cos(m1 * u2) / m2) * Sin(u2) * Tanh(2 * (-u1 + u2)) - (m1 * Cos(u2) * Sin(m1 * u2) * Tanh(2 * (-u1 + u2))) / m2,
+            -(m1 * zIrreg * Cos(m1 * u2)) - (cTanh * u2 * Power(Sech(cTanh * (-u1 + u2)), 2)) / 4. - Tanh(cTanh * (-u1 + u2)) / 4.);
+
+        let A = new NDArray(lp);
+        let X = new NDArray(rp);
+        solve(A, X);
+
+        const cc = X.toArray();
+
+        this.set_cc(cc);
+    }
+
+}

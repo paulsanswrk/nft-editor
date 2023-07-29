@@ -176,7 +176,7 @@ export default class SceneGUI {
                     const n = n_item;
 
                     button.onPointerClickObservable.add(() => {
-                        this.params.switch_spiral_to(n);
+                        this.params.switch_spiral_to({n_config: n});
                     });
 
                     n_item++;

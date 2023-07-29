@@ -10,6 +10,10 @@ export function Tanh(t) {
     return Math.tanh(t);
 }
 
+export function Sech(t) {
+    return 1 / Math.cosh(t);
+}
+
 export function Power(t, n) {
     return Math.pow(t, n);
 }
