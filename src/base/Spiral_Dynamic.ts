@@ -14,6 +14,8 @@ export interface Spiral_Dynamic_Config extends Spiral_Config {
     cTanh?: number;
     u1?: number;
     u2?: number;
+    offsetZ?: number;
+    offsetR?: number;
 }
 
 export class Spiral_Dynamic extends Spiral_Base {
@@ -29,11 +31,12 @@ export class Spiral_Dynamic extends Spiral_Base {
         let spiral = new Spiral_Dynamic();
         spiral.calc_cc();
         spiral.calc_points();
+
         return spiral;
     }
 
     public get_config(): Spiral_Dynamic_Config {
-        return {m1: this.m1, m2: this.m2, z_Irreg: this.z_Irreg, at0: this.at0, at4: this.at4, cTanh: this.cTanh, u1: this.u1, u2: this.u2};
+        return {m1: this.m1, m2: this.m2, z_Irreg: this.z_Irreg, at0: this.at0, at4: this.at4, cTanh: this.cTanh, u1: this.u1, u2: this.u2, offsetZ: this.offsetZ, offsetR: this.offsetR};
     }
 
     public set_config(config: Spiral_Dynamic_Config) {
@@ -45,6 +48,8 @@ export class Spiral_Dynamic extends Spiral_Base {
         if (config.cTanh !== undefined) this.cTanh = config.cTanh;
         if (config.u1 !== undefined) this.u1 = config.u1;
         if (config.u2 !== undefined) this.u2 = config.u2;
+        if (config.offsetZ !== undefined) this.offsetZ = config.offsetZ;
+        if (config.offsetR !== undefined) this.offsetR = config.offsetR;
 
         this.calc_cc();
         this.calc_points();
@@ -64,17 +69,16 @@ export class Spiral_Dynamic extends Spiral_Base {
 
         const zIrreg = this.z_Irreg;
         const cTanh = this.cTanh;
+        const offsetZ = this.offsetZ;
+        const offsetR = this.offsetR;
 
-        const lp = List(List(1, at0, Power(at0, 2), Power(at0, 3), 0, 0, 0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 1, at0, Power(at0, 2), Power(at0, 3), 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0, 0, 0, 1, at0, Power(at0, 2), Power(at0, 3)),
-            List(0, 1, 2 * at0, 3 * Power(at0, 2), 0, 0, 0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 0, 1, 2 * at0, 3 * Power(at0, 2), 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2 * at0, 3 * Power(at0, 2)),
-            List(1, at4, Power(at4, 2), Power(at4, 3), 0, 0, 0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 1, at4, Power(at4, 2), Power(at4, 3), 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0, 0, 0, 1, at4, Power(at4, 2), Power(at4, 3)),
-            List(0, 1, 2 * at4, 3 * Power(at4, 2), 0, 0, 0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 0, 1, 2 * at4, 3 * Power(at4, 2), 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2 * at4, 3 * Power(at4, 2)));
+        const lp = List(List(1, at0, Power(at0, 2), Power(at0, 3), 0, 0, 0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 1, at0, Power(at0, 2), Power(at0, 3), 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0, 0, 0, 1, at0, Power(at0, 2), Power(at0, 3)), List(0, 1, 2 * at0, 3 * Power(at0, 2), 0, 0, 0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 0, 1, 2 * at0, 3 * Power(at0, 2), 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2 * at0, 3 * Power(at0, 2)),
+            List(1, at4, Power(at4, 2), Power(at4, 3), 0, 0, 0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 1, at4, Power(at4, 2), Power(at4, 3), 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0, 0, 0, 1, at4, Power(at4, 2), Power(at4, 3)), List(0, 1, 2 * at4, 3 * Power(at4, 2), 0, 0, 0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 0, 1, 2 * at4, 3 * Power(at4, 2), 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2 * at4, 3 * Power(at4, 2)));
 
-        const rp = List(0, 0, zIrreg * Sin(m1 * u1), -2 * (1 - Cos(m1 * u1) / m2) * Sin(u1), -2 * Cos(u1) * (1 - Cos(m1 * u1) / m2), -0.25 * (cTanh * u1) - m1 * zIrreg * Cos(m1 * u1), (1 - Cos(m1 * u2) / m2) * Sin(u2) * Tanh(2 * (-u1 + u2)),
-            Cos(u2) * (1 - Cos(m1 * u2) / m2) * Tanh(2 * (-u1 + u2)), zIrreg * Sin(m1 * u2) + (u2 * Tanh(cTanh * (-u1 + u2))) / 4.,
-            -2 * (1 - Cos(m1 * u2) / m2) * Power(Sech(2 * (-u1 + u2)), 2) * Sin(u2) - Cos(u2) * (1 - Cos(m1 * u2) / m2) * Tanh(2 * (-u1 + u2)) - (m1 * Sin(u2) * Sin(m1 * u2) * Tanh(2 * (-u1 + u2))) / m2,
-            -2 * Cos(u2) * (1 - Cos(m1 * u2) / m2) * Power(Sech(2 * (-u1 + u2)), 2) + (1 - Cos(m1 * u2) / m2) * Sin(u2) * Tanh(2 * (-u1 + u2)) - (m1 * Cos(u2) * Sin(m1 * u2) * Tanh(2 * (-u1 + u2))) / m2,
-            -(m1 * zIrreg * Cos(m1 * u2)) - (cTanh * u2 * Power(Sech(cTanh * (-u1 + u2)), 2)) / 4. - Tanh(cTanh * (-u1 + u2)) / 4.);
+        const rp = List((1 - Cos(m1 * u1) / m2) * Sin(u1) * Tanh(2 * offsetR), Cos(u1) * (1 - Cos(m1 * u1) / m2) * Tanh(2 * offsetR), zIrreg * Sin(m1 * u1) + (u1 * Tanh(cTanh * offsetZ)) / 4., -2 * (1 - Cos(m1 * u1) / m2) * Power(Sech(2 * offsetR), 2) * Sin(u1) - Cos(u1) * (1 - Cos(m1 * u1) / m2) * Tanh(2 * offsetR) - (m1 * Sin(u1) * Sin(m1 * u1) * Tanh(2 * offsetR)) / m2,
+            -2 * Cos(u1) * (1 - Cos(m1 * u1) / m2) * Power(Sech(2 * offsetR), 2) + (1 - Cos(m1 * u1) / m2) * Sin(u1) * Tanh(2 * offsetR) - (m1 * Cos(u1) * Sin(m1 * u1) * Tanh(2 * offsetR)) / m2, -(m1 * zIrreg * Cos(m1 * u1)) - (cTanh * u1 * Power(Sech(cTanh * offsetZ), 2)) / 4. - Tanh(cTanh * offsetZ) / 4., (1 - Cos(m1 * u2) / m2) * Sin(u2) * Tanh(2 * (offsetR - u1 + u2)),
+            Cos(u2) * (1 - Cos(m1 * u2) / m2) * Tanh(2 * (offsetR - u1 + u2)), zIrreg * Sin(m1 * u2) + (u2 * Tanh(cTanh * (offsetZ - u1 + u2))) / 4., -2 * (1 - Cos(m1 * u2) / m2) * Power(Sech(2 * (offsetR - u1 + u2)), 2) * Sin(u2) - Cos(u2) * (1 - Cos(m1 * u2) / m2) * Tanh(2 * (offsetR - u1 + u2)) - (m1 * Sin(u2) * Sin(m1 * u2) * Tanh(2 * (offsetR - u1 + u2))) / m2,
+            -2 * Cos(u2) * (1 - Cos(m1 * u2) / m2) * Power(Sech(2 * (offsetR - u1 + u2)), 2) + (1 - Cos(m1 * u2) / m2) * Sin(u2) * Tanh(2 * (offsetR - u1 + u2)) - (m1 * Cos(u2) * Sin(m1 * u2) * Tanh(2 * (offsetR - u1 + u2))) / m2, -(m1 * zIrreg * Cos(m1 * u2)) - (cTanh * u2 * Power(Sech(cTanh * (offsetZ - u1 + u2)), 2)) / 4. - Tanh(cTanh * (offsetZ - u1 + u2)) / 4.);
 
         let A = new NDArray(lp);
         let X = new NDArray(rp);

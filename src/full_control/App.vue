@@ -38,7 +38,9 @@ const editor_models: { [k: string]: EditorModel } = {
     steps: [1],
   },
   u1: {param_name: 'u1', component: EditorNumeric, param_get: () => spiral_view.params.u1, param_set: (u1) => set_numeric_param({u1}), param_min: -15, param_max: 17.5},
-  u2: {param_name: 'u2', component: EditorNumeric, param_get: () => spiral_view.params.u2, param_set: (u2) => set_numeric_param({u2}), param_min: 18, param_max: 50}
+  u2: {param_name: 'u2', component: EditorNumeric, param_get: () => spiral_view.params.u2, param_set: (u2) => set_numeric_param({u2}), param_min: 18, param_max: 50},
+  offsetZ: {param_name: 'offsetZ', component: EditorNumeric, param_get: () => spiral_view.params.offsetZ, param_set: (offsetZ) => set_numeric_param({offsetZ}), param_min: -30, param_max: 30},
+  offsetR: {param_name: 'offsetR', component: EditorNumeric, param_get: () => spiral_view.params.offsetR, param_set: (offsetR) => set_numeric_param({offsetR}), param_min: -10, param_max: 10},
 };
 
 const filename = ref(Date.now().toString());
@@ -76,10 +78,11 @@ const file_browser = ref(null);
 
 function file_select(file: GDriveFile) {
   filename.value = file.name;
+  const defaults = spiral_view.spiral_factory.get_config();
 
   for (const k in editor_models)
     if (file.properties[k] !== undefined) {
-      editor_models[k].param_set(Number(file.properties[k]));
+      editor_models[k].param_set(Number(file.properties[k] ?? defaults[k]));
       editor_refs.value[k]?.update();
     }
 
@@ -94,7 +97,7 @@ const editor_refs = ref({});
 
 <template>
   <div class="">
-    <header class="position-fixed">
+    <header class="position-fixed" style="z-index: 10; background: #000">
 
       <div class="mb-1 text-white">
         <Inplace :closable="true">
@@ -124,8 +127,8 @@ const editor_refs = ref({});
       />
     </span>
 
-
     </header>
+
 
     <div id="editors" class="overflow-auto">
       <component v-for="(editor, n) in sortBy(editors, e=>e.param_name)" :is="editor.component" :key="editor.param_name"

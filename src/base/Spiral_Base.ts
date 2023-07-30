@@ -17,11 +17,13 @@ export abstract class Spiral_Base {
 
     public z_Irreg: number = 0.15;
     public cTanh: number = 1;
+    public offsetZ: number = 0;
+    public offsetR: number = 0;
     // readonly rot_G: number = Math.PI / 10;
 
     public u1 = 0.21;
     public u2 = 25;
-    protected readonly G_steps = 1200;
+    protected readonly G_steps = 2000;
     protected readonly S_steps = 400;
     protected readonly hueG = 0.032;
 
@@ -53,12 +55,12 @@ export abstract class Spiral_Base {
     spiralPoints = new Array<Vector3>(this.G_steps + this.S_steps);
 
     private Gmod(t) {
-        return (1 - Math.cos(this.m1 * t) / this.m2) * Math.tanh(2 * (t - this.u1));
+        return (1 - Math.cos(this.m1 * t) / this.m2) * Math.tanh(2 * (t - this.u1 + this.offsetR));
     }
 
-    private G(t) {
+    protected G(t) {
         //BJS implements left-handed coordinate system, so negate x
-        return [-this.Gmod(t) * Math.sin(t), Math.cos(t) * this.Gmod(t), this.z_Irreg * Math.sin(this.m1 * t) + (t * Math.tanh(this.cTanh * (t - this.u1))) / 4];
+        return [-this.Gmod(t) * Math.sin(t), Math.cos(t) * this.Gmod(t), this.z_Irreg * Math.sin(this.m1 * t) + (t * Math.tanh(this.cTanh * (t - this.u1 + this.offsetZ))) / 4];
     }
 
     private z_max = this.G(this.u2)[2];
