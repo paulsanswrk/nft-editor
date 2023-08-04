@@ -29,6 +29,7 @@ export default abstract class SpiralViewBase {
     do_transition = false;
     spirals: Spiral_Base[];
     public rot_cnt: number = 6;
+    public tube_radius: number = 0.006;
 
     manager = new BABYLON.MorphTargetManager();
     // meshes: { [k: string]: Mesh[] } = {};
@@ -100,7 +101,7 @@ export default abstract class SpiralViewBase {
 
         const mesh: Mesh = MeshBuilder.CreateTube(`spiral_${spiral.id}`, {
             path: spiral.spiralPoints,
-            radius: 0.006,
+            radius: this.tube_radius,
             updatable: true,
             tessellation: 4,
         }, this.scene);

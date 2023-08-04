@@ -15,21 +15,25 @@ export class SpiralViewFullControl extends SpiralViewBase {
         return this.spiral ?? this.spiral_factory;
     }
 
+    readonly defaults = {fov: 0.8732, beta: 0, camH: 6.96};
+
     curr_n = 0;
 
     protected setup_camera() {
         this.camera = new ArcRotateCamera(
             "camera",
             Math.PI / 2,
-            0,
-            6.96,
+            this.defaults.beta,
+            this.defaults.camH,
             new Vector3(0, 0, 3),
             this.scene);
 
         this.camera.upVector = new Vector3(0, 0, 1);
         // this.camera.lowerBetaLimit = 0;
+        this.camera.lowerBetaLimit = -10;
+        this.camera.upperBetaLimit = 10;
         this.camera.inertia = 0;
-        this.camera.fov = 0.8732;
+        this.camera.fov = this.defaults.fov;
         // this.camera.upperBetaLimit = Math.PI;
         // this.camera.lowerBetaLimit = Math.PI;
 
@@ -66,6 +70,7 @@ export class SpiralViewFullControl extends SpiralViewBase {
     update_spiral() {
         const mesh: Mesh = MeshBuilder.CreateTube(`spiral_${this.spiral.id}`, {
             path: this.spiral.spiralPoints,
+            radius: this.tube_radius,
             instance: this.meshes[0][0],
         }, this.scene);
     }

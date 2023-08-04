@@ -12,6 +12,9 @@ const dialog_opened = ref(false)
 defineEmits(['file_select'])
 
 const responsiveOptions = ref([
+  {breakpoint: '1801px', numVisible: 10},
+  {breakpoint: '1601px', numVisible: 8},
+  {breakpoint: '1201px', numVisible: 6},
   {breakpoint: '991px', numVisible: 4},
   {breakpoint: '767px', numVisible: 3},
   {breakpoint: '575px', numVisible: 1}
@@ -44,7 +47,7 @@ function showDialogMaximized(dialog: any) {
 
     <Dialog v-if="files.length" :visible="dialog_opened" modal maximizable header="Open file" :style="{ width: '50vw' }" @update:visible="close">
       <div class="card md:flex md:justify-content-center">
-        <Galleria :value="files" :responsiveOptions="responsiveOptions" :numVisible="5" :showItemNavigators="true" containerStyle="background: #000;">
+        <Galleria :value="files" :responsiveOptions="responsiveOptions" :numVisible="12" :showItemNavigators="true" containerStyle="background: #000;">
           <template #item="slotProps:{item:GDriveFile}">
             <div class="position-relative">
               <div class="position-absolute d-flex align-items-center justify-content-center w-100" style="top:15px;">
