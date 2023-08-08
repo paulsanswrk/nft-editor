@@ -8,6 +8,7 @@ import {NDArray} from "@bluemath/common";
 export interface Spiral_Dynamic_Config extends Spiral_Config {
     // n_config?: number;
     m2?: number;
+    rot_cnt?: number;
     z_Irreg?: number;
     at0?: number;
     at4?: number;
@@ -16,6 +17,7 @@ export interface Spiral_Dynamic_Config extends Spiral_Config {
     u2?: number;
     offsetZ?: number;
     offsetR?: number;
+    tube_radius?: number;
 }
 
 export class Spiral_Dynamic extends Spiral_Base {
@@ -24,6 +26,8 @@ export class Spiral_Dynamic extends Spiral_Base {
     get id(): string {
         return `m1_${this.m1}_m2_${this.m2}`;
     }
+
+    type: string = 'dynamic';
 
     static readonly factory = new Spiral_Dynamic();
 
@@ -36,12 +40,16 @@ export class Spiral_Dynamic extends Spiral_Base {
     }
 
     public get_config(): Spiral_Dynamic_Config {
-        return {m1: this.m1, m2: this.m2, z_Irreg: this.z_Irreg, at0: this.at0, at4: this.at4, cTanh: this.cTanh, u1: this.u1, u2: this.u2, offsetZ: this.offsetZ, offsetR: this.offsetR};
+        return {
+            m1: this.m1, m2: this.m2, z_Irreg: this.z_Irreg, at0: this.at0, at4: this.at4, cTanh: this.cTanh, u1: this.u1, u2: this.u2,
+            offsetZ: this.offsetZ, offsetR: this.offsetR, rot_cnt: this.rot_cnt, tube_radius: this.tube_radius
+        };
     }
 
     public set_config(config: Spiral_Dynamic_Config) {
         if (config.m1 !== undefined) this.m1 = config.m1;
         if (config.m2 !== undefined) this.m2 = config.m2;
+        if (config.rot_cnt !== undefined) this.rot_cnt = config.rot_cnt;
         if (config.z_Irreg !== undefined) this.z_Irreg = config.z_Irreg;
         if (config.at0 !== undefined) this.at0 = config.at0;
         if (config.at4 !== undefined) this.at4 = config.at4;
@@ -50,6 +58,7 @@ export class Spiral_Dynamic extends Spiral_Base {
         if (config.u2 !== undefined) this.u2 = config.u2;
         if (config.offsetZ !== undefined) this.offsetZ = config.offsetZ;
         if (config.offsetR !== undefined) this.offsetR = config.offsetR;
+        if (config.tube_radius !== undefined) this.tube_radius = config.tube_radius;
 
         this.calc_cc();
         this.calc_points();

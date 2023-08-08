@@ -11,6 +11,7 @@ export interface Spiral_Config {
 export abstract class Spiral_Base {
     public m1: number = 1.19;
     public m2: number = 4.5;
+    public rot_cnt: number = 6;
 
     public at0: number = 4.8;
     public at4: number = 8.8;
@@ -19,10 +20,11 @@ export abstract class Spiral_Base {
     public cTanh: number = 1;
     public offsetZ: number = 0;
     public offsetR: number = 0;
-    // readonly rot_G: number = Math.PI / 10;
-
     public u1 = 0.21;
     public u2 = 25;
+
+    public tube_radius: number = 0.006;
+
     protected readonly G_steps = 2000;
     protected readonly S_steps = 400;
     protected readonly hueG = 0.032;
@@ -42,9 +44,13 @@ export abstract class Spiral_Base {
 
     public abstract get id(): string;
 
+    type: string = 'base';
+
     protected abstract set_config(config: Spiral_Config);
 
     abstract get_config(): Spiral_Config;
+
+    public param_limits: { [k: string]: { lo?: number, hi?: number } } = {};
 
     protected get dt() {
         return (this.at4 - this.at0) / this.S_steps;
@@ -53,6 +59,10 @@ export abstract class Spiral_Base {
     public abstract create_spiral(config: Spiral_Config): Spiral_Base;
 
     spiralPoints = new Array<Vector3>(this.G_steps + this.S_steps);
+
+    protected transform(v: number[]): number[] {
+        return v;
+    }
 
     private Gmod(t) {
         return (1 - Math.cos(this.m1 * t) / this.m2) * Math.tanh(2 * (t - this.u1 + this.offsetR));
@@ -71,20 +81,26 @@ export abstract class Spiral_Base {
             -(this.cx0 + this.cx1 * t + this.cx2 * Math.pow(t, 2) + this.cx3 * Math.pow(t, 3)),
             this.cy0 + this.cy1 * t + this.cy2 * Math.pow(t, 2) + this.cy3 * Math.pow(t, 3),
             this.cz0 + this.cz1 * t + this.cz2 * Math.pow(t, 2) + this.cz3 * Math.pow(t, 3),
-        ]
+        ];
     }
 
     public calc_points(full = true) {
         let p = 0;
         const du = (this.u2 - this.u1) / this.G_steps;
         for (let i = 0, t = this.u1; i < this.G_steps; i++, t += du) {
-            this.spiralPoints[p++] = new Vector3(...this.G(t));
+            let v = this.G(t);
+            v = this.transform(v);
+            this.spiralPoints[p++] = new Vector3(...v);
         }
 
         if (full)
             for (let t = this.at4; t >= this.at0; t -= this.dt) {
-                this.spiralPoints[p++] = new Vector3(...this.S(t));
+                let v = this.S(t);
+                v = this.transform(v);
+                this.spiralPoints[p++] = new Vector3(...v);
             }
+
+        // console.log(this.spiralPoints);
 
     }
 

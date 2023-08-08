@@ -8,6 +8,7 @@ import "primevue/resources/themes/bootstrap4-dark-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import {SpiralViewFullControl_instance} from "./SpiralViewFullControl";
 import {gdrive_init} from "../common/gdrive";
+import {useRouter} from 'vue-router';
 
 globalThis.__VUE_OPTIONS_API__ = true;
 globalThis.__VUE_PROD_DEVTOOLS__ = false;
@@ -15,8 +16,9 @@ globalThis.__VUE_PROD_DEVTOOLS__ = false;
 
 const app = createApp(App);
 
-
 app.use(PrimeVue);
+const router = useRouter();
+app.use(router);
 app.mount('#app')
 
 SpiralViewFullControl_instance.init();

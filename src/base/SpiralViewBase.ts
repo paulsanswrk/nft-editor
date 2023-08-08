@@ -28,8 +28,6 @@ export default abstract class SpiralViewBase {
     new_n: number;
     do_transition = false;
     spirals: Spiral_Base[];
-    public rot_cnt: number = 6;
-    public tube_radius: number = 0.006;
 
     manager = new BABYLON.MorphTargetManager();
     // meshes: { [k: string]: Mesh[] } = {};
@@ -101,7 +99,7 @@ export default abstract class SpiralViewBase {
 
         const mesh: Mesh = MeshBuilder.CreateTube(`spiral_${spiral.id}`, {
             path: spiral.spiralPoints,
-            radius: this.tube_radius,
+            radius: spiral.tube_radius,
             updatable: true,
             tessellation: 4,
         }, this.scene);
@@ -134,9 +132,9 @@ export default abstract class SpiralViewBase {
     }
 
     protected create_rotated_clones(spiral: Spiral_Base, mesh: Mesh, spiral_target_n: number = 0) {
-        for (let n_rot = 1; n_rot < this.rot_cnt; n_rot++) {
+        for (let n_rot = 1; n_rot < spiral.rot_cnt; n_rot++) {
             const clone = mesh.clone();
-            clone.rotate(new Vector3(0, 0, 1), 2 * Math.PI / this.rot_cnt * n_rot).name = `${mesh.name} rot ${n_rot}`;
+            clone.rotate(new Vector3(0, 0, 1), 2 * Math.PI / spiral.rot_cnt * n_rot).name = `${mesh.name} rot ${n_rot}`;
             this.meshes[spiral_target_n].push(clone);
         }
     }

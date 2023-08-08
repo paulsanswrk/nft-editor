@@ -1,18 +1,22 @@
 import SpiralViewBase from "../base/SpiralViewBase";
-import {Spiral_Dynamic, Spiral_Dynamic_Config} from "../base/Spiral_Dynamic";
+import {Spiral_Dynamic} from "../base/Spiral_Dynamic";
 import {ArcRotateCamera} from "@babylonjs/core/Cameras/arcRotateCamera";
 import {Vector3} from "@babylonjs/core/Maths/math.vector";
 import * as BABYLON from "@babylonjs/core";
 import {Mesh} from "@babylonjs/core";
 import {MeshBuilder} from "@babylonjs/core/Meshes/meshBuilder";
+import {Spiral_Transformed} from "../base/Spiral_Transformed";
 
 export class SpiralViewFullControl extends SpiralViewBase {
     spiral_factory = new Spiral_Dynamic();
     spiral: Spiral_Dynamic;
+    shadow_spiral: Spiral_Transformed;
     spirals: Spiral_Dynamic[] = [Spiral_Dynamic.factory.create_spiral({})];
 
+    active_spiral: Spiral_Dynamic;
+
     get params() {
-        return this.spiral ?? this.spiral_factory;
+        return this.active_spiral ?? this.spiral_factory;
     }
 
     readonly defaults = {fov: 0.8732, beta: 0, camH: 6.96};
@@ -47,31 +51,46 @@ export class SpiralViewFullControl extends SpiralViewBase {
 
 
     protected init_spirals() {
-        this.spiral = this.spiral_factory.create_spiral({});
+        this.active_spiral = this.spiral = this.spiral_factory.create_spiral({});
     }
 
-    switch_spiral_to(config: Spiral_Dynamic_Config) {
-        // console.log('switch to', n);
-        this.spiral = this.spiral_factory.create_spiral(config);
+    public create_shadow_spiral() {
+        if (!this.shadow_spiral) {
+            this.shadow_spiral = (new Spiral_Transformed()).create_spiral({});
+            this.create_spiral_mesh(this.shadow_spiral, true, 1);
+        } else
+            this.meshes[1].forEach(m => m.setEnabled(true));
+    }
 
-        this.create_spiral_mesh(this.spiral, true, 1);
-        this.curr_n = 0;
-        this.new_n = 1;
-        this.do_transition = true;
+    public hide_shadow_spiral() {
+        this.meshes[1]?.forEach(m => m.setEnabled(false));
+    }
 
+    public set_active_spiral(name: 'main' | 'shadow') {
+        switch (name) {
+            case "main":
+                this.active_spiral = this.spiral;
+                break;
+            case "shadow":
+                this.active_spiral = this.shadow_spiral;
+                break;
+        }
     }
 
     public change_rot_cnt(rot_cnt: number) {
-        this.rot_cnt = rot_cnt;
-        this.remove_clones(0);
-        this.create_rotated_clones(this.spiral, this.meshes[0][0]);
+        const nMesh = this.active_spiral.type === 'dynamic' ? 0 : 1;
+
+        this.remove_clones(nMesh);
+        this.create_rotated_clones(this.active_spiral, this.meshes[nMesh][0], nMesh);
     }
 
     update_spiral() {
+        const nMesh = this.active_spiral.type === 'dynamic' ? 0 : 1;
+
         const mesh: Mesh = MeshBuilder.CreateTube(`spiral_${this.spiral.id}`, {
-            path: this.spiral.spiralPoints,
-            radius: this.tube_radius,
-            instance: this.meshes[0][0],
+            path: this.active_spiral.spiralPoints,
+            radius: this.active_spiral.tube_radius,
+            instance: this.meshes[nMesh][0],
         }, this.scene);
     }
 

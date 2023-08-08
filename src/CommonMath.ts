@@ -18,6 +18,10 @@ export function Power(t, n) {
     return Math.pow(t, n);
 }
 
+export function Sqrt(t) {
+    return Math.pow(t, 0.5);
+}
+
 export function hsvToHsl(h, s, v, l = v * (1 - (s / 2))) {
     return [h, l === 0 || l === 1 ? 0 : (v - l) / Math.min(l, 1 - l), l];
 }
