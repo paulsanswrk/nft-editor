@@ -4,16 +4,14 @@ import "primevue/resources/themes/bootstrap4-light-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import 'primeicons/primeicons.css';
 
-import {nextTick, ref, Ref} from "vue";
+import {nextTick, ref, Ref, watch} from "vue";
 import {SpiralViewFullControl_instance} from "./SpiralViewFullControl";
 import {EditorModel, GDriveFile} from "./common";
 import EditorNumeric from "./components/EditorNumeric.vue";
-import Dropdown from 'primevue/dropdown';
 import {forIn, mapValues, pull, sortBy} from "lodash";
 import Button from "primevue/button";
 import {gdrive_save} from "../common/gdrive";
 import FileBrowser from "./components/FileBrowser.vue";
-import SplitButton from 'primevue/splitbutton';
 import Inplace from 'primevue/inplace';
 import InputText from 'primevue/inputtext';
 import Menubar from 'primevue/menubar';
@@ -34,9 +32,9 @@ const editor_models: { [k: string]: EditorModel } = {
   m2: {param_name: 'm2', component: EditorNumeric, param_get: () => params.value.m2, param_set: (m2) => set_numeric_param({m2}), param_min: 0.1, param_max: 30},
   z_Irreg: {param_name: 'z_Irreg', component: EditorNumeric, param_get: () => params.value.z_Irreg, param_set: (z_Irreg) => set_numeric_param({z_Irreg}), param_min: -6, param_max: 6},
   cTanh: {param_name: 'cTanh', component: EditorNumeric, param_get: () => params.value.cTanh, param_set: (cTanh) => set_numeric_param({cTanh}), param_min: -1, param_max: 1},
-  at0: {param_name: 'at0', component: EditorNumeric, param_get: () => params.value.at0, param_set: (at0) => set_numeric_param({at0}), param_min: -15, param_max: 8},
-  at4: {param_name: 'at4', component: EditorNumeric, param_get: () => params.value.at4, param_set: (at4) => set_numeric_param({at4}), param_min: 8.1, param_max: 30},
-  camH: {param_name: 'camH', component: EditorNumeric, param_get: () => spiral_view.camera_h, param_set: (camH) => spiral_view.camera_h = camH, param_min: -20, param_max: 20},
+  at0: {param_name: 'at0', component: EditorNumeric, param_get: () => params.value.at0, param_set: (at0) => set_numeric_param({at0}), param_min: -25, param_max: 8},
+  at4: {param_name: 'at4', component: EditorNumeric, param_get: () => params.value.at4, param_set: (at4) => set_numeric_param({at4}), param_min: 8.1, param_max: 50},
+  camH: {param_name: 'camH', component: EditorNumeric, param_get: () => spiral_view.camera_h, param_set: (camH) => spiral_view.camera_h = camH, param_min: -30, param_max: 30},
   fov: {param_name: 'fov', component: EditorNumeric, param_get: () => spiral_view.camera_fov, param_set: (fov) => spiral_view.camera_fov = fov, param_min: 0.05, param_max: 5},
   rot_cnt: {
     param_name: 'rot_cnt', component: EditorNumeric, param_get: () => params.value.rot_cnt, param_set: (rot_cnt) => {
@@ -47,10 +45,10 @@ const editor_models: { [k: string]: EditorModel } = {
       spiral_view.change_rot_cnt(rot_cnt);
     }, param_min: 1, param_max: 20, steps: [1],
   },
-  u1: {param_name: 'u1', component: EditorNumeric, param_get: () => params.value.u1, param_set: (u1) => set_numeric_param({u1}), param_min: -15, param_max: 17.5},
-  u2: {param_name: 'u2', component: EditorNumeric, param_get: () => params.value.u2, param_set: (u2) => set_numeric_param({u2}), param_min: 18, param_max: 50},
-  offsetZ: {param_name: 'offsetZ', component: EditorNumeric, param_get: () => params.value.offsetZ, param_set: (offsetZ) => set_numeric_param({offsetZ}), param_min: -30, param_max: 30},
-  offsetR: {param_name: 'offsetR', component: EditorNumeric, param_get: () => params.value.offsetR, param_set: (offsetR) => set_numeric_param({offsetR}), param_min: -10, param_max: 10},
+  u1: {param_name: 'u1', component: EditorNumeric, param_get: () => params.value.u1, param_set: (u1) => set_numeric_param({u1}), param_min: -40, param_max: 17.5},
+  u2: {param_name: 'u2', component: EditorNumeric, param_get: () => params.value.u2, param_set: (u2) => set_numeric_param({u2}), param_min: 18, param_max: 60},
+  offsetZ: {param_name: 'offsetZ', component: EditorNumeric, param_get: () => params.value.offsetZ, param_set: (offsetZ) => set_numeric_param({offsetZ}), param_min: -50, param_max: 30},
+  offsetR: {param_name: 'offsetR', component: EditorNumeric, param_get: () => params.value.offsetR, param_set: (offsetR) => set_numeric_param({offsetR}), param_min: -20, param_max: 10},
   // alpha: {param_name: 'alpha', component: EditorNumeric, param_get: () => spiral_view.camera.alpha, param_set: (alpha) => spiral_view.camera.alpha = alpha, param_min: -3, param_max: 3},
   beta: {param_name: 'beta', component: EditorNumeric, param_get: () => spiral_view.camera.beta, param_set: (beta) => spiral_view.camera.beta = beta, param_min: 0, param_max: 10},
   tube_radius: {
@@ -89,6 +87,20 @@ const opened = ref(mapValues(editor_models, x => true));
 
 const save_resolution = ref(1400);
 
+function get_config(): { [p: string]: any } {
+  return mapValues(editor_models, v => v.param_get() as any);
+}
+
+function set_config(config: { [p: string]: any }, update_editors: boolean = true) {
+  const defaults = spiral_view.spiral_factory.get_config();
+
+  for (const k in editor_models)
+    if (config[k] !== undefined) {
+      editor_models[k].param_set(Number(config[k] ?? defaults[k] ?? spiral_view.defaults[k]));
+      if (update_editors) editor_refs.value[k]?.update();
+    }
+}
+
 async function save() {
   const blob = await spiral_view.export_image(save_resolution.value);
 
@@ -97,7 +109,7 @@ async function save() {
 
   await nextTick();
 
-  let props = mapValues(editor_models, v => v.param_get() as any);
+  let props = get_config();
 
   if (shadow_spiral_enabled.value) {
     const shadow_spiral_props = spiral_view.shadow_spiral.get_config();
@@ -147,16 +159,11 @@ async function file_select(file: GDriveFile) {
   } else
     shadow_spiral_enabled.value = false;
 
-  const defaults = spiral_view.spiral_factory.get_config();
-
   change_active_spiral('main');
+
   await nextTick();
 
-  for (const k in editor_models)
-    if (file.properties[k] !== undefined) {
-      editor_models[k].param_set(Number(file.properties[k] ?? defaults[k] ?? spiral_view.defaults[k]));
-      editor_refs.value[k]?.update();
-    }
+  set_config(file.properties);
 
   await nextTick();
 
@@ -201,6 +208,103 @@ function change_active_spiral(name?: ('main' | 'shadow')) {
   forIn(editor_refs.value, e => e?.update());
 }
 
+const camera_speed = ref(0);
+const fps = ref(30);
+const duration = ref(10);
+const enable_morphing = ref(true);
+const playing_morphing = ref(false);
+const start_config: Ref<{ [p: string]: any } | null> = ref(null);
+const end_config: Ref<{ [p: string]: any } | null> = ref(null);
+
+watch(camera_speed, (v: number) => {
+      spiral_view.camera.useAutoRotationBehavior = !!v;
+      if (v) spiral_view.camera.autoRotationBehavior.idleRotationSpeed = v;
+    }
+);
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function toggle_playing_morphing() {
+  if (!start_config.value || !end_config.value) return;
+
+  playing_morphing.value = !playing_morphing.value;
+
+  if (!playing_morphing.value) return;
+
+  set_config(start_config.value);
+  const morphing_started_at = new Date().getTime();
+  const morphing_finishing_at = morphing_started_at + duration.value * 1000;
+  const dt = 1000 / fps.value;
+
+  let last_render_time = morphing_started_at;
+
+  while (playing_morphing.value) {
+    if (last_render_time + dt > new Date().getTime())
+      await sleep(last_render_time + dt - new Date().getTime());
+
+    const now = new Date().getTime();
+    const morphing_percent = (now - morphing_started_at) / (morphing_finishing_at - morphing_started_at);
+    playing_morphing.value = do_morphing_increment(morphing_percent);
+    last_render_time = new Date().getTime();
+  }
+}
+
+function do_morphing_increment(morphing_percent: number): boolean {
+  morphing_percent = Math.min(morphing_percent, 1);
+
+  const config = get_config();
+  for (const key in config) {
+    config[key] = start_config.value[key] + morphing_percent * (end_config.value[key] - start_config.value[key])
+  }
+  set_config(config, false);
+
+  if (morphing_percent >= 1) {
+    set_config(config, true);
+    return false;
+  }
+
+  return true;
+}
+
+async function render_sequence() {
+  {
+    const do_rotation = camera_speed.value !== 0;
+    const do_morphing = enable_morphing.value;
+    const bak_rot_speed = camera_speed.value;
+
+    if (do_rotation) {
+      camera_speed.value = 0;
+      spiral_view.camera.alpha = spiral_view.defaults.alpha;
+    }
+
+    let morphing_percent = 0;
+    const morphing_percent_step = 1 / (duration.value * fps.value);
+    const dt = 1 / fps.value;
+
+    await spiral_view.download_in_loop(v => {
+
+      if (do_rotation) {
+        //rot_speed is rad/sec
+        v.camera.alpha -= bak_rot_speed * dt;
+      }
+
+      if (do_morphing) do_morphing_increment(morphing_percent);
+
+      return (morphing_percent += morphing_percent_step) <= 1;
+    }, save_resolution.value, `${filename.value}_`);
+
+
+    if (do_rotation) {
+      camera_speed.value = bak_rot_speed;
+    }
+
+  }
+}
+
+const textarea_json = ref('');
+
 </script>
 
 <template>
@@ -233,6 +337,15 @@ function change_active_spiral(name?: ('main' | 'shadow')) {
             icon: 'pi pi-fw pi-wrench',
             items: [
                 { label: 'JSON', icon: 'pi pi-fw pi-file-export', command: ()=>dlg_json_visible=true },
+                { label: 'Download image', icon: 'pi pi-fw pi-download', command: ()=>spiral_view.download_image(filename, save_resolution) },
+                { class: 'camera_speed', },
+                { class: 'morphing', },
+                { class: 'duration', },
+                { class: 'fps', },
+                {
+                  label: 'Render sequence', icon: 'pi pi-fw pi-download',
+                  command: () => render_sequence()
+                },
             ]
         },
         { icon: 'pi pi-angle-double-down', command:()=>Object.keys(editor_models).forEach(k=>opened[k]=false) },
@@ -270,28 +383,45 @@ function change_active_spiral(name?: ('main' | 'shadow')) {
             <Checkbox v-model="shadow_spiral_enabled" @change.stop="toggle_shadow_spiral" :binary="true"/>
             Shadow
           </div>
+          <div v-else-if="slotProps.item.class == 'fps'" class="w-100">
+            <div class="mb-2 text-nowrap">FPS: {{ fps }}</div>
+            <Slider v-model="fps" @click.stop="() => {}" :min="5" :max="100" :step="1"/>
+          </div>
+          <div v-else-if="slotProps.item.class == 'camera_speed'" class="w-100">
+            <div class="mb-2 text-nowrap">Camera speed: {{ camera_speed }}
+              <i aria-label="Reset" class="pi pi-times float-right small" @click.stop="() => camera_speed = 0"/>
+            </div>
+            <Slider v-model="camera_speed" @click.stop="() => {}" :min="-0.5" :max="0.5" :step="0.01"/>
+          </div>
+          <div v-else-if="slotProps.item.class == 'duration'" class="w-100">
+            <div class="mb-2 text-nowrap">Duration: {{ duration }}</div>
+            <Slider v-model="duration" @click.stop="() => {}" :min="1" :max="120" :step="1"/>
+          </div>
+          <div v-else-if="slotProps.item.class == 'morphing'" class="w-100">
+            <div class="mb-2 text-nowrap d-flex align-items-center justify-content-between">Morphing
+              <div class="">
+                <Button icon="pi pi-play" :outlined="!playing_morphing" size="small" @click.stop="toggle_playing_morphing" class="mr-1"/>
+                <Button :icon="`pi ${enable_morphing? 'pi-eye' : 'pi-eye-slash'}`" outlined size="small" @click.stop="enable_morphing = !enable_morphing" class=""/>
+              </div>
+            </div>
+            <table class="w-100">
+              <tr>
+                <td class="text-nowrap">Start: <br/>
+                  <Button icon="pi pi-file-import" outlined size="small" @click.stop="start_config=get_config()" class="mr-1"/>
+                  <Button icon="pi pi-file-export" outlined size="small" :disabled="!start_config" @click.stop="set_config(start_config)" class=""/>
+                </td>
+                <td class="text-nowrap text-right">End: <br/>
+                  <Button icon="pi pi-file-import" outlined size="small" @click.stop="end_config=get_config()" class="mr-1"/>
+                  <Button icon="pi pi-file-export" outlined size="small" :disabled="!end_config" @click.stop="set_config(end_config)" class=""/>
+                </td>
+              </tr>
+            </table>
+          </div>
+
           <i :class="slotProps.item.icon + (slotProps.item.label? ' mr-2' : '')" v-else/>
         </template>
 
       </Menubar>
-
-
-      <span v-if="false" class="float-right">
-        <Button icon="pi pi-folder-open" outlined @click="file_browser.open()" class="mr-2"/>
-        <Button icon="pi pi-save" outlined @click="save" class="mr-2"/>
-        <Button icon="pi pi-angle-double-down" outlined @click="Object.keys(editor_models).forEach(k=>opened[k]=false)" class="mr-2"/>
-        <SplitButton
-            :model="[
-                { label: 'Reset Camera', icon: 'pi pi-compass', command: () => spiral_view.reset_camera() },
-                { label: 'Collapse Fine-TUne', icon: 'pi pi-angle-down', command: () => forIn(editor_refs, e=>e.collapse_fine_tune()) },
-                ]"
-            icon="pi pi-ellipsis-v" outlined class="mr-2"/>
-
-        <Dropdown placeholder="Add..."
-                  :options="all_params.filter(p=>!editors.some(e=>e.param_name === p))"
-                  @change="event => {editors.push(editor_models[event.value]); opened[event.value]=true}"
-        />
-    </span>
 
     </header>
 
@@ -310,7 +440,11 @@ function change_active_spiral(name?: ('main' | 'shadow')) {
     <FileBrowser ref="file_browser" @file_select="file_select"/>
 
     <Dialog v-model:visible="dlg_json_visible" modal maximizable header="JSON" content-style="height:70vh" :style="{ width: '100%' }">
-      <Textarea class="w-100 h-100" :value="JSON.stringify(mapValues(editor_models as any, v => String((v as any).param_get())))"/>
+      <div class="mb-2">
+        <Button label="Get" @click="textarea_json = JSON.stringify(get_config())" class="mr-2"/>
+        <Button label="Set" @click="set_config(JSON.parse(textarea_json))"/>
+      </div>
+      <Textarea class="w-100 h-100" v-model="textarea_json"/>
     </Dialog>
 
     <router-link v-if="false"/>

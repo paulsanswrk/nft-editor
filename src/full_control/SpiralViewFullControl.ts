@@ -19,14 +19,14 @@ export class SpiralViewFullControl extends SpiralViewBase {
         return this.active_spiral ?? this.spiral_factory;
     }
 
-    readonly defaults = {fov: 0.8732, beta: 0, camH: 6.96};
+    readonly defaults = {fov: 0.8732, alpha: Math.PI / 2, beta: 0, camH: 6.96};
 
     curr_n = 0;
 
     protected setup_camera() {
         this.camera = new ArcRotateCamera(
             "camera",
-            Math.PI / 2,
+            this.defaults.alpha,
             this.defaults.beta,
             this.defaults.camH,
             new Vector3(0, 0, 3),

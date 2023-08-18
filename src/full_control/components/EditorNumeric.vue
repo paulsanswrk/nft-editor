@@ -64,10 +64,12 @@ defineExpose({update, collapse_fine_tune});
 
     <div v-if="opened" class="mt-3">
       <div class="d-flex justify-content-around align-items-center mb-3">
-        <InputNumber v-model="value"
-                     :max-fraction-digits="5" showButtons buttonLayout="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+        <Button icon="pi pi-minus" @click="value -= step"/>
+        <InputNumber v-model="value" readonly
+                     :max-fraction-digits="5"
                      input-class="w-100"
                      :step="step" :min="model.param_min" :max="model.param_max"/>
+        <Button icon="pi pi-plus" @click="value += step"/>
         <Dropdown v-if="steps.length > 1" v-model="step" :options="steps"/>
       </div>
 

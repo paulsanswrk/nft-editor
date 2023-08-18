@@ -8,7 +8,7 @@ import {MorphTarget} from "@babylonjs/core/Legacy/legacy";
 import {Inspector} from "@babylonjs/inspector";
 import {MeshBuilder} from "@babylonjs/core/Meshes/meshBuilder";
 import {Vector3} from "@babylonjs/core/Maths/math.vector";
-import {dataURLToBlob} from "blob-util";
+import {blobToDataURL, dataURLToBlob} from "blob-util";
 
 export default abstract class SpiralViewBase {
     protected abstract spiral_factory: Spiral_Base;
@@ -118,6 +118,8 @@ export default abstract class SpiralViewBase {
 
         this.spiralMaterial.disableLighting = true;
         this.spiralMaterial.emissiveColor = BABYLON.Color3.White();
+        this.spiralMaterial.diffuseColor = BABYLON.Color3.White();
+        this.spiralMaterial.specularColor = BABYLON.Color3.Black();
         this.spiralMaterial.reservedDataStore = {hidden: true, isVertexColorMaterial: true};
         mesh.useVertexColors = true;
         mesh.material = this.spiralMaterial;
@@ -260,5 +262,31 @@ export default abstract class SpiralViewBase {
                 resolve(blob);
             });
         });
+    }
+
+    async download_image(filename: string, render_size: number = 600) {
+        const bak_scaling = this.engine.getHardwareScalingLevel();
+        const canvas_size = document.getElementById('view')?.clientWidth;
+        if (canvas_size) this.engine.setHardwareScalingLevel(canvas_size / render_size);
+
+        const blob = await this.export_image(render_size);
+        const data_url = await blobToDataURL(blob);
+
+        const link = document.createElement("a");
+        link.download = filename;
+        link.href = data_url;
+        link.setAttribute("target", "_blank");
+        link.click();
+        link.remove();
+
+        this.engine.setHardwareScalingLevel(bak_scaling);
+    }
+
+    async download_in_loop(increment: ((v: SpiralViewBase) => boolean), size: number = 1200, fn_prefix = '') {
+        let n = 1;
+
+        do {
+            await this.download_image(fn_prefix + new Intl.NumberFormat('en', {minimumIntegerDigits: 6, useGrouping: false}).format(n++), size);
+        } while (increment(this));
     }
 }

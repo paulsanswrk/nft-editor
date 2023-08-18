@@ -31,10 +31,10 @@ export class SpiralViewTop8 extends SpiralViewPredefinedBase implements ISpiralP
         // this.camera.upperBetaLimit = Math.PI;
         // this.camera.lowerBetaLimit = Math.PI;
 
-        this.camera.useAutoRotationBehavior = false;
+        this.camera.useAutoRotationBehavior = true;
 // camera.rotation = new Vector3(0,0,1);
 
-        // this.camera.autoRotationBehavior.idleRotationSpeed = -0.05;
+        this.camera.autoRotationBehavior.idleRotationSpeed = -0.05;
         // this.camera.autoRotationBehavior.idleRotationSpeed = -0.15;
         /*this.camera.autoRotationBehavior.idleRotationWaitTime = 0;
         this.camera.autoRotationBehavior.zoomStopsAnimation = false;
