@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import {EditorModel} from "../common";
 import InputNumber from 'primevue/inputnumber';
 import Slider from 'primevue/slider';
 import Button from 'primevue/button';
 import Dropdown from 'primevue/dropdown';
 import {ref, watch} from "vue";
+import EditorNumericVM from "../VMs/EditorNumericVM";
 
-const props = defineProps<{ model: EditorModel, opened: Boolean }>()
+const props = defineProps<{ model: EditorNumericVM, opened: Boolean }>()
 
-const value = ref(props.model.param_get());
-const value_total = ref(props.model.param_get());
+const value = ref(Number(props.model.param_get()));
+const value_total = ref(Number(props.model.param_get()));
 
 const steps = ref(props.model.steps ?? [1, 0.1, 0.01]);
 const step = ref(steps.value[1] ?? steps.value[0]);
@@ -25,16 +25,6 @@ const fine_tune_step = ref(0.01);
 watch(value_total, v => props.model.param_set(v));
 watch([value, fine_tune_value], v => value_total.value = value.value + fine_tune_value.value);
 watch(value, v => fine_tune_value.value = 0);
-
-function inc() {
-  if (value.value + step.value <= props.model.param_max)
-    value.value += step.value;
-}
-
-function dec() {
-  if (value.value - step.value >= props.model.param_min)
-    value.value -= step.value;
-}
 
 function update() {
   value.value = props.model.param_get();

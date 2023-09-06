@@ -18,6 +18,8 @@ export interface Spiral_Dynamic_Config extends Spiral_Config {
     offsetZ?: number;
     offsetR?: number;
     tube_radius?: number;
+    g_colors?: { pos: number, color: string }[];
+    s_colors?: { pos: number, color: string }[];
 }
 
 export class Spiral_Dynamic extends Spiral_Base {
@@ -31,6 +33,12 @@ export class Spiral_Dynamic extends Spiral_Base {
 
     static readonly factory = new Spiral_Dynamic();
 
+    constructor() {
+        super();
+        window['g_color'] = (z: number) => this.G_color_func_hex(z);
+    }
+
+
     create_spiral(config: Spiral_Dynamic_Config): Spiral_Dynamic {
         let spiral = new Spiral_Dynamic();
         spiral.calc_cc();
@@ -41,8 +49,20 @@ export class Spiral_Dynamic extends Spiral_Base {
 
     public get_config(): Spiral_Dynamic_Config {
         return {
-            m1: this.m1, m2: this.m2, z_Irreg: this.z_Irreg, at0: this.at0, at4: this.at4, cTanh: this.cTanh, u1: this.u1, u2: this.u2,
-            offsetZ: this.offsetZ, offsetR: this.offsetR, rot_cnt: this.rot_cnt, tube_radius: this.tube_radius
+            m1: this.m1,
+            m2: this.m2,
+            z_Irreg: this.z_Irreg,
+            at0: this.at0,
+            at4: this.at4,
+            cTanh: this.cTanh,
+            u1: this.u1,
+            u2: this.u2,
+            offsetZ: this.offsetZ,
+            offsetR: this.offsetR,
+            rot_cnt: this.rot_cnt,
+            tube_radius: this.tube_radius,
+            g_colors: this.g_colors,
+            s_colors: this.s_colors,
         };
     }
 
@@ -59,6 +79,8 @@ export class Spiral_Dynamic extends Spiral_Base {
         if (config.offsetZ !== undefined) this.offsetZ = config.offsetZ;
         if (config.offsetR !== undefined) this.offsetR = config.offsetR;
         if (config.tube_radius !== undefined) this.tube_radius = config.tube_radius;
+        if (config.g_colors !== undefined) this.g_colors = config.g_colors;
+        if (config.s_colors !== undefined) this.s_colors = config.s_colors;
 
         this.calc_cc();
         this.calc_points();

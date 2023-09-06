@@ -13,7 +13,7 @@ export class SpiralViewFullControl extends SpiralViewBase {
     shadow_spiral: Spiral_Transformed;
     spirals: Spiral_Dynamic[] = [Spiral_Dynamic.factory.create_spiral({})];
 
-    active_spiral: Spiral_Dynamic;
+    active_spiral = new Spiral_Dynamic();
 
     get params() {
         return this.active_spiral ?? this.spiral_factory;
@@ -47,6 +47,8 @@ export class SpiralViewFullControl extends SpiralViewBase {
         this.light.diffuse = new BABYLON.Color3(1, 1, 1);
         this.light.specular = new BABYLON.Color3(1, 1, 1);
         this.light.intensity = 5;
+
+        const postProcess = new BABYLON.FxaaPostProcess("fxaa", 1.0, this.camera);
     }
 
 
@@ -92,6 +94,11 @@ export class SpiralViewFullControl extends SpiralViewBase {
             radius: this.active_spiral.tube_radius,
             instance: this.meshes[nMesh][0],
         }, this.scene);
+    }
+
+    update_colors() {
+        const nMesh = this.active_spiral.type === 'dynamic' ? 0 : 1;
+        this.assign_colors(this.meshes[nMesh][0], this.active_spiral);
     }
 
     protected post_transition() {

@@ -6,9 +6,8 @@ import 'primeicons/primeicons.css';
 
 import {nextTick, ref, Ref, watch} from "vue";
 import {SpiralViewFullControl_instance} from "./SpiralViewFullControl";
-import {EditorModel, GDriveFile} from "./common";
-import EditorNumeric from "./components/EditorNumeric.vue";
-import {forIn, mapValues, pull, sortBy} from "lodash";
+import {GDriveFile} from "./common";
+import {remove, sortBy} from "lodash";
 import Button from "primevue/button";
 import {gdrive_save} from "../common/gdrive";
 import FileBrowser from "./components/FileBrowser.vue";
@@ -21,84 +20,44 @@ import Checkbox from 'primevue/checkbox';
 import Dialog from 'primevue/dialog';
 import Textarea from 'primevue/textarea';
 import RadioButton from 'primevue/radiobutton';
-import {Spiral_Transformed, Spiral_Transformed_Config} from "../base/Spiral_Transformed";
+import {Spiral_Transformed} from "../base/Spiral_Transformed";
+import ColorsDebug from "./components/ColorsDebug.vue";
+import {EditorsVM} from "./EditorsVM";
+import EditorVM from "./VMs/EditorVM";
+import EditorNumeric from "./components/EditorNumeric.vue";
+import ColorsEditor from "./components/ColorsEditor.vue";
+
+const component_mappings = {EditorNumeric, ColorsEditor};
 
 const spiral_view = SpiralViewFullControl_instance;
 
-const params: Ref<Spiral_Transformed_Config> = ref(spiral_view.spiral_factory.get_config());
-
-const editor_models: { [k: string]: EditorModel } = {
-  m1: {param_name: 'm1', component: EditorNumeric, param_get: () => params.value.m1, param_set: (m1) => set_numeric_param({m1}), param_min: 0, param_max: 30},
-  m2: {param_name: 'm2', component: EditorNumeric, param_get: () => params.value.m2, param_set: (m2) => set_numeric_param({m2}), param_min: 0.1, param_max: 30},
-  z_Irreg: {param_name: 'z_Irreg', component: EditorNumeric, param_get: () => params.value.z_Irreg, param_set: (z_Irreg) => set_numeric_param({z_Irreg}), param_min: -6, param_max: 6},
-  cTanh: {param_name: 'cTanh', component: EditorNumeric, param_get: () => params.value.cTanh, param_set: (cTanh) => set_numeric_param({cTanh}), param_min: -1, param_max: 1},
-  at0: {param_name: 'at0', component: EditorNumeric, param_get: () => params.value.at0, param_set: (at0) => set_numeric_param({at0}), param_min: -25, param_max: 8},
-  at4: {param_name: 'at4', component: EditorNumeric, param_get: () => params.value.at4, param_set: (at4) => set_numeric_param({at4}), param_min: 8.1, param_max: 50},
-  camH: {param_name: 'camH', component: EditorNumeric, param_get: () => spiral_view.camera_h, param_set: (camH) => spiral_view.camera_h = camH, param_min: -30, param_max: 30},
-  fov: {param_name: 'fov', component: EditorNumeric, param_get: () => spiral_view.camera_fov, param_set: (fov) => spiral_view.camera_fov = fov, param_min: 0.05, param_max: 5},
-  rot_cnt: {
-    param_name: 'rot_cnt', component: EditorNumeric, param_get: () => params.value.rot_cnt, param_set: (rot_cnt) => {
-      params.value.rot_cnt = rot_cnt;
-      spiral_view.active_spiral.set_config({rot_cnt});
-
-      // set_numeric_param({rot_cnt});
-      spiral_view.change_rot_cnt(rot_cnt);
-    }, param_min: 1, param_max: 20, steps: [1],
-  },
-  u1: {param_name: 'u1', component: EditorNumeric, param_get: () => params.value.u1, param_set: (u1) => set_numeric_param({u1}), param_min: -40, param_max: 17.5},
-  u2: {param_name: 'u2', component: EditorNumeric, param_get: () => params.value.u2, param_set: (u2) => set_numeric_param({u2}), param_min: 18, param_max: 60},
-  offsetZ: {param_name: 'offsetZ', component: EditorNumeric, param_get: () => params.value.offsetZ, param_set: (offsetZ) => set_numeric_param({offsetZ}), param_min: -50, param_max: 30},
-  offsetR: {param_name: 'offsetR', component: EditorNumeric, param_get: () => params.value.offsetR, param_set: (offsetR) => set_numeric_param({offsetR}), param_min: -20, param_max: 10},
-  // alpha: {param_name: 'alpha', component: EditorNumeric, param_get: () => spiral_view.camera.alpha, param_set: (alpha) => spiral_view.camera.alpha = alpha, param_min: -3, param_max: 3},
-  beta: {param_name: 'beta', component: EditorNumeric, param_get: () => spiral_view.camera.beta, param_set: (beta) => spiral_view.camera.beta = beta, param_min: 0, param_max: 10},
-  tube_radius: {
-    param_name: 'tube_radius',
-    component: EditorNumeric,
-    param_get: () => params.value.tube_radius,
-    param_set: (tube_radius) => set_numeric_param({tube_radius}),
-    param_min: 0,
-    param_max: 0.02,
-    steps: [0.001]
-  },
-  inner_r: {param_name: 'inner_r', component: EditorNumeric, param_get: () => params.value['inner_r'] ?? 0, param_set: (inner_r) => set_numeric_param({inner_r}), param_min: 0, param_max: 40},
-};
+const editor_models = new EditorsVM();
 
 const filename = ref(Date.now().toString());
+const save_resolution = ref(1400);
 
-const all_params: string[] = sortBy(Object.keys(editor_models), k => k);
-
-const editors: Ref<EditorModel[]> = ref([
-  editor_models.m1,
-  editor_models.m2,
-  editor_models.rot_cnt,
+const editors: Ref<EditorVM[]> = ref([
+  editor_models.all_models.m1,
+  editor_models.all_models.m2,
+  editor_models.all_models.g_colors,
+  editor_models.all_models.s_colors,
 ]);
 
 const active_editor_names = ref(Object.fromEntries(editors.value.map(e => [e.param_name, true])));
 
+const opened = ref(editor_models.create_values(x => true));
 
-function set_numeric_param(value: Spiral_Transformed_Config) {
-  forIn(value, (v, k) => params.value[k] = v);
-  spiral_view.active_spiral.set_config(value);
-  // active_spiral.value.set_config(v);
-  spiral_view.update_spiral();
+function set_config(config: { [p: string]: any }, b_update_editors: boolean = true) {
+  editor_models.set_config(config);
+
+  if (b_update_editors)
+    update_editors(config);
 }
 
-const opened = ref(mapValues(editor_models, x => true));
-
-const save_resolution = ref(1400);
-
-function get_config(): { [p: string]: any } {
-  return mapValues(editor_models, v => v.param_get() as any);
-}
-
-function set_config(config: { [p: string]: any }, update_editors: boolean = true) {
-  const defaults = spiral_view.spiral_factory.get_config();
-
-  for (const k in editor_models)
-    if (config[k] !== undefined) {
-      editor_models[k].param_set(Number(config[k] ?? defaults[k] ?? spiral_view.defaults[k]));
-      if (update_editors) editor_refs.value[k]?.update();
-    }
+function update_editors(config?: { [p: string]: any }) {
+  for (const k in editor_models.all_models)
+    if (!config || config[k] !== undefined)
+      editor_refs.value[k]?.update();
 }
 
 async function save() {
@@ -109,15 +68,21 @@ async function save() {
 
   await nextTick();
 
-  let props = get_config();
+  let props = editor_models.get_config_serialized();
 
   if (shadow_spiral_enabled.value) {
-    const shadow_spiral_props = spiral_view.shadow_spiral.get_config();
+    // const shadow_spiral_props = spiral_view.shadow_spiral.get_config();
+    change_active_spiral("shadow");
+    const shadow_spiral_props = editor_models.get_config_serialized();
+    const colors_props = {'ss_g_colors': shadow_spiral_props.g_colors, 'ss_s_colors': shadow_spiral_props.s_colors};
+    delete shadow_spiral_props['gc'];
+    delete shadow_spiral_props['sc'];
+
     shadow_spiral_props['transform_type'] = spiral_view.shadow_spiral.transform_type;
     const ssk = Object.keys(shadow_spiral_props).join(',');
     const ssv = Object.values(shadow_spiral_props).join(',');
 
-    props = {...props, ...{ssk, ssv}};
+    props = {...props, ...colors_props, ...{ssk, ssv}};
     // console.log('save', props);
   }
 
@@ -125,8 +90,6 @@ async function save() {
 
   await gdrive_save(blob, filename.value, {...props});
 }
-
-const file_browser_visible = ref(false);
 
 const file_browser = ref(null);
 
@@ -149,11 +112,8 @@ async function file_select(file: GDriveFile) {
     const ssv = (file.properties['ssv'] as string).split(',');
     const shadow_spiral_props = Object.fromEntries(ssk.map((k, n) => [k, ssv[n]]));
 
-    for (const k in editor_models)
-      if (shadow_spiral_props[k] !== undefined) {
-        editor_models[k].param_set(Number(shadow_spiral_props[k] ?? defaults[k] ?? spiral_view.defaults[k]));
-        editor_refs.value[k]?.update();
-      }
+    editor_models.set_config_serialized({...shadow_spiral_props, ...{g_colors: file.properties.ssgc, s_colors: file.properties.sssc}}, defaults); //shadow editor_models?
+    update_editors(shadow_spiral_props);
 
     spiral_view.update_spiral();
   } else
@@ -163,7 +123,8 @@ async function file_select(file: GDriveFile) {
 
   await nextTick();
 
-  set_config(file.properties);
+  // set_config(file.properties);
+  editor_models.set_config_serialized(file.properties);
 
   await nextTick();
 
@@ -171,6 +132,7 @@ async function file_select(file: GDriveFile) {
     change_active_spiral('shadow');
 
   spiral_view.update_spiral();
+  update_editors();
   file_browser.value.close();
 }
 
@@ -178,12 +140,18 @@ const editor_refs: Ref<{ [k: string]: any }> = ref({});
 
 function toggle_editor(name: string) {
   if (active_editor_names.value[name]) {
-    editors.value.push(editor_models[name]);
+    editors.value.push(editor_models.all_models[name]);
     opened[name] = true;
   } else {
-    editors.value.splice(editors.value.indexOf(editor_models[name]), 1);
+    remove(editors.value, e => e.param_name == name);
     opened[name] = false;
   }
+}
+
+function remove_editor(name: string) {
+  active_editor_names.value[name] = undefined;
+  remove(editors.value, e => e.param_name == name);
+  opened[name] = false;
 }
 
 const dlg_json_visible = ref(false);
@@ -204,8 +172,7 @@ function toggle_shadow_spiral() {
 function change_active_spiral(name?: ('main' | 'shadow')) {
   if (name) active_spiral_name.value = name;
   spiral_view.set_active_spiral(active_spiral_name.value);
-  params.value = spiral_view.active_spiral.get_config();
-  forIn(editor_refs.value, e => e?.update());
+  update_editors();
 }
 
 const camera_speed = ref(0);
@@ -228,6 +195,11 @@ function sleep(ms: number): Promise<void> {
 
 async function toggle_playing_morphing() {
   if (!start_config.value || !end_config.value) return;
+
+  if (!editor_models.color_segments_count_match([start_config.value, end_config.value])) {
+    alert("Color segments counts don't match");
+    return;
+  }
 
   playing_morphing.value = !playing_morphing.value;
 
@@ -254,14 +226,10 @@ async function toggle_playing_morphing() {
 function do_morphing_increment(morphing_percent: number): boolean {
   morphing_percent = Math.min(morphing_percent, 1);
 
-  const config = get_config();
-  for (const key in config) {
-    config[key] = start_config.value[key] + morphing_percent * (end_config.value[key] - start_config.value[key])
-  }
-  set_config(config, false);
+  editor_models.set_config_lerp(start_config.value, end_config.value, morphing_percent);
 
   if (morphing_percent >= 1) {
-    set_config(config, true);
+    update_editors(end_config);
     return false;
   }
 
@@ -270,6 +238,11 @@ function do_morphing_increment(morphing_percent: number): boolean {
 
 async function render_sequence() {
   {
+    if (!editor_models.color_segments_count_match([start_config.value, end_config.value])) {
+      alert("Color segments counts don't match");
+      return;
+    }
+
     const do_rotation = camera_speed.value !== 0;
     const do_morphing = enable_morphing.value;
     const bak_rot_speed = camera_speed.value;
@@ -326,7 +299,7 @@ const textarea_json = ref('');
             icon: 'pi pi-fw pi-sliders-h',
             items: [
                 { label: 'Clear all', icon: 'pi pi-fw pi-trash', command: ()=>{editors.length = 0; active_editor_names={}} },
-                ...all_params.map(p=>({
+                ...editor_models.all_params.map(p=>({
                   label: p,
                   class: 'editor',
                   key: p,
@@ -348,7 +321,7 @@ const textarea_json = ref('');
                 },
             ]
         },
-        { icon: 'pi pi-angle-double-down', command:()=>Object.keys(editor_models).forEach(k=>opened[k]=false) },
+        { icon: 'pi pi-angle-double-down', command:()=>editor_models.all_params.forEach(k=>opened[k]=false) },
         {
             label: () => active_spiral_name === 'main'? '1' : '2',
             items: [
@@ -407,11 +380,11 @@ const textarea_json = ref('');
             <table class="w-100">
               <tr>
                 <td class="text-nowrap">Start: <br/>
-                  <Button icon="pi pi-file-import" outlined size="small" @click.stop="start_config=get_config()" class="mr-1"/>
+                  <Button icon="pi pi-file-import" outlined size="small" @click.stop="start_config=editor_models.get_config()" class="mr-1"/>
                   <Button icon="pi pi-file-export" outlined size="small" :disabled="!start_config" @click.stop="set_config(start_config)" class=""/>
                 </td>
                 <td class="text-nowrap text-right">End: <br/>
-                  <Button icon="pi pi-file-import" outlined size="small" @click.stop="end_config=get_config()" class="mr-1"/>
+                  <Button icon="pi pi-file-import" outlined size="small" @click.stop="end_config=editor_models.get_config()" class="mr-1"/>
                   <Button icon="pi pi-file-export" outlined size="small" :disabled="!end_config" @click.stop="set_config(end_config)" class=""/>
                 </td>
               </tr>
@@ -427,11 +400,14 @@ const textarea_json = ref('');
 
 
     <div id="editors" class="overflow-auto">
-      <component v-for="(editor, n) in sortBy(editors, e=>e.param_name)" :is="{...editor.component}" :key="editor.param_name"
+
+      <ColorsDebug v-if="false"/>
+
+      <component v-for="(editor, n) in sortBy(editors, e=>e.param_name)" :is="component_mappings[editor.component_name]" :key="editor.param_name"
                  v-bind="{model: editor}"
                  :ref="el=>editor_refs[editor.param_name]=el"
                  :opened="opened[editor.param_name]"
-                 @remove_editor="pull(editors, editor)"
+                 @remove_editor="remove_editor(editor.param_name)"
                  @collapse="opened[editor.param_name] = !opened[editor.param_name]"
                  class="mb-4"
       />
@@ -441,8 +417,8 @@ const textarea_json = ref('');
 
     <Dialog v-model:visible="dlg_json_visible" modal maximizable header="JSON" content-style="height:70vh" :style="{ width: '100%' }">
       <div class="mb-2">
-        <Button label="Get" @click="textarea_json = JSON.stringify(get_config())" class="mr-2"/>
-        <Button label="Set" @click="set_config(JSON.parse(textarea_json))"/>
+        <Button label="Get" @click="textarea_json = JSON.stringify(editor_models.get_config_serialized())" class="mr-2"/>
+        <Button label="Set" @click="editor_models.set_config_serialized(JSON.parse(textarea_json)); update_editors()"/>
       </div>
       <Textarea class="w-100 h-100" v-model="textarea_json"/>
     </Dialog>

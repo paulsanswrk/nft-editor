@@ -38,11 +38,24 @@ export async function gdrive_init() {
 }
 
 export async function gdrive_save(blob: Blob, filename: string, properties: { [k: string]: any }) {
+    const appProperties: { [k: string]: any } = {gc: properties.g_colors, sc: properties.s_colors,}
+
+    delete properties.g_colors;
+    delete properties.s_colors;
+
+    if (properties.ss_g_colors) {
+        appProperties['ssgc'] = properties.ss_g_colors;
+        appProperties['sssc'] = properties.ss_s_colors;
+        delete properties.ss_g_colors;
+        delete properties.ss_s_colors;
+    }
+
     const metadata = {
         name: filename,
         mimeType: "image/png",
         parents: [spiral_editor_folder_id],
-        properties
+        properties,
+        appProperties,
     };
 
     return new Promise<void>((resolve, reject) => {
@@ -93,13 +106,17 @@ export async function gdrive_listFiles(): Promise<GDriveFile[]> {
             callback: async function (tokenResponse: google.accounts.oauth2.TokenResponse) {
                 try {
                     const response = await gapi.client.drive.files.list({
-                        'pageSize': 100,
-                        'fields': 'files(name,properties,thumbnailLink,webContentLink,webViewLink)',
+                        'pageSize': 200,
+                        'fields': 'files(name,properties,appProperties,thumbnailLink,webContentLink,webViewLink)',
                         'q': `"${spiral_editor_folder_id}" in parents and mimeType != "application/vnd.google-apps.folder"`
                     });
 
                     const files: GDriveFile[] = response.result.files?.map(f => ({
-                        name: f.name, properties: f.properties, thumbnailLink: f.thumbnailLink, webContentLink: f.webContentLink, webViewLink: f.webViewLink
+                        name: f.name,
+                        properties: {...f.properties, ...f.appProperties, g_colors: f.appProperties?.gc, s_colors: f.appProperties?.sc},
+                        thumbnailLink: f.thumbnailLink,
+                        webContentLink: f.webContentLink,
+                        webViewLink: f.webViewLink
                     })) ?? [];
 
                     resolve(files);

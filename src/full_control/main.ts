@@ -1,6 +1,7 @@
 import {createApp} from 'vue';
 import PrimeVue from 'primevue/config';
 import App from "./App.vue";
+import drag from "v-drag";
 
 import 'bootstrap/dist/css/bootstrap.css'
 import "primevue/resources/themes/bootstrap4-dark-blue/theme.css";
@@ -17,6 +18,9 @@ globalThis.__VUE_PROD_DEVTOOLS__ = false;
 const app = createApp(App);
 
 app.use(PrimeVue);
+app.use(drag, {
+    // global configuration
+});
 const router = useRouter();
 app.use(router);
 app.mount('#app')

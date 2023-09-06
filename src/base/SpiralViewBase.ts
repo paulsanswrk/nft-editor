@@ -110,12 +110,16 @@ export default abstract class SpiralViewBase {
         mesh.freezeNormals();
 
         mesh.setEnabled(set_enabled);
+        mesh.hasVertexAlpha = true;
         // if (n == this.curr_n)
-        mesh.setVerticesData("color", spiral.calc_colors(mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind)));
+        this.assign_colors(mesh, spiral);
 
         // this.spiralMaterial.freeze();
         // mesh.doNotSyncBoundingInfo = true;
 
+        // this.spiralMaterial.alphaMode = 4;
+        this.spiralMaterial.needDepthPrePass = true;
+        this.spiralMaterial.separateCullingPass = true;
         this.spiralMaterial.disableLighting = true;
         this.spiralMaterial.emissiveColor = BABYLON.Color3.White();
         this.spiralMaterial.diffuseColor = BABYLON.Color3.White();
@@ -131,6 +135,10 @@ export default abstract class SpiralViewBase {
         this.create_rotated_clones(spiral, mesh, spiral_target_n);
 
         return mesh;
+    }
+
+    protected assign_colors(mesh: Mesh, spiral: Spiral_Base) {
+        mesh.setVerticesData("color", spiral.calc_colors(mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind)));
     }
 
     protected create_rotated_clones(spiral: Spiral_Base, mesh: Mesh, spiral_target_n: number = 0) {
