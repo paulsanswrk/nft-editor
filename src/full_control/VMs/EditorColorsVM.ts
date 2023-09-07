@@ -1,6 +1,6 @@
 import EditorVM from "./EditorVM";
 import {SpiralViewFullControl_instance} from "../SpiralViewFullControl";
-import {Spiral_Base} from "../../base/Spiral_Base";
+import {color4_to_hsva_array, HSVA_Lerp} from "../../common/help_funcs";
 
 const spiral_view = SpiralViewFullControl_instance;
 
@@ -42,7 +42,7 @@ export class EditorColors_G_VM extends EditorVM {
     param_set_lerp(a: { pos: number, val: string }[], b: { pos: number, val: string }[], morphing_percent: number): void {
         const new_segments = a.map((s, n) => {
             const pos = a[n].pos + morphing_percent * (b[n].pos - a[n].pos);
-            const val = Spiral_Base.HSVA_Lerp(Spiral_Base.color4_to_hsva_array(a[n].val), Spiral_Base.color4_to_hsva_array(b[n].val), morphing_percent).toHexString();
+            const val = HSVA_Lerp(color4_to_hsva_array(a[n].val), color4_to_hsva_array(b[n].val), morphing_percent).toHexString();
             return {pos, val};
         });
 

@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const {VueLoaderPlugin} = require("vue-loader");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 global.__basedir = __dirname;
 
@@ -78,7 +79,7 @@ module.exports = {
             template: "!!handlebars-loader!src/full_control/index.hbs",
         }),
         // new BundleAnalyzerPlugin(),
-
+        new NodePolyfillPlugin()
     ],
     devServer: {
         static: {

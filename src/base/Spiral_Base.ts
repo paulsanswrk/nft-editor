@@ -1,7 +1,7 @@
 import {Vector3} from "@babylonjs/core/Maths/math.vector";
 import {Color4, FloatArray} from "@babylonjs/core/Legacy/legacy";
 import {Color3} from "@babylonjs/core";
-import {TinyColor} from "@ctrl/tinycolor";
+import {color4_to_hsva_array, HSVA_Lerp} from "../common/help_funcs";
 
 export interface Spiral_Config {
     n_config?: number;
@@ -122,29 +122,13 @@ export abstract class Spiral_Base {
 
     }
 
-    public static color4_to_hsva_array(color: string): number[] {
-        const {h, s, v, a} = new TinyColor(color).toHsv();
-        // console.log('color4_to_hsva_array', {h, s, v, a})
-        return [h, s, v, a];
 
-    }
-
-    public static HSVA_Lerp(color1_hsva: number[], color2_hsva: number[], amount: number) {
-        color1_hsva = [...color1_hsva];
-        for (let i = 0; i < 4; i++)
-            color1_hsva[i] += (color2_hsva[i] - color1_hsva[i]) * amount;
-
-        color1_hsva[0] %= 360;
-
-        return Color4.FromColor3(Color3.FromHSV(color1_hsva[0], color1_hsva[1], color1_hsva[2]), color1_hsva[3]);
-
-    }
 
     private prepare_colors() {
         this.g_colors_ext = [...this.g_colors, {
             pos: 2,
-            color: Spiral_Base.HSVA_Lerp(Spiral_Base.color4_to_hsva_array(this.g_colors[this.g_colors.length - 2].color), Spiral_Base.color4_to_hsva_array(this.g_colors[this.g_colors.length - 1].color), 2).toHexString()
-        }].map(x => ({pos: x.pos, color: Spiral_Base.color4_to_hsva_array(x.color)}));
+            color: HSVA_Lerp(color4_to_hsva_array(this.g_colors[this.g_colors.length - 2].color), color4_to_hsva_array(this.g_colors[this.g_colors.length - 1].color), 2).toHexString()
+        }].map(x => ({pos: x.pos, color: color4_to_hsva_array(x.color)}));
 
 
         const z_g_min_norm = (this.G(this.u1)[2] - this.z_min) / (this.z_max - this.z_min);
@@ -162,9 +146,9 @@ export abstract class Spiral_Base {
             ...s_colors,
             {
                 pos: 2,
-                color: Spiral_Base.HSVA_Lerp(Spiral_Base.color4_to_hsva_array(s_colors[s_colors.length - 2].color), Spiral_Base.color4_to_hsva_array(s_colors[s_colors.length - 1].color), 2).toHexString()
+                color: HSVA_Lerp(color4_to_hsva_array(s_colors[s_colors.length - 2].color), color4_to_hsva_array(s_colors[s_colors.length - 1].color), 2).toHexString()
             }
-        ].map(x => ({pos: x.pos, color: Spiral_Base.color4_to_hsva_array(x.color)}));
+        ].map(x => ({pos: x.pos, color: color4_to_hsva_array(x.color)}));
     }
 
     private g_colors_ext: { color: number[]; pos: number }[];
@@ -178,7 +162,7 @@ export abstract class Spiral_Base {
             if (do_log)
                 console.log('segm_color_func', {norm_z, n_color_segment, amount})
 
-            return Spiral_Base.HSVA_Lerp(colors[n_color_segment].color, colors[n_color_segment + 1].color, amount);
+            return HSVA_Lerp(colors[n_color_segment].color, colors[n_color_segment + 1].color, amount);
         } catch (e) {
             console.log('segm_color_func exception', norm_z);
             return Color4.FromColor3(Color3.White())

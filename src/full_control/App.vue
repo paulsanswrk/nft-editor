@@ -26,6 +26,7 @@ import {EditorsVM} from "./EditorsVM";
 import EditorVM from "./VMs/EditorVM";
 import EditorNumeric from "./components/EditorNumeric.vue";
 import ColorsEditor from "./components/ColorsEditor.vue";
+import {sleep} from "../common/help_funcs";
 
 const component_mappings = {EditorNumeric, ColorsEditor};
 
@@ -177,7 +178,7 @@ function change_active_spiral(name?: ('main' | 'shadow')) {
 
 const camera_speed = ref(0);
 const fps = ref(30);
-const duration = ref(10);
+const duration = ref(5);
 const enable_morphing = ref(true);
 const playing_morphing = ref(false);
 const start_config: Ref<{ [p: string]: any } | null> = ref(null);
@@ -188,10 +189,6 @@ watch(camera_speed, (v: number) => {
       if (v) spiral_view.camera.autoRotationBehavior.idleRotationSpeed = v;
     }
 );
-
-function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 async function toggle_playing_morphing() {
   if (!start_config.value || !end_config.value) return;
@@ -236,7 +233,7 @@ function do_morphing_increment(morphing_percent: number): boolean {
   return true;
 }
 
-async function render_sequence() {
+async function render_sequence(output_video: boolean) {
   {
     if (!editor_models.color_segments_count_match([start_config.value, end_config.value])) {
       alert("Color segments counts don't match");
@@ -256,22 +253,25 @@ async function render_sequence() {
     const morphing_percent_step = 1 / (duration.value * fps.value);
     const dt = 1 / fps.value;
 
-    await spiral_view.download_in_loop(v => {
-
-      if (do_rotation) {
-        //rot_speed is rad/sec
+    const inc_func = v => {
+      if (do_rotation)
+          //rot_speed is rad/sec
         v.camera.alpha -= bak_rot_speed * dt;
-      }
 
       if (do_morphing) do_morphing_increment(morphing_percent);
 
       return (morphing_percent += morphing_percent_step) <= 1;
-    }, save_resolution.value, `${filename.value}_`);
+    };
 
+    editor_models.set_config(start_config.value);
 
-    if (do_rotation) {
+    if (output_video)
+      await spiral_view.render_mp4_in_loop(inc_func, fps.value, `${filename.value}_`);
+    else
+      await spiral_view.download_in_loop(inc_func, save_resolution.value, `${filename.value}_`);
+
+    if (do_rotation)
       camera_speed.value = bak_rot_speed;
-    }
 
   }
 }
@@ -317,7 +317,11 @@ const textarea_json = ref('');
                 { class: 'fps', },
                 {
                   label: 'Render sequence', icon: 'pi pi-fw pi-download',
-                  command: () => render_sequence()
+                  command: () => render_sequence(false)
+                },
+                {
+                  label: 'Render video', icon: 'pi pi-fw pi-download',
+                  command: () => render_sequence(true)
                 },
             ]
         },

@@ -8,13 +8,15 @@ import {MorphTarget} from "@babylonjs/core/Legacy/legacy";
 import {Inspector} from "@babylonjs/inspector";
 import {MeshBuilder} from "@babylonjs/core/Meshes/meshBuilder";
 import {Vector3} from "@babylonjs/core/Maths/math.vector";
-import {blobToDataURL, dataURLToBlob} from "blob-util";
+import {arrayBufferToBlob, blobToDataURL, dataURLToBlob} from "blob-util";
+import * as HME from "h264-mp4-encoder";
+import {sleep} from "../common/help_funcs";
 
 export default abstract class SpiralViewBase {
     protected abstract spiral_factory: Spiral_Base;
 
     canvas = document.getElementById("view") as HTMLCanvasElement;
-    engine = new Engine(this.canvas, true, {}, true);
+    engine = new Engine(this.canvas, true, {preserveDrawingBuffer: true}, true);
     scene = new Scene(this.engine);
 
     camera: ArcRotateCamera;
@@ -296,5 +298,35 @@ export default abstract class SpiralViewBase {
         do {
             await this.download_image(fn_prefix + new Intl.NumberFormat('en', {minimumIntegerDigits: 6, useGrouping: false}).format(n++), size);
         } while (increment(this));
+    }
+
+    async render_mp4_in_loop(increment: ((v: SpiralViewBase) => boolean), fps: number = 30, fn_prefix = '') {
+        const size = this.canvas.width;
+        const encoder = await HME.createH264MP4Encoder();
+        // Must be a multiple of 2.
+        encoder.width = size;
+        encoder.height = size;
+        encoder.frameRate = fps;
+        // encoder.debug = true;
+        encoder.initialize();
+        const ctx = this.canvas.getContext("webgl2", {preserveDrawingBuffer: true});
+        const pixels = new Uint8Array(size * size * 4);
+        do {
+            ctx.readPixels(0, 0, encoder.width, encoder.height, ctx.RGBA, ctx.UNSIGNED_BYTE, pixels);
+            encoder.addFrameRgba(pixels);
+            await sleep(1);
+        } while (increment(this));
+
+        encoder.finalize();
+        const uint8Array = encoder.FS.readFile(encoder.outputFilename, {encoding: "binary"});
+
+        const link = document.createElement("a");
+        link.download = fn_prefix + 'render.mp4';
+        link.href = await blobToDataURL(arrayBufferToBlob(uint8Array.buffer, "video/mp4"));
+        link.setAttribute("target", "_blank");
+        link.click();
+        link.remove();
+
+        encoder.delete();
     }
 }
