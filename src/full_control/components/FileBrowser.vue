@@ -4,12 +4,11 @@ import Dialog from 'primevue/dialog';
 import Galleria from 'primevue/galleria';
 import ProgressSpinner from 'primevue/progressspinner';
 import {Ref, ref} from "vue";
-import {gdrive_listFiles} from "../../common/gdrive";
-import {GDriveFile} from "../common";
+import {GDriveFile, GDriveFileImage, GDriveFileVideo} from "../../common/GDrive/gdrive_file";
 
 const dialog_opened = ref(false)
 
-defineEmits(['file_select'])
+const emit = defineEmits(['file_select']);
 
 const responsiveOptions = ref([
   {breakpoint: '1801px', numVisible: 10},
@@ -22,10 +21,15 @@ const responsiveOptions = ref([
 
 const files: Ref<GDriveFile[]> = ref([]);
 
-async function open() {
-
-  files.value = await gdrive_listFiles();
+async function open(type: 'image' | 'video') {
+  const gfile = type === "image" ? new GDriveFileImage() : new GDriveFileVideo();
+  files.value = await gfile.list_files();
   dialog_opened.value = true;
+}
+
+async function file_select(f: GDriveFile) {
+  await f.load_details();
+  emit('file_select', f);
 }
 
 function close() {
@@ -52,10 +56,10 @@ function showDialogMaximized(dialog: any) {
             <div class="position-relative">
               <div class="position-absolute d-flex align-items-center justify-content-center w-100" style="top:15px;">
                 <strong>{{ slotProps.item.name }}</strong>
-                <Button label="Select" outlined size="small" class="mx-2" @click="$emit('file_select', slotProps.item)"/>
+                <Button label="Select" outlined size="small" class="mx-2" @click="file_select(slotProps.item)"/>
                 <Button label="Cancel" severity="warning" outlined size="small" @click="close"/>
               </div>
-              <img :src="slotProps.item.thumbnailLink.replace('=s220', '')" :alt="slotProps.item.name" style="height: 60vh; width: 60vh;"/>
+              <img :src="slotProps.item.thumbnailLink?.replace('=s220', '')" :alt="slotProps.item.name" style="height: 60vh; width: 60vh;"/>
             </div>
           </template>
           <template #thumbnail="slotProps:{item:GDriveFile}">

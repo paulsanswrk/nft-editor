@@ -30,11 +30,14 @@ export class EditorColors_G_VM extends EditorVM {
         spiral_view.update_colors();
     }
 
-    param_set_serialized(segments: string, default_value: any) {
-        spiral_view.active_spiral[this.param_name] = segments?.split('|')
-                .map(s => s.split(':'))
-                .map(a => ({pos: Number(a[0]) / 100, color: a[1]}))
-            ?? default_value;
+    param_set_serialized(param: any, default_value: any) {
+        const segments: { color: string; pos: number }[] =
+            Array.isArray(param) ? param.map(a => ({pos: a.pos, color: a.val})) :
+                param?.split('|')
+                    .map(s => s.split(':'))
+                    .map(a => ({pos: Number(a[0]) / 100, color: a[1]}));
+
+        spiral_view.active_spiral[this.param_name] = segments ?? default_value;
 
         spiral_view.update_colors();
     }
@@ -69,6 +72,13 @@ export class EditorColors_S_VM
         spiral_view.active_spiral['s_colors'] = segments.map(c => ({pos: c.pos, color: c.val}));
 
         spiral_view.update_colors();
+    }
+
+    param_set_serialized(param: any, default_value: any) {
+        if (Array.isArray(param))
+            param = param.slice(1, -1);
+
+        super.param_set_serialized(param, default_value);
     }
 
 }

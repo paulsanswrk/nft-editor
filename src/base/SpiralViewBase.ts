@@ -274,33 +274,36 @@ export default abstract class SpiralViewBase {
         });
     }
 
-    async download_image(filename: string, render_size: number = 600) {
+    async download_file(blob: Blob, filename: string) {
+        const link = document.createElement("a");
+        link.download = filename + '';
+        link.href = await blobToDataURL(blob);
+        link.setAttribute("target", "_blank");
+        link.click();
+        link.remove();
+    }
+
+    async download_canvas_image(filename: string, render_size: number = 600) {
         const bak_scaling = this.engine.getHardwareScalingLevel();
         const canvas_size = document.getElementById('view')?.clientWidth;
         if (canvas_size) this.engine.setHardwareScalingLevel(canvas_size / render_size);
 
         const blob = await this.export_image(render_size);
-        const data_url = await blobToDataURL(blob);
 
-        const link = document.createElement("a");
-        link.download = filename;
-        link.href = data_url;
-        link.setAttribute("target", "_blank");
-        link.click();
-        link.remove();
+        await this.download_file(blob, filename);
 
         this.engine.setHardwareScalingLevel(bak_scaling);
     }
 
-    async download_in_loop(increment: ((v: SpiralViewBase) => boolean), size: number = 1200, fn_prefix = '') {
+    async download_image_sequence(increment: ((v: SpiralViewBase) => boolean), size: number = 1200, fn_prefix = '') {
         let n = 1;
 
         do {
-            await this.download_image(fn_prefix + new Intl.NumberFormat('en', {minimumIntegerDigits: 6, useGrouping: false}).format(n++), size);
+            await this.download_canvas_image(fn_prefix + new Intl.NumberFormat('en', {minimumIntegerDigits: 6, useGrouping: false}).format(n++), size);
         } while (increment(this));
     }
 
-    async render_mp4_in_loop(increment: ((v: SpiralViewBase) => boolean), fps: number = 30, fn_prefix = '') {
+    async render_mp4(increment: ((v: SpiralViewBase) => boolean), fps: number = 30) {
         const size = this.canvas.width;
         const encoder = await HME.createH264MP4Encoder();
         // Must be a multiple of 2.
@@ -311,22 +314,19 @@ export default abstract class SpiralViewBase {
         encoder.initialize();
         const ctx = this.canvas.getContext("webgl2", {preserveDrawingBuffer: true});
         const pixels = new Uint8Array(size * size * 4);
+        let frame_cnt = 0;
         do {
             ctx.readPixels(0, 0, encoder.width, encoder.height, ctx.RGBA, ctx.UNSIGNED_BYTE, pixels);
             encoder.addFrameRgba(pixels);
+            frame_cnt++;
+            console.log({frame_cnt})
             await sleep(1);
         } while (increment(this));
 
         encoder.finalize();
         const uint8Array = encoder.FS.readFile(encoder.outputFilename, {encoding: "binary"});
-
-        const link = document.createElement("a");
-        link.download = fn_prefix + 'render.mp4';
-        link.href = await blobToDataURL(arrayBufferToBlob(uint8Array.buffer, "video/mp4"));
-        link.setAttribute("target", "_blank");
-        link.click();
-        link.remove();
-
         encoder.delete();
+
+        return arrayBufferToBlob(uint8Array.buffer, "video/mp4");
     }
 }

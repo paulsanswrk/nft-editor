@@ -6,10 +6,8 @@ import 'primeicons/primeicons.css';
 
 import {nextTick, ref, Ref, watch} from "vue";
 import {SpiralViewFullControl_instance} from "./SpiralViewFullControl";
-import {GDriveFile} from "./common";
 import {remove, sortBy} from "lodash";
 import Button from "primevue/button";
-import {gdrive_save} from "../common/gdrive";
 import FileBrowser from "./components/FileBrowser.vue";
 import Inplace from 'primevue/inplace';
 import InputText from 'primevue/inputtext';
@@ -22,17 +20,19 @@ import Textarea from 'primevue/textarea';
 import RadioButton from 'primevue/radiobutton';
 import {Spiral_Transformed} from "../base/Spiral_Transformed";
 import ColorsDebug from "./components/ColorsDebug.vue";
-import {EditorsVM} from "./EditorsVM";
+import {editor_models} from "./EditorsVM";
 import EditorVM from "./VMs/EditorVM";
 import EditorNumeric from "./components/EditorNumeric.vue";
 import ColorsEditor from "./components/ColorsEditor.vue";
-import {sleep} from "../common/help_funcs";
+import {camera_speed, duration, enable_morphing, end_config, fps, playing_morphing, render_sequence, start_config, toggle_playing_morphing} from "./animation";
+import AnimationPointsEditor from "./components/AnimationPointsEditor.vue";
+import {GDriveFile, GDriveFileImage, GDriveFileVideo} from "../common/GDrive/gdrive_file";
+import EditorAnimPointsVM from "./VMs/EditorAnimPointsVM";
 
-const component_mappings = {EditorNumeric, ColorsEditor};
+const component_mappings = {EditorNumeric, ColorsEditor, AnimationPointsEditor};
 
 const spiral_view = SpiralViewFullControl_instance;
 
-const editor_models = new EditorsVM();
 
 const filename = ref(Date.now().toString());
 const save_resolution = ref(1400);
@@ -61,7 +61,7 @@ function update_editors(config?: { [p: string]: any }) {
       editor_refs.value[k]?.update();
 }
 
-async function save() {
+async function save_image() {
   const blob = await spiral_view.export_image(save_resolution.value);
 
   const bak_spiral_name = active_spiral_name.value;
@@ -70,6 +70,7 @@ async function save() {
   await nextTick();
 
   let props = editor_models.get_config_serialized();
+  delete props['anim_points'];
 
   if (shadow_spiral_enabled.value) {
     // const shadow_spiral_props = spiral_view.shadow_spiral.get_config();
@@ -89,7 +90,14 @@ async function save() {
 
   change_active_spiral(bak_spiral_name);
 
-  await gdrive_save(blob, filename.value, {...props});
+  await (new GDriveFileImage).save(blob, filename.value, {...props});
+}
+
+async function save_video() {
+  const blob = await render_sequence(true, 'tmp.mp4', 0, true);
+  const properties = (new EditorAnimPointsVM).param_get_serialized();
+
+  await (new GDriveFileVideo).save(blob, filename.value, properties);
 }
 
 const file_browser = ref(null);
@@ -176,105 +184,12 @@ function change_active_spiral(name?: ('main' | 'shadow')) {
   update_editors();
 }
 
-const camera_speed = ref(0);
-const fps = ref(30);
-const duration = ref(5);
-const enable_morphing = ref(true);
-const playing_morphing = ref(false);
-const start_config: Ref<{ [p: string]: any } | null> = ref(null);
-const end_config: Ref<{ [p: string]: any } | null> = ref(null);
 
 watch(camera_speed, (v: number) => {
       spiral_view.camera.useAutoRotationBehavior = !!v;
       if (v) spiral_view.camera.autoRotationBehavior.idleRotationSpeed = v;
     }
 );
-
-async function toggle_playing_morphing() {
-  if (!start_config.value || !end_config.value) return;
-
-  if (!editor_models.color_segments_count_match([start_config.value, end_config.value])) {
-    alert("Color segments counts don't match");
-    return;
-  }
-
-  playing_morphing.value = !playing_morphing.value;
-
-  if (!playing_morphing.value) return;
-
-  set_config(start_config.value);
-  const morphing_started_at = new Date().getTime();
-  const morphing_finishing_at = morphing_started_at + duration.value * 1000;
-  const dt = 1000 / fps.value;
-
-  let last_render_time = morphing_started_at;
-
-  while (playing_morphing.value) {
-    if (last_render_time + dt > new Date().getTime())
-      await sleep(last_render_time + dt - new Date().getTime());
-
-    const now = new Date().getTime();
-    const morphing_percent = (now - morphing_started_at) / (morphing_finishing_at - morphing_started_at);
-    playing_morphing.value = do_morphing_increment(morphing_percent);
-    last_render_time = new Date().getTime();
-  }
-}
-
-function do_morphing_increment(morphing_percent: number): boolean {
-  morphing_percent = Math.min(morphing_percent, 1);
-
-  editor_models.set_config_lerp(start_config.value, end_config.value, morphing_percent);
-
-  if (morphing_percent >= 1) {
-    update_editors(end_config);
-    return false;
-  }
-
-  return true;
-}
-
-async function render_sequence(output_video: boolean) {
-  {
-    if (!editor_models.color_segments_count_match([start_config.value, end_config.value])) {
-      alert("Color segments counts don't match");
-      return;
-    }
-
-    const do_rotation = camera_speed.value !== 0;
-    const do_morphing = enable_morphing.value;
-    const bak_rot_speed = camera_speed.value;
-
-    if (do_rotation) {
-      camera_speed.value = 0;
-      spiral_view.camera.alpha = spiral_view.defaults.alpha;
-    }
-
-    let morphing_percent = 0;
-    const morphing_percent_step = 1 / (duration.value * fps.value);
-    const dt = 1 / fps.value;
-
-    const inc_func = v => {
-      if (do_rotation)
-          //rot_speed is rad/sec
-        v.camera.alpha -= bak_rot_speed * dt;
-
-      if (do_morphing) do_morphing_increment(morphing_percent);
-
-      return (morphing_percent += morphing_percent_step) <= 1;
-    };
-
-    editor_models.set_config(start_config.value);
-
-    if (output_video)
-      await spiral_view.render_mp4_in_loop(inc_func, fps.value, `${filename.value}_`);
-    else
-      await spiral_view.download_in_loop(inc_func, save_resolution.value, `${filename.value}_`);
-
-    if (do_rotation)
-      camera_speed.value = bak_rot_speed;
-
-  }
-}
 
 const textarea_json = ref('');
 
@@ -288,9 +203,11 @@ const textarea_json = ref('');
         {
             icon: 'pi pi-fw pi-file',
             items: [
-                { label: 'Open', icon: 'pi pi-fw pi-file', command: ()=>file_browser.open() },
+                { label: 'Open Image', icon: 'pi pi-fw pi-file', command: ()=>file_browser.open('image') },
+                { label: 'Open Video', icon: 'pi pi-fw pi-file', command: ()=>file_browser.open('video') },
                 { separator: true },
-                { label: 'Save', icon: 'pi pi-fw pi-save', command: save },
+                { label: 'Save Image', icon: 'pi pi-fw pi-save', command: save_image },
+                { label: 'Save Video', icon: 'pi pi-fw pi-save', command: save_video },
                 { class: 'filename', },
                 { class: 'resolution', },
             ]
@@ -310,18 +227,18 @@ const textarea_json = ref('');
             icon: 'pi pi-fw pi-wrench',
             items: [
                 { label: 'JSON', icon: 'pi pi-fw pi-file-export', command: ()=>dlg_json_visible=true },
-                { label: 'Download image', icon: 'pi pi-fw pi-download', command: ()=>spiral_view.download_image(filename, save_resolution) },
+                { label: 'Download image', icon: 'pi pi-fw pi-download', command: ()=>spiral_view.download_canvas_image(filename, save_resolution) },
                 { class: 'camera_speed', },
                 { class: 'morphing', },
                 { class: 'duration', },
                 { class: 'fps', },
                 {
                   label: 'Render sequence', icon: 'pi pi-fw pi-download',
-                  command: () => render_sequence(false)
+                  command: () => render_sequence(false, filename, save_resolution).then(()=>update_editors(end_config))
                 },
                 {
                   label: 'Render video', icon: 'pi pi-fw pi-download',
-                  command: () => render_sequence(true)
+                  command: () => render_sequence(true, filename, save_resolution).then(()=>update_editors(end_config))
                 },
             ]
         },
@@ -377,7 +294,7 @@ const textarea_json = ref('');
           <div v-else-if="slotProps.item.class == 'morphing'" class="w-100">
             <div class="mb-2 text-nowrap d-flex align-items-center justify-content-between">Morphing
               <div class="">
-                <Button icon="pi pi-play" :outlined="!playing_morphing" size="small" @click.stop="toggle_playing_morphing" class="mr-1"/>
+                <Button icon="pi pi-play" :outlined="!playing_morphing" size="small" @click.stop="toggle_playing_morphing().then(()=>update_editors(end_config))" class="mr-1"/>
                 <Button :icon="`pi ${enable_morphing? 'pi-eye' : 'pi-eye-slash'}`" outlined size="small" @click.stop="enable_morphing = !enable_morphing" class=""/>
               </div>
             </div>

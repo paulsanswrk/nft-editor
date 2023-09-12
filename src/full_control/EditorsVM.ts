@@ -4,6 +4,7 @@ import {EditorColors_G_VM, EditorColors_S_VM} from "./VMs/EditorColorsVM";
 import EditorVM from "./VMs/EditorVM";
 import {mapValues, sortBy} from "lodash";
 import EditorNumeric_BJS_VM from "./VMs/EditorNumeric_BJS_VM";
+import EditorAnimPointsVM from "./VMs/EditorAnimPointsVM";
 
 const spiral_view = SpiralViewFullControl_instance;
 
@@ -29,6 +30,7 @@ export class EditorsVM {
         inner_r: new EditorNumericVM('inner_r', 0, 40),
         g_colors: new EditorColors_G_VM(),
         s_colors: new EditorColors_S_VM(),
+        anim_points: new EditorAnimPointsVM(),
     };
 
     all_params: string[] = sortBy(Object.keys(this.all_models), k => k);
@@ -54,11 +56,11 @@ export class EditorsVM {
         return mapValues(this.all_models, v => v.param_get_serialized());
     }
 
-    set_config_serialized(config: { [p: string]: string }, defaults?: { [p: string]: any }) {
-        defaults ??= spiral_view.spiral_factory.get_config();
+    set_config_serialized(config: { [p: string]: string }, spiral_defaults?: { [p: string]: any }) {
+        spiral_defaults ??= spiral_view.spiral_factory.get_config();
 
         for (const k in this.all_models) {
-            this.all_models[k].param_set_serialized(config[k], defaults[k] ?? spiral_view.defaults[k]);
+            this.all_models[k].param_set_serialized(config[k], spiral_defaults[k] ?? spiral_view.defaults[k]);
         }
     }
 
@@ -71,7 +73,8 @@ export class EditorsVM {
     }
 
     color_segments_count_match(configs: { [p: string]: any }[]) {
-        return !configs.some(c => c.g_colors.length != configs[0].g_colors.length) && !configs.some(c => c.s_colors.length != configs[0].s_colors.length);
+        return !configs.some(c => c && c.g_colors.length != configs[0].g_colors.length) && !configs.some(c => c && c.s_colors.length != configs[0].s_colors.length);
     }
 }
 
+export const editor_models = new EditorsVM();

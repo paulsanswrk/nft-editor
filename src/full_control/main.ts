@@ -8,8 +8,8 @@ import "primevue/resources/themes/bootstrap4-dark-blue/theme.css";
 // import "primevue/resources/themes/bootstrap4-light-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import {SpiralViewFullControl_instance} from "./SpiralViewFullControl";
-import {gdrive_init} from "../common/gdrive";
 import {useRouter} from 'vue-router';
+import {gdrive_init} from "../common/GDrive/gdrive_file";
 
 globalThis.__VUE_OPTIONS_API__ = true;
 globalThis.__VUE_PROD_DEVTOOLS__ = false;
