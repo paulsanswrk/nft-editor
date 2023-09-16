@@ -5,6 +5,7 @@ import EditorVM from "./VMs/EditorVM";
 import {mapValues, sortBy} from "lodash";
 import EditorNumeric_BJS_VM from "./VMs/EditorNumeric_BJS_VM";
 import EditorAnimPointsVM from "./VMs/EditorAnimPointsVM";
+import {EditorThickness_G_VM, EditorThickness_S_VM} from "./VMs/EditorThicknessVM";
 
 const spiral_view = SpiralViewFullControl_instance;
 
@@ -26,11 +27,13 @@ export class EditorsVM {
         offsetZ: new EditorNumericVM('offsetZ', -50, 30),
         offsetR: new EditorNumericVM('offsetR', -20, 10),
         beta: new EditorNumeric_BJS_VM('beta', 0, 10),
-        tube_radius: new EditorNumericVM('tube_radius', 0, 0.02, [0.001]),
+        // tube_radius: new EditorNumericVM('tube_radius', 0, 0.02, [0.001]),
         inner_r: new EditorNumericVM('inner_r', 0, 40),
         g_colors: new EditorColors_G_VM(),
         s_colors: new EditorColors_S_VM(),
         anim_points: new EditorAnimPointsVM(),
+        g_thickness: new EditorThickness_G_VM(),
+        s_thickness: new EditorThickness_S_VM(),
     };
 
     all_params: string[] = sortBy(Object.keys(this.all_models), k => k);

@@ -20,6 +20,8 @@ export interface Spiral_Dynamic_Config extends Spiral_Config {
     tube_radius?: number;
     g_colors?: { pos: number, color: string }[];
     s_colors?: { pos: number, color: string }[];
+    g_thickness?: { pos: number, val: number }[];
+    s_thickness?: { pos: number, val: number }[];
 }
 
 export class Spiral_Dynamic extends Spiral_Base {
@@ -63,6 +65,8 @@ export class Spiral_Dynamic extends Spiral_Base {
             tube_radius: this.tube_radius,
             g_colors: this.g_colors,
             s_colors: this.s_colors,
+            g_thickness: this.g_thickness,
+            s_thickness: this.s_thickness,
         };
     }
 
@@ -81,6 +85,8 @@ export class Spiral_Dynamic extends Spiral_Base {
         if (config.tube_radius !== undefined) this.tube_radius = config.tube_radius;
         if (config.g_colors !== undefined) this.g_colors = config.g_colors;
         if (config.s_colors !== undefined) this.s_colors = config.s_colors;
+        if (config.g_thickness !== undefined) this.g_thickness = config.g_thickness;
+        if (config.s_thickness !== undefined) this.s_thickness = config.s_thickness;
 
         this.calc_cc();
         this.calc_points();

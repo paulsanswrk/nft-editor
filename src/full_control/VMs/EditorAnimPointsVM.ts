@@ -28,7 +28,7 @@ export default class EditorAnimPointsVM extends EditorVM {
     param_set_serialized(param: any, default_value: any): void {
         if (!param) return;
 
-        const segments: { pos: number, val: { [k: string]: any } } [] = param;
+        const segments: { pos: number, val: { [k: string]: any } } [] = Array.isArray(param) ? param : JSON.parse(param);
         const spiral_defaults = spiral_view.spiral_factory.get_config();
 
         for (const segment of segments)

@@ -24,9 +24,7 @@ export default class EditorNumericVM extends EditorVM {
     }
 
     param_set(value: any, do_update_spiral = true) {
-        let config = {};
-        config[this.param_name] = Number(value);
-        spiral_view.active_spiral.set_config(config);
+        spiral_view.active_spiral.set_config({[this.param_name]: Number(value)});
         spiral_view.active_spiral.need_recalc_z_bounds = true;
 
         if (do_update_spiral)

@@ -13,7 +13,7 @@ export class EditorColors_G_VM extends EditorVM {
     }
 
     protected get g_colors() {
-        return spiral_view.active_spiral['g_colors'];
+        return spiral_view.active_spiral.get_config()['g_colors'];
     }
 
     param_get(): { pos: number, val: string }[] {
@@ -21,11 +21,11 @@ export class EditorColors_G_VM extends EditorVM {
     }
 
     override param_get_serialized(): string {
-        return spiral_view.active_spiral[this.param_name].map(s => `${(s.pos * 100).toFixed(0)}:${s.color}`).join('|');
+        return spiral_view.active_spiral.get_config()[this.param_name].map(s => `${(s.pos * 100).toFixed(0)}:${s.color}`).join('|');
     }
 
     param_set(segments: { pos: number, val: string }[]) {
-        spiral_view.active_spiral['g_colors'] = segments.map(c => ({pos: c.pos, color: c.val}));
+        spiral_view.active_spiral.set_config({g_colors: segments.map(c => ({pos: c.pos, color: c.val}))});
 
         spiral_view.update_colors();
     }
@@ -37,7 +37,7 @@ export class EditorColors_G_VM extends EditorVM {
                     .map(s => s.split(':'))
                     .map(a => ({pos: Number(a[0]) / 100, color: a[1]}));
 
-        spiral_view.active_spiral[this.param_name] = segments ?? default_value;
+        spiral_view.active_spiral.set_config({[this.param_name]: segments ?? default_value})
 
         spiral_view.update_colors();
     }
@@ -59,7 +59,7 @@ export class EditorColors_S_VM
     param_name = 's_colors';
 
     protected get s_colors() {
-        return spiral_view.active_spiral['s_colors'];
+        return spiral_view.active_spiral.get_config()['s_colors'];
     }
 
     param_get(): { pos: number, val: string }[] {
@@ -69,7 +69,7 @@ export class EditorColors_S_VM
 
     param_set(segments: { pos: number, val: string }[]) {
         segments = segments.slice(1, -1);
-        spiral_view.active_spiral['s_colors'] = segments.map(c => ({pos: c.pos, color: c.val}));
+        spiral_view.active_spiral.set_config({s_colors: segments.map(c => ({pos: c.pos, color: c.val}))});
 
         spiral_view.update_colors();
     }

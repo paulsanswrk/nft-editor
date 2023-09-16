@@ -8,8 +8,8 @@ export default abstract class EditorVM {
 
     abstract param_get(): any;
 
-    param_get_serialized(): string {
-        return String(this.param_get());
+    param_get_serialized(): any {
+        return this.param_get();
     }
 
     abstract param_set_serialized(param: string, default_value: any): void;

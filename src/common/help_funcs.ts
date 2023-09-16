@@ -21,3 +21,13 @@ export function HSVA_Lerp(color1_hsva: number[], color2_hsva: number[], amount: 
 
     return Color4.FromColor3(Color3.FromHSV(color1_hsva[0], color1_hsva[1], color1_hsva[2]), color1_hsva[3]);
 }
+
+export function lerp_numeric(segments: { pos: number, val: number }[], x_norm: number) {
+    let n1 = 0, n2 = 1;
+    while (x_norm > segments[n2].pos && n2 < segments.length) {
+        n1++;
+        n2++;
+    }
+
+    return segments[n1].val + (segments[n2].val - segments[n1].val) * (x_norm - segments[n1].pos) / (segments[n2].pos - segments[n1].pos);
+}

@@ -28,8 +28,9 @@ import {camera_speed, duration, enable_morphing, end_config, fps, playing_morphi
 import AnimationPointsEditor from "./components/AnimationPointsEditor.vue";
 import {GDriveFile, GDriveFileImage, GDriveFileVideo} from "../common/GDrive/gdrive_file";
 import EditorAnimPointsVM from "./VMs/EditorAnimPointsVM";
+import ThicknessEditor from "./components/ThicknessEditor.vue";
 
-const component_mappings = {EditorNumeric, ColorsEditor, AnimationPointsEditor};
+const component_mappings = {EditorNumeric, ColorsEditor, AnimationPointsEditor, ThicknessEditor};
 
 const spiral_view = SpiralViewFullControl_instance;
 
@@ -40,6 +41,8 @@ const save_resolution = ref(1400);
 const editors: Ref<EditorVM[]> = ref([
   editor_models.all_models.m1,
   editor_models.all_models.m2,
+  editor_models.all_models.g_thickness,
+  editor_models.all_models.s_thickness,
   editor_models.all_models.g_colors,
   editor_models.all_models.s_colors,
 ]);
@@ -196,8 +199,8 @@ const textarea_json = ref('');
 </script>
 
 <template>
-  <div class="">
-    <header class="position-fixed" style="z-index: 10; background: #000">
+  <div class="" style="max-width: 450px;">
+    <header class="position-fixed" style="z-index: 10; background: #000; max-width: 450px;">
 
       <Menubar class="p-0" :model="[
         {
@@ -338,7 +341,7 @@ const textarea_json = ref('');
 
     <Dialog v-model:visible="dlg_json_visible" modal maximizable header="JSON" content-style="height:70vh" :style="{ width: '100%' }">
       <div class="mb-2">
-        <Button label="Get" @click="textarea_json = JSON.stringify(editor_models.get_config_serialized())" class="mr-2"/>
+        <Button label="Get" @click="textarea_json = JSON.stringify(editor_models.get_config_serialized(),null, '\t')" class="mr-2"/>
         <Button label="Set" @click="editor_models.set_config_serialized(JSON.parse(textarea_json)); update_editors()"/>
       </div>
       <Textarea class="w-100 h-100" v-model="textarea_json"/>
@@ -367,7 +370,7 @@ body {
   $btns-h: 60px;
 
   header {
-    right: 20px;
+    //right: 20px;
     //top: 20px;
     width: calc(100vw - 100vh - 20px);
 

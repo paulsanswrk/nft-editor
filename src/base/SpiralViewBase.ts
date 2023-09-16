@@ -104,6 +104,9 @@ export default abstract class SpiralViewBase {
             radius: spiral.tube_radius,
             updatable: true,
             tessellation: 4,
+            radiusFunction: (index, distance) => {
+                return spiral.radius_function(index);
+            },
         }, this.scene);
 
         this.meshes[spiral_target_n] = [mesh];

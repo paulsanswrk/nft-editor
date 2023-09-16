@@ -1,7 +1,7 @@
 import {Vector3} from "@babylonjs/core/Maths/math.vector";
 import {Color4, FloatArray} from "@babylonjs/core/Legacy/legacy";
 import {Color3} from "@babylonjs/core";
-import {color4_to_hsva_array, HSVA_Lerp} from "../common/help_funcs";
+import {color4_to_hsva_array, HSVA_Lerp, lerp_numeric} from "../common/help_funcs";
 
 export interface Spiral_Config {
     n_config?: number;
@@ -34,6 +34,16 @@ export abstract class Spiral_Base {
     public s_colors: { pos: number, color: string }[] = [
         {pos: 0.25, color: Color4.FromColor3(Color3.White()).toHexString()},
         {pos: 0.8, color: Color4.FromColor3(Color3.White()).toHexString()},
+    ];
+
+    public g_thickness: { pos: number, val: number }[] = [
+        {pos: 0, val: this.tube_radius},
+        {pos: 1, val: this.tube_radius},
+    ];
+
+    public s_thickness: { pos: number, val: number }[] = [
+        {pos: 0, val: this.tube_radius},
+        {pos: 1, val: this.tube_radius},
     ];
 
     public need_recalc_z_bounds = true;
@@ -121,7 +131,6 @@ export abstract class Spiral_Base {
         // console.log(this.spiralPoints);
 
     }
-
 
 
     private prepare_colors() {
@@ -233,5 +242,9 @@ export abstract class Spiral_Base {
 
     protected set_cc(cc: number[]) {
         [this.cx0, this.cx1, this.cx2, this.cx3, this.cy0, this.cy1, this.cy2, this.cy3, this.cz0, this.cz1, this.cz2, this.cz3] = cc;
+    }
+
+    public radius_function(i: number) {
+        return i < this.G_steps ? lerp_numeric(this.g_thickness, i / this.G_steps) : lerp_numeric(this.s_thickness, (i - this.G_steps) / this.S_steps);
     }
 }

@@ -92,6 +92,9 @@ export class SpiralViewFullControl extends SpiralViewBase {
         const mesh: Mesh = MeshBuilder.CreateTube(`spiral_${this.spiral.id}`, {
             path: this.active_spiral.spiralPoints,
             radius: this.active_spiral.tube_radius,
+            radiusFunction: (index, distance) => {
+                return this.active_spiral.radius_function(index);
+            },
             instance: this.meshes[nMesh][0],
         }, this.scene);
     }
