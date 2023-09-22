@@ -2,17 +2,30 @@
 
 import {SpiralViewFullControl_instance} from "../SpiralViewFullControl";
 import {TinyColor} from "@ctrl/tinycolor";
+import Button from 'primevue/button';
 
 const spiral_view = SpiralViewFullControl_instance;
+const spiral = spiral_view.active_spiral;
 
 </script>
 
 <template>
   <div>
-    <div v-for="z in [0, 0.4, 0.5, 0.95, 1, 1.1]" :style="{background: spiral_view.spiral_factory.G_color_func_hex(z)}" style="height:80px;">
-      {{ z }}: {{ spiral_view.spiral_factory.G_color_func_hex(z) }} <br/>
-      HSV: {{ new TinyColor(spiral_view.spiral_factory.G_color_func_hex(z)).toHsv() }}
-    </div>
+    <Button label="update" @click="$forceUpdate" class="mb-3"/>
+
+    <template v-for="c in spiral.g_colors">
+
+      <div :style="{background: c.color}" style="height:80px;">
+        {{ c.pos }}: {{ c.color }} <br/>
+        HSV: {{ new TinyColor(c.color).toHsv() }}
+      </div>
+
+      <div :style="{background: spiral.segm_color_func(c.pos, spiral.g_colors_ext).toHexString()}" style="height:80px;">
+        {{ c.pos }}: {{ spiral.segm_color_func(c.pos, spiral.g_colors_ext).toHexString() }} <br/>
+        HSV: {{ new TinyColor(spiral.segm_color_func(c.pos, spiral.g_colors_ext).toHexString()).toHsv() }}
+      </div>
+
+    </template>
   </div>
 </template>
 

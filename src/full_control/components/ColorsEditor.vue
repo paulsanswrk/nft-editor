@@ -13,6 +13,7 @@ const extended = ref(fine_tune_needed.value);
 
 const segments = ref(props.model.param_get());
 const chrome_models: Ref<({ hex8: string } | string)[]> = computed(() => segments.value.map(s => s.val));
+const marker_colors: Ref<(string)[]> = computed(() => segments.value.map(s => s.val.substr(0, 7)));
 
 function collapse_fine_tune() {
   extended.value = false;
@@ -41,13 +42,15 @@ defineExpose({update, collapse_fine_tune});
       </span>
     </div>
 
-    <SegmentsEditor v-if="opened" v-model:segments="segments" @update:segments="props.model.param_set(segments)">
+    <SegmentsEditor v-if="opened" v-model:segments="segments" :colors="marker_colors" @update:segments="props.model.param_set(segments)">
       <template #editors="{ n_selected } : { n_selected:number|null }">
 
-        <div v-for="(segment, n) in segments" :class="{border: n === n_selected}" class="chrome-wrap p-1">
-          <Chrome v-if="props.model.param_name === 'g_colors' || (n > 0 && n < segments.length-1)" v-model="chrome_models[n]"
-                  @update:modelValue="()=>{segment.val=chrome_models[n].hex8; props.model.param_set(segments)}"/>
-        </div>
+        <template v-for="(segment, n) in segments">
+          <div v-if="extended || n === n_selected" :class="{border: n === n_selected}" class="chrome-wrap p-1 pl-3">
+            <Chrome v-if="props.model.param_name === 'g_colors' || (n > 0 && n < segments.length-1)" v-model="chrome_models[n]"
+                    @update:modelValue="()=>{segment.val=chrome_models[n].hex8; props.model.param_set(segments)}"/>
+          </div>
+        </template>
 
       </template>
     </SegmentsEditor>

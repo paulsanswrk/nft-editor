@@ -31,3 +31,17 @@ export function lerp_numeric(segments: { pos: number, val: number }[], x_norm: n
 
     return segments[n1].val + (segments[n2].val - segments[n1].val) * (x_norm - segments[n1].pos) / (segments[n2].pos - segments[n1].pos);
 }
+
+export function moveItemInArray<T>(workArray: T[], fromIndex: number, toIndex: number): T[] {
+    if (toIndex === fromIndex) {
+        return workArray;
+    }
+    const target = workArray[fromIndex];
+    const increment = toIndex < fromIndex ? -1 : 1;
+
+    for (let k = fromIndex; k !== toIndex; k += increment) {
+        workArray[k] = workArray[k + increment];
+    }
+    workArray[toIndex] = target;
+    return workArray;
+}

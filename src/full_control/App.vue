@@ -26,14 +26,25 @@ import EditorNumeric from "./components/EditorNumeric.vue";
 import ColorsEditor from "./components/ColorsEditor.vue";
 import {camera_speed, duration, enable_morphing, end_config, fps, playing_morphing, render_sequence, start_config, toggle_playing_morphing} from "./animation";
 import AnimationPointsEditor from "./components/AnimationPointsEditor.vue";
-import {GDriveFile, GDriveFileImage, GDriveFileVideo} from "../common/GDrive/gdrive_file";
+import {force_gdrive_auth, GDriveFile, GDriveFileImage, GDriveFileVideo} from "../common/GDrive/gdrive_file";
 import EditorAnimPointsVM from "./VMs/EditorAnimPointsVM";
 import ThicknessEditor from "./components/ThicknessEditor.vue";
+import Toast from 'primevue/toast';
+
+import {useToast} from 'primevue/usetoast';
+import {Vector3} from "@babylonjs/core/Maths/math.vector";
+
+const toast = useToast();
 
 const component_mappings = {EditorNumeric, ColorsEditor, AnimationPointsEditor, ThicknessEditor};
 
 const spiral_view = SpiralViewFullControl_instance;
 
+const errors_list = ref([]);
+window['add_error_to_list'] = s => {
+  if (errors_list.value.length > 50) errors_list.value = [];
+  errors_list.value.push(s);
+}
 
 const filename = ref(Date.now().toString());
 const save_resolution = ref(1400);
@@ -41,10 +52,10 @@ const save_resolution = ref(1400);
 const editors: Ref<EditorVM[]> = ref([
   editor_models.all_models.m1,
   editor_models.all_models.m2,
-  editor_models.all_models.g_thickness,
-  editor_models.all_models.s_thickness,
-  editor_models.all_models.g_colors,
-  editor_models.all_models.s_colors,
+  // editor_models.all_models.g_thickness,
+  // editor_models.all_models.s_thickness,
+  // editor_models.all_models.g_colors,
+  // editor_models.all_models.s_colors,
 ]);
 
 const active_editor_names = ref(Object.fromEntries(editors.value.map(e => [e.param_name, true])));
@@ -74,33 +85,45 @@ async function save_image() {
 
   let props = editor_models.get_config_serialized();
   delete props['anim_points'];
+  delete props['inner_r'];
 
   if (shadow_spiral_enabled.value) {
-    // const shadow_spiral_props = spiral_view.shadow_spiral.get_config();
     change_active_spiral("shadow");
     const shadow_spiral_props = editor_models.get_config_serialized();
     const colors_props = {'ss_g_colors': shadow_spiral_props.g_colors, 'ss_s_colors': shadow_spiral_props.s_colors};
-    delete shadow_spiral_props['gc'];
-    delete shadow_spiral_props['sc'];
+    const thickness_props = {'ss_g_thickness': shadow_spiral_props.g_thickness, 'ss_s_thickness': shadow_spiral_props.s_thickness};
+
+    for (const p of ['g_colors', 's_colors', 'g_thickness', 's_thickness', 'anim_points'])
+      delete shadow_spiral_props[p];
 
     shadow_spiral_props['transform_type'] = spiral_view.shadow_spiral.transform_type;
     const ssk = Object.keys(shadow_spiral_props).join(',');
     const ssv = Object.values(shadow_spiral_props).join(',');
 
-    props = {...props, ...colors_props, ...{ssk, ssv}};
+    props = {...props, ...colors_props, ...thickness_props, ...{ssk, ssv}};
     // console.log('save', props);
   }
 
   change_active_spiral(bak_spiral_name);
 
-  await (new GDriveFileImage).save(blob, filename.value, {...props});
+  try {
+    await (new GDriveFileImage).save(blob, filename.value, {...props});
+    toast.add({severity: 'info', summary: 'Info', detail: 'Successfully saved', life: 1000});
+  } catch (e) {
+    toast.add({severity: 'error', summary: 'Info', detail: 'Save error', life: 3000});
+  }
 }
 
 async function save_video() {
   const blob = await render_sequence(true, 'tmp.mp4', 0, true);
   const properties = (new EditorAnimPointsVM).param_get_serialized();
 
-  await (new GDriveFileVideo).save(blob, filename.value, properties);
+  try {
+    await (new GDriveFileVideo).save(blob, filename.value, properties);
+    toast.add({severity: 'info', summary: 'Info', detail: 'Successfully saved', life: 1000});
+  } catch (e) {
+    toast.add({severity: 'error', summary: 'Info', detail: 'Save error', life: 3000});
+  }
 }
 
 const file_browser = ref(null);
@@ -124,7 +147,11 @@ async function file_select(file: GDriveFile) {
     const ssv = (file.properties['ssv'] as string).split(',');
     const shadow_spiral_props = Object.fromEntries(ssk.map((k, n) => [k, ssv[n]]));
 
-    editor_models.set_config_serialized({...shadow_spiral_props, ...{g_colors: file.properties.ssgc, s_colors: file.properties.sssc}}, defaults); //shadow editor_models?
+    editor_models.set_config_serialized({
+      ...shadow_spiral_props,
+      ...{g_colors: file.properties.ssgc, s_colors: file.properties.sssc},
+      ...{g_thickness: file.properties.ssgth, s_thickness: file.properties.sssth},
+    }, defaults); //shadow editor_models?
     update_editors(shadow_spiral_props);
 
     spiral_view.update_spiral();
@@ -167,6 +194,7 @@ function remove_editor(name: string) {
 }
 
 const dlg_json_visible = ref(false);
+const dlg_error_list_visible = ref(false);
 
 const shadow_spiral_enabled = ref(false);
 const active_spiral_name: Ref<'main' | 'shadow'> = ref('main' as ('main' | 'shadow'));
@@ -187,6 +215,15 @@ function change_active_spiral(name?: ('main' | 'shadow')) {
   update_editors();
 }
 
+function copy_main_to_shadow() {
+  const bak_active_spiral_name = active_spiral_name.value;
+  spiral_view.set_active_spiral("main");
+  const config = editor_models.get_config();
+  spiral_view.set_active_spiral("shadow");
+  editor_models.set_config(config);
+  spiral_view.set_active_spiral(bak_active_spiral_name);
+
+}
 
 watch(camera_speed, (v: number) => {
       spiral_view.camera.useAutoRotationBehavior = !!v;
@@ -194,7 +231,27 @@ watch(camera_speed, (v: number) => {
     }
 );
 
+function reset_scroll_pos() {
+  window.document.getElementById('editors').scrollTop = 0;
+}
+
 const textarea_json = ref('');
+
+const camera_contols_enabled = ref(false);
+watch(camera_contols_enabled, (v: boolean) => {
+      if (v) {
+        spiral_view.camera.inputs.addPointers();
+        // console.log(spiral_view.camera.position);
+      } else {
+        spiral_view.camera.inputs.removeByType('ArcRotateCameraPointersInput');
+        spiral_view.camera.setTarget(new Vector3(0, 0, 3));
+        spiral_view.camera.beta = spiral_view.defaults.beta;
+        spiral_view.camera.radius = editor_models.get_config()['camH'];
+      }
+    }
+);
+
+// window['camera'] = spiral_view.camera;
 
 </script>
 
@@ -206,6 +263,7 @@ const textarea_json = ref('');
         {
             icon: 'pi pi-fw pi-file',
             items: [
+                { class: 'force-gdrive-auth' },
                 { label: 'Open Image', icon: 'pi pi-fw pi-file', command: ()=>file_browser.open('image') },
                 { label: 'Open Video', icon: 'pi pi-fw pi-file', command: ()=>file_browser.open('video') },
                 { separator: true },
@@ -243,6 +301,8 @@ const textarea_json = ref('');
                   label: 'Render video', icon: 'pi pi-fw pi-download',
                   command: () => render_sequence(true, filename, save_resolution).then(()=>update_editors(end_config))
                 },
+                // { label: 'Reset scroll pos', command: reset_scroll_pos },
+                { label: camera_contols_enabled? 'Disable panning' : 'Enable panning', command: ()=>camera_contols_enabled=!camera_contols_enabled },
             ]
         },
         { icon: 'pi pi-angle-double-down', command:()=>editor_models.all_params.forEach(k=>opened[k]=false) },
@@ -251,8 +311,17 @@ const textarea_json = ref('');
             items: [
                 { class: 'select-spiral-main', },
                 { class: 'select-spiral-shadow', },
+                { label: 'Main To Shadow', icon: 'pi pi-angle-double-right', command: copy_main_to_shadow, disabled: !shadow_spiral_enabled },
             ]
         },
+        {
+          label: errors_list.length.toString(),
+          icon: 'pi pi-exclamation-circle',
+          // disabled: !errors_list.length,
+          class: errors_list.length? 'text-danger' : '',
+          command: () => dlg_error_list_visible = true
+        }
+
     ]">
 
         <template #itemicon="slotProps:{item: MenuItem}">
@@ -314,6 +383,10 @@ const textarea_json = ref('');
               </tr>
             </table>
           </div>
+          <div v-else-if="slotProps.item.class == 'force-gdrive-auth'" class="w-100">
+            <Checkbox v-model="force_gdrive_auth" @change.stop="" :binary="true"/>&nbsp;
+            Force Gdrive Auth
+          </div>
 
           <i :class="slotProps.item.icon + (slotProps.item.label? ' mr-2' : '')" v-else/>
         </template>
@@ -347,12 +420,30 @@ const textarea_json = ref('');
       <Textarea class="w-100 h-100" v-model="textarea_json"/>
     </Dialog>
 
+    <Dialog v-model:visible="dlg_error_list_visible" modal maximizable header="Error list" content-style="height:70vh" :style="{ width: '100%' }">
+
+      <div v-for="err in errors_list" class="my-2">
+        {{ err }}
+      </div>
+
+      <div class="mb-2">
+        <Button label="Clear all" @click="errors_list = []"/>
+      </div>
+    </Dialog>
+
+
     <router-link v-if="false"/>
 
   </div>
+
+  <Toast/>
+
 </template>
 
 <style lang="scss">
+
+$name-h: 15px;
+$btns-h: 60px;
 
 body {
   overflow: hidden;
@@ -363,30 +454,29 @@ body {
   //border: 1px solid #ccc;
   height: 100vh;
   overflow: hidden;
-  padding: 2px 15px 15px 0;
+  padding: $btns-h 15px 15px 0;
+
   width: calc(100vw - 100vh);
 
-  $name-h: 15px;
-  $btns-h: 60px;
 
   header {
-    //right: 20px;
-    //top: 20px;
+    top: 2px;
     width: calc(100vw - 100vh - 20px);
-
   }
 
 
   #editors {
     height: calc(100vh - $btns-h - $name-h);
     position: relative;
-    top: $btns-h + $name-h;
+    padding-bottom: 50px;
 
   }
-}
 
-ul.p-submenu-list {
-  //min-width: 350px;
+  ul.p-submenu-list {
+    //min-width: 350px;
+    max-height: calc(100vh - $btns-h);
+    overflow: auto;
+  }
 }
 
 .p-inplace-content {
@@ -398,7 +488,13 @@ ul.p-submenu-list {
   user-select: none;
 }
 
+.text-danger {
+  .p-menuitem-link, .p-menuitem-text {
+    color: red !important;
+  }
+}
+
 .p-menuitem-link {
-  padding: 0.7rem !important;
+  padding: 8px 0.7rem !important;
 }
 </style>

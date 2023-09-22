@@ -87,7 +87,9 @@ function moving() {
   color: #fff;
 
   &.selected {
-    color: #00d9ff;
+    //color: #00d9ff;
+    font-size: 22px;
+    margin-top: -2px !important;
   }
 }
 </style>

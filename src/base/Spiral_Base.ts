@@ -28,7 +28,7 @@ export abstract class Spiral_Base {
 
     public g_colors: { pos: number, color: string }[] = [
         {pos: 0, color: Color4.FromColor3(Color3.FromHSV(0, 1, 1)).toHexString()},
-        {pos: 1, color: Color4.FromColor3(Color3.FromHSV(320, 1, 1)).toHexString()},
+        {pos: 1, color: Color4.FromColor3(Color3.FromHSV(300, 1, 1)).toHexString()},
     ];
 
     public s_colors: { pos: number, color: string }[] = [
@@ -48,8 +48,8 @@ export abstract class Spiral_Base {
 
     public need_recalc_z_bounds = true;
 
-    protected readonly G_steps = 2000;
-    protected readonly S_steps = 400;
+    public readonly G_steps = new URL(location.href).searchParams.get('hi') === null ? 2000 : 4000;
+    public readonly S_steps = new URL(location.href).searchParams.get('hi') === null ? 400 : 800;
     protected readonly hueG = 0.032;
 
     protected cx0: number = 0;
@@ -160,10 +160,10 @@ export abstract class Spiral_Base {
         ].map(x => ({pos: x.pos, color: color4_to_hsva_array(x.color)}));
     }
 
-    private g_colors_ext: { color: number[]; pos: number }[];
+    public g_colors_ext: { color: number[]; pos: number }[];
     private s_colors_ext: { color: number[]; pos: number }[];
 
-    protected segm_color_func(norm_z: number, colors: { color: number[]; pos: number }[], do_log: boolean = false): Color4 {
+    public segm_color_func(norm_z: number, colors: { color: number[]; pos: number }[], do_log: boolean = false): Color4 {
         try {
             let n_color_segment = colors.findIndex(x => x.pos > norm_z) - 1;
             const amount = (norm_z - colors[n_color_segment].pos) / (colors[n_color_segment + 1].pos - colors[n_color_segment].pos);
@@ -184,38 +184,39 @@ export abstract class Spiral_Base {
     }
 
     public calc_colors(positions: FloatArray) {
+        const vertices_cnt = positions.length / 3;
+        const g_vertices_cnt = vertices_cnt * this.G_steps / (this.G_steps + this.S_steps);
+        const s_vertices_cnt = vertices_cnt * this.S_steps / (this.G_steps + this.S_steps);
+
         if (this.need_recalc_z_bounds) {
-            for (let i = 2; i < positions.length; i += 3) {
+            for (let i = 2; i < g_vertices_cnt * 3; i += 3) {
                 const z = positions[i];
                 this.z_min = Math.min(this.z_min, z)
                 this.z_max = Math.max(this.z_max, z)
             }
             this.need_recalc_z_bounds = false;
+            // console.log('recalc_z_bounds', {z_min: this.z_min, z_max: this.z_max})
+
         }
 
         this.prepare_colors();
-
-        const vertices_cnt = positions.length / 3;
-        const g_vertices_cnt = vertices_cnt * this.G_steps / (this.G_steps + this.S_steps);
-        const s_vertices_cnt = vertices_cnt * this.S_steps / (this.G_steps + this.S_steps);
         const colors = [];
 
-        const z_max = this.G(this.u2)[2];
-        let z_norm_min = 10, z_norm_max = 0;
-        let z_pos_min = 10, z_pos_max = 0;
+        // let z_norm_min = 10, z_norm_max = 0;
+        // let z_pos_min = 10, z_pos_max = 0;
 
         // console.log('z_min/z_max', this.z_min, this.z_max)
 
         for (let p = 0; p < positions.length; p += 3) {
             // const z = Math.abs(positions[p + 2]);
             const z = positions[p + 2];
-            z_pos_min = Math.min(z_pos_min, z)
-            z_pos_max = Math.max(z_pos_max, z)
+            // z_pos_min = Math.min(z_pos_min, z)
+            // z_pos_max = Math.max(z_pos_max, z)
 
             if (p < g_vertices_cnt * 3) { //G
                 const z_norm = (z - this.z_min) / (this.z_max - this.z_min);
-                z_norm_min = Math.min(z_norm_min, z_norm)
-                z_norm_max = Math.max(z_norm_max, z_norm)
+                // z_norm_min = Math.min(z_norm_min, z_norm)
+                // z_norm_max = Math.max(z_norm_max, z_norm)
                 // const z_norm = z / z_max;
                 const color = this.segm_color_func(z_norm, this.g_colors_ext);
                 colors.push(...color.asArray());

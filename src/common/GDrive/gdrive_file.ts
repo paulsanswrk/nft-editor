@@ -1,4 +1,12 @@
 import axios from "axios";
+import {ref} from "vue";
+
+/*axios.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    alert('Axios error: ' + error)
+    return Promise.reject(error);
+});*/
 
 const CLIENT_ID = '245623700514-utgsq529q9a820svr8k7djt2l1k3c37l.apps.googleusercontent.com';
 const API_KEY = 'AIzaSyA2Nsh3yDFbJT3S84_1CMQGHFkpgdNRX00';
@@ -14,6 +22,8 @@ let tokenClient: google.accounts.oauth2.TokenClient;
 const static_objects_folder_id: string = '16vTYEvDAvIwWDtn2u2zrep3bx97_hnlY';
 const animated_objects_folder_id: string = '1FsAfSsjeJR3VjjovutAeVZdw9iezagoS';
 const animated_objects_json_folder_id: string = '1bLJMUsgM2MD3wHuk02BGTb9eiEZ9lJuq';
+
+export let force_gdrive_auth = ref(false);
 
 export async function gdrive_init() {
     // Initializes the client with the API key
@@ -58,10 +68,11 @@ export abstract class GDriveFile {
             });
 
             try {
-                if (gapi.client.getToken() === null) {
+                if (gapi.client.getToken() === null || force_gdrive_auth.value) {
                     // Prompt the user to select a Google Account and ask for consent to share their data
                     // when establishing a new session.
                     tokenClient.requestAccessToken({prompt: 'consent'});
+                    force_gdrive_auth.value = false;
                 } else {
                     // Skip display of account chooser and consent dialog for an existing session.
                     // tokenClient.requestAccessToken({prompt: '',});
@@ -155,6 +166,16 @@ export class GDriveFileImage extends GDriveFile {
             appProperties['sssc'] = properties.ss_s_colors;
             delete properties.ss_g_colors;
             delete properties.ss_s_colors;
+        }
+
+        if (properties.ss_g_thickness) {
+            appProperties['ssgth'] = properties.ss_g_thickness;
+            delete properties.ss_g_thickness;
+        }
+
+        if (properties.ss_s_thickness) {
+            appProperties['sssth'] = properties.ss_s_thickness;
+            delete properties.ss_s_thickness;
         }
 
         const metadata = {

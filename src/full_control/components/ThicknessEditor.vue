@@ -42,11 +42,11 @@ defineExpose({update, collapse_fine_tune});
     <SegmentsEditor v-if="opened" v-model:segments="segments" @update:segments="props.model.param_set(segments)">
       <template #editors="{ n_selected } : { n_selected:number|null }">
 
-        <div v-for="(segment, n) in segments" :class="{border: n === n_selected}" class="slider-wrap px-2 py-4 my-2">
-
-          <Slider v-model="segment.val" :step="0.001" :min="0" :max="0.02" @change="props.model.param_set(segments)"/>
-
-        </div>
+        <template v-for="(segment, n) in segments">
+          <div v-if="extended || n === n_selected" :class="{border: n === n_selected}" class="slider-wrap px-2 py-4 my-2">
+            <Slider v-model="segment.val" :step="0.001" :min="0" :max="0.03" @change="props.model.param_set(segments)"/>
+          </div>
+        </template>
 
       </template>
     </SegmentsEditor>

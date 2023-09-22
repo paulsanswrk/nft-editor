@@ -3,13 +3,14 @@ import Button from 'primevue/button';
 import MovableMarker from "./MovableMarker.vue";
 import {ref} from "vue";
 import {maxBy} from "lodash";
+import {moveItemInArray} from "../../common/help_funcs";
 
-const props = defineProps<{ segments: { pos: number, val: any }[] }>()
+const props = defineProps<{ segments: { pos: number, val: any }[], colors: string[] | null }>()
 const emit = defineEmits(['update:segments'])
 
 
 const x = ref(0.5);
-const n_selected = ref(null);
+const n_selected = ref(0);
 
 function add() {
   const segments: { pos: number; val: any }[] = props.segments.slice(0);
@@ -24,25 +25,56 @@ function add() {
   emit('update:segments', segments);
 }
 
+function swap(n1: number, n2: number) {
+  const pos1 = props.segments[n1].pos;
+  const pos2 = props.segments[n2].pos;
+
+  moveItemInArray(props.segments, n1, n2);
+  props.segments[n1].pos = pos1;
+  props.segments[n2].pos = pos2;
+
+  emit('update:segments', props.segments);
+}
+
+function equal_distances() {
+  const len = props.segments.length - 1;
+  props.segments.forEach((s, n) => s.pos = n / len);
+}
+
 </script>
 
 <template>
 
   <div class="segments-editor position-relative">
 
-    <div style="height: 30px;">
+    <div style="height: 30px;" class="mb-2">
       <div class="axe position-absolute w-100" style="top:22px; height: 12px; background: #333;"/>
 
       <MovableMarker v-for="(seg, n) in props.segments"
                      v-model:norm_x="seg.pos"
                      :locked="n === 0 || n === props.segments.length-1"
                      :selected="n===n_selected"
+                     :style="{color: props.colors?.[n] ?? '#fff'}"
                      @mousedown="n_selected=n"
                      @update:norm_x="$emit('update:segments', props.segments)"
       />
     </div>
 
     <div class="text-right overflow-hidden">
+
+      <div class="float-left">
+        <span v-if="n_selected !== null" class="text-white">
+          {{ segments[n_selected]?.pos.toFixed(2) }}
+        </span>
+      </div>
+
+      <Button icon="pi pi-angle-left" size="small" text raised rounded outlined style="padding: 5px" @click="n_selected = (n_selected-1+props.segments.length) % props.segments.length"/>
+      <Button icon="pi pi-angle-right" size="small" text raised rounded outlined style="padding: 5px" @click="n_selected = (n_selected+1) % props.segments.length"/>
+      <Button icon="pi pi-arrows-h" size="small" text raised rounded outlined style="padding: 5px" :disabled="props.segments.length == 2" @click="equal_distances"/>
+      <Button icon="pi pi-angle-up" size="small" text raised rounded outlined style="padding: 5px" :disabled="n_selected === null || n_selected == props.segments.length-1"
+              @click="swap(<number>n_selected, n_selected+1); n_selected++"/>
+      <Button icon="pi pi-angle-down" size="small" text raised rounded outlined style="padding: 5px" :disabled="!n_selected"
+              @click="swap(<number>n_selected, n_selected-1); n_selected--"/>
       <Button icon="pi pi-plus" size="small" text raised rounded outlined style="padding: 5px" @click="add"/>
       <Button icon="pi pi-times" size="small" text raised rounded outlined style="padding: 5px"
               @click="props.segments.splice(<number>n_selected, 1); $emit('update:segments', props.segments)"
