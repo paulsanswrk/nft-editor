@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import Button from 'primevue/button';
-import MovableMarker from "./MovableMarker.vue";
 import {ref} from "vue";
 import {maxBy} from "lodash";
 import {moveItemInArray} from "../../common/help_funcs";
+import Slider from 'primevue/slider';
+import SegmentMarker from "./SegmentMarker.vue";
 
 const props = defineProps<{ segments: { pos: number, val: any }[], colors: string[] | null }>()
 const emit = defineEmits(['update:segments'])
@@ -47,16 +48,23 @@ function equal_distances() {
 
   <div class="segments-editor position-relative">
 
-    <div style="height: 30px;" class="mb-2">
+    <Slider v-model="props.segments[n_selected].pos"
+            :step="0.01" :min="(props.segments[n_selected-1]?.pos ?? 0) + 0.01" :max="(props.segments[n_selected+1]?.pos ?? 1) - 0.01"
+            :disabled="!n_selected || n_selected === props.segments.length-1"
+            @change="$emit('update:segments', props.segments)"
+            class="mx-2 my-4"
+    />
+
+
+    <div style="height: 30px;" class="mb-2 position-relative">
       <div class="axe position-absolute w-100" style="top:22px; height: 12px; background: #333;"/>
 
-      <MovableMarker v-for="(seg, n) in props.segments"
+      <SegmentMarker v-for="(seg, n) in props.segments"
                      v-model:norm_x="seg.pos"
                      :locked="n === 0 || n === props.segments.length-1"
                      :selected="n===n_selected"
                      :style="{color: props.colors?.[n] ?? '#fff'}"
                      @mousedown="n_selected=n"
-                     @update:norm_x="$emit('update:segments', props.segments)"
       />
     </div>
 
