@@ -140,10 +140,12 @@ export abstract class Spiral_Base {
         }].map(x => ({pos: x.pos, color: color4_to_hsva_array(x.color)}));
 
 
-        const z_g_min_norm = (this.G(this.u1)[2] - this.z_min) / (this.z_max - this.z_min);
-        const g_start_color = this.segm_color_func(z_g_min_norm, this.g_colors_ext).toHexString();
-        const z_g_max_norm = (this.G(this.u2)[2] - this.z_min) / (this.z_max - this.z_min);
-        const g_end_color = this.segm_color_func(z_g_max_norm, this.g_colors_ext).toHexString();
+        // const z_g_min_norm = (this.G(this.u1)[2] - this.z_min) / (this.z_max - this.z_min);
+        // const z_g_max_norm = (this.G(this.u2)[2] - this.z_min) / (this.z_max - this.z_min);
+        // const g_start_color = this.segm_color_func(z_g_min_norm, this.g_colors_ext).toHexString();
+        // const g_end_color = this.segm_color_func(z_g_max_norm, this.g_colors_ext).toHexString();
+        const g_start_color = this.g_colors[0].color;
+        const g_end_color = this.g_colors[this.g_colors.length - 1].color;
 
         const s_colors = [
             {pos: 0, color: g_end_color},
@@ -188,16 +190,16 @@ export abstract class Spiral_Base {
         const g_vertices_cnt = vertices_cnt * this.G_steps / (this.G_steps + this.S_steps);
         const s_vertices_cnt = vertices_cnt * this.S_steps / (this.G_steps + this.S_steps);
 
-        if (this.need_recalc_z_bounds) {
-            for (let i = 2; i < g_vertices_cnt * 3; i += 3) {
-                const z = positions[i];
-                this.z_min = Math.min(this.z_min, z)
-                this.z_max = Math.max(this.z_max, z)
-            }
-            this.need_recalc_z_bounds = false;
-            // console.log('recalc_z_bounds', {z_min: this.z_min, z_max: this.z_max})
+        /*        if (this.need_recalc_z_bounds) {
+                    for (let i = 2; i < g_vertices_cnt * 3; i += 3) {
+                        const z = positions[i];
+                        this.z_min = Math.min(this.z_min, z)
+                        this.z_max = Math.max(this.z_max, z)
+                    }
+                    this.need_recalc_z_bounds = false;
+                    // console.log('recalc_z_bounds', {z_min: this.z_min, z_max: this.z_max})
 
-        }
+                }*/
 
         this.prepare_colors();
         const colors = [];
@@ -214,11 +216,12 @@ export abstract class Spiral_Base {
             // z_pos_max = Math.max(z_pos_max, z)
 
             if (p < g_vertices_cnt * 3) { //G
-                const z_norm = (z - this.z_min) / (this.z_max - this.z_min);
+                // const z_norm = (z - this.z_min) / (this.z_max - this.z_min);
                 // z_norm_min = Math.min(z_norm_min, z_norm)
                 // z_norm_max = Math.max(z_norm_max, z_norm)
                 // const z_norm = z / z_max;
-                const color = this.segm_color_func(z_norm, this.g_colors_ext);
+                const color_pos = (p / 3) / g_vertices_cnt;
+                const color = this.segm_color_func(color_pos, this.g_colors_ext);
                 colors.push(...color.asArray());
             } else { //S
                 const color_pos = (p / 3 - g_vertices_cnt) / s_vertices_cnt;
