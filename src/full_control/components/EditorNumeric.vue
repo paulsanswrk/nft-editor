@@ -43,9 +43,10 @@ defineExpose({update, collapse_fine_tune});
   <div class="border border-light p-2">
 
     <div class="d-flex justify-content-between edit-header">
-      <h6 class="text-white" @click="$emit('collapse')">{{ model.param_name }}: {{ value_total.toFixed(3) }}</h6>
+      <h6 class="text-white" @click="$emit('collapse')">{{ model.param_name }}: {{ props.model.format(value_total) }}</h6>
 
       <span class="p-buttonset">
+        <Button label="0" :outlined="true" style="padding: 0 7px;" @click="value = 0"/>
         <Button v-if="opened && fine_tune_needed" label="F" :outlined="!extended" style="padding: 0 7px;" @click="extended = !extended"/>
         <Button :icon="opened? 'pi pi-minus' : 'pi pi-plus'" outlined @click="$emit('collapse')"/>
         <Button icon="pi pi-times" outlined @click="$emit('remove_editor')"/>
@@ -60,7 +61,7 @@ defineExpose({update, collapse_fine_tune});
                      input-class="w-100"
                      :step="step" :min="model.param_min" :max="model.param_max"/>
         <Button icon="pi pi-plus" @click="value += step"/>
-        <Dropdown v-if="steps.length > 1" v-model="step" :options="steps"/>
+        <Dropdown v-if="steps.length > 1" v-model="step" :options="steps.map(s=>({label: props.model.format(s), val: s}))" option-label="label" option-value="val"/>
       </div>
 
       <Slider v-model="value" class="w-100" :min="model.param_min" :max="model.param_max" :step="step"/>

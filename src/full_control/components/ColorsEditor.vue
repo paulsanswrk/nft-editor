@@ -25,6 +25,7 @@ function update() {
 
 defineExpose({update, collapse_fine_tune});
 
+const g_colors_buffer: Ref<{ pos: number, val: string }[]> = ref([]);
 
 </script>
 
@@ -36,6 +37,8 @@ defineExpose({update, collapse_fine_tune});
       <h6 class="font-weight-bold text-white" @click="$emit('collapse')">{{ props.model.param_name }}</h6>
 
       <span class="p-buttonset">
+        <Button v-if="props.model.param_name == 'g_colors'" icon="pi pi-file-export" outlined @click="g_colors_buffer = props.model.param_get()"/>
+        <Button v-if="props.model.param_name == 'g_colors' && g_colors_buffer.length" icon="pi pi-file-import" outlined @click="props.model.param_set(g_colors_buffer); update()"/>
         <Button v-if="opened && fine_tune_needed" label="F" :outlined="!extended" style="padding: 0 7px;" @click="extended = !extended"/>
         <Button :icon="opened? 'pi pi-minus' : 'pi pi-plus'" outlined @click="$emit('collapse')"/>
         <Button icon="pi pi-times" outlined @click="$emit('remove_editor')"/>

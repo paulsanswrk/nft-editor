@@ -59,16 +59,34 @@ export abstract class GDriveFile {
     async load_details() {
     }
 
+    private have_valid_token() {
+        if (!!gapi.client.getToken()) return true;
+
+        const access_token = localStorage['gapi_token'];
+        const expires_at = localStorage['expires_at'];
+
+        if (!!access_token && !!expires_at && Number(expires_at) > new Date().getTime()) {
+            gapi.client.setToken({access_token});
+            return true;
+        }
+
+        return false;
+    }
+
     protected do_auth_call(callback: (resolve: (value: any) => void, reject: (reason?: any) => void, data?: any) => Promise<any>, data?: any): Promise<any> {
         return new Promise(async (resolve, reject) => {
             tokenClient = google.accounts.oauth2.initTokenClient({
                 client_id: CLIENT_ID,
                 scope: SCOPES,
-                callback: async (tokenResponse: google.accounts.oauth2.TokenResponse) => await callback(resolve, reject, data)
+                callback: async (tokenResponse: google.accounts.oauth2.TokenResponse) => {
+                    localStorage['gapi_token'] = tokenResponse.access_token;
+                    localStorage['expires_at'] = new Date().getTime() + 1000 * parseInt(tokenResponse.expires_in);
+                    await callback(resolve, reject, data);
+                }
             });
 
             try {
-                if (gapi.client.getToken() === null || force_gdrive_auth.value) {
+                if (force_gdrive_auth.value || !this.have_valid_token()) {
                     // Prompt the user to select a Google Account and ask for consent to share their data
                     // when establishing a new session.
                     tokenClient.requestAccessToken({prompt: 'consent'});
@@ -81,6 +99,8 @@ export abstract class GDriveFile {
 
             } catch (e) {
                 console.error(e);
+                localStorage['gapi_token'] = localStorage['expires_at'] = undefined;
+                force_gdrive_auth.value = true;
                 reject();
             }
         });

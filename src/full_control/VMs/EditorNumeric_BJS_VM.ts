@@ -12,18 +12,29 @@ export default class EditorNumeric_BJS_VM extends EditorNumericVM {
     }
 
     param_get(): number {
+        let res = 0;
+
         switch (this.param_name) {
             case 'camH':
-                return spiral_view.camera_h;
+                res = spiral_view.camera_h;
+                break;
             case 'fov':
-                return spiral_view.camera_fov;
+                res = spiral_view.camera_fov;
+                break;
+            case 'alpha':
+                res = spiral_view.camera.alpha;
+                break;
             case 'beta':
-                return spiral_view.camera.beta;
+                res = spiral_view.camera.beta;
+                break;
             case 'rot_cnt':
                 return super.param_get();
+            default:
+                throw `EditorNumeric_BJS_VM.param_get with unknown param '${this.param_name}'`;
         }
 
-        throw `EditorNumeric_BJS_VM.param_get with unknown param '${this.param_name}'`;
+        return Number(res);
+
     }
 
     param_set(value: number) {
@@ -37,6 +48,9 @@ export default class EditorNumeric_BJS_VM extends EditorNumericVM {
             case 'rot_cnt':
                 super.param_set(value);
                 spiral_view.change_rot_cnt(value);
+                break;
+            case 'alpha':
+                spiral_view.camera.alpha = value;
                 break;
             case 'beta':
                 spiral_view.camera.beta = value;

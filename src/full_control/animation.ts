@@ -8,13 +8,15 @@ const spiral_view = SpiralViewFullControl_instance;
 export const camera_speed = ref(0);
 export const fps = ref(30);
 export const duration = ref(5);
+export const playing_time = ref(0);
 export const enable_morphing = ref(true);
 export const playing_morphing = ref(false);
-
 // export const start_config: Ref<{ [p: string]: any } | null> = ref(null);
-// export const end_config: Ref<{ [p: string]: any } | null> = ref(null);
 
+// export const end_config: Ref<{ [p: string]: any } | null> = ref(null);
 export const anim_points: Ref<{ pos: number, val: any } []> = ref([{pos: 0, val: null}, {pos: 1, val: null}]);
+
+export const current_anim_point_num = ref(0);
 
 export const start_config = computed({
     get() {
@@ -34,37 +36,47 @@ export const end_config = computed({
     }
 })
 
-export async function toggle_playing_morphing() {
-    if (!start_config.value || !end_config.value) return;
+export async function toggle_playing_morphing(n_start_point: number = 0, n_end_point: number = 0) {
+    if (anim_points.value.some(p => !p.val)) return;
 
-    if (!editor_models.color_segments_count_match([start_config.value, end_config.value])) {
+    if (!editor_models.segments_count_match()) {
         // @ts-ignore
-        window.alert("Color segments counts don't match");
+        window.alert("Segments counts don't match");
         return;
     }
+    if (n_start_point === n_end_point) n_start_point = n_end_point = 0;
 
     playing_morphing.value = !playing_morphing.value;
+    n_end_point ||= anim_points.value.length - 1;
+    n_end_point = Math.min(n_end_point, anim_points.value.length - 1);
 
     if (!playing_morphing.value) return;
 
-    editor_models.set_config(start_config.value);
+    const start_point = anim_points.value[n_start_point];
+    const end_point = anim_points.value[n_end_point];
+
+    editor_models.set_config(start_point.val);
     const morphing_started_at = new Date().getTime();
-    const morphing_finishing_at = morphing_started_at + duration.value * 1000;
+    const morphing_finishing_at = morphing_started_at + duration.value * (end_point.pos - start_point.pos) * 1000;
     const dt = 1000 / fps.value;
 
     let last_render_time = morphing_started_at;
-    let n_curr_anim_segment = 0;
+    let n_curr_anim_segment = n_start_point;
 
     while (true) {
         if (last_render_time + dt > new Date().getTime())
             await sleep(last_render_time + dt - new Date().getTime());
 
+
         const point_a = anim_points.value[n_curr_anim_segment];
         const point_b = anim_points.value[n_curr_anim_segment + 1];
 
         const now = new Date().getTime();
-        const morphing_percent = (now - morphing_started_at) / (morphing_finishing_at - morphing_started_at);
-        if (morphing_percent >= 1) {
+
+        playing_time.value = (now - morphing_started_at) / 1000;
+
+        const morphing_percent = start_point.pos + (now - morphing_started_at) / (morphing_finishing_at - morphing_started_at) * (end_point.pos - start_point.pos);
+        if (morphing_percent >= end_point.pos) {
             playing_morphing.value = false;
             break;
         }
@@ -91,9 +103,9 @@ export async function render_sequence(output_video: boolean, filename: string, i
     {
         const do_morphing = enable_morphing.value && !anim_points.value.some(p => !p.val);
 
-        if (do_morphing && !editor_models.color_segments_count_match(anim_points.value.map(p => p.val))) {
+        if (do_morphing && !editor_models.segments_count_match()) {
             // @ts-ignore
-            alert("Color segments counts don't match");
+            alert("Segments counts don't match");
             return;
 
         }
@@ -111,9 +123,8 @@ export async function render_sequence(output_video: boolean, filename: string, i
         let n_curr_anim_segment = 0;
 
         const inc_func = v => {
-            if (do_rotation)
-                //rot_speed is rad/sec
-                v.camera.alpha -= bak_rot_speed * dt;
+            //rot_speed is rad/sec
+            // if (do_rotation) v.camera.alpha -= bak_rot_speed * dt;
 
             const point_a = anim_points.value[n_curr_anim_segment];
             const point_b = anim_points.value[n_curr_anim_segment + 1];

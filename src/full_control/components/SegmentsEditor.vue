@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import Button from 'primevue/button';
 import {ref} from "vue";
-import {maxBy} from "lodash";
 import {moveItemInArray} from "../../common/help_funcs";
 import Slider from 'primevue/slider';
 import SegmentMarker from "./SegmentMarker.vue";
 
 const props = defineProps<{ segments: { pos: number, val: any }[], colors: string[] | null }>()
-const emit = defineEmits(['update:segments'])
+const emit = defineEmits(['update:segments', 'selection_changed'])
 
 
 const x = ref(0.5);
@@ -15,15 +14,17 @@ const n_selected = ref(0);
 
 function add() {
   const segments: { pos: number; val: any }[] = props.segments.slice(0);
-  // debugger
-  const lengths = segments.map((s, n) => ({n, pos: s.pos, val: s.val, len: (segments[n + 1]?.pos ?? 0) - s.pos}));
-  const max_len = maxBy(lengths, 'len');
+  const n_place_after = Math.min(segments.length - 2, n_selected.value);
 
-  segments.splice(max_len.n + 1, 0, {pos: max_len.pos + max_len.len / 2, val: max_len.val});
+  segments.splice(n_place_after + 1, 0,
+      {
+        pos: segments[n_place_after].pos + ((segments[n_place_after + 1]?.pos ?? 1) - segments[n_place_after].pos) / 2,
+        val: segments[n_place_after].val
+      });
 
-  n_selected.value = max_len.n + 1;
-  // segments.splice(1, 0, {pos: 0.5, val: segments[0].val});
+  n_selected.value = n_place_after + 1;
   emit('update:segments', segments);
+  emit('selection_changed', n_selected.value);
 }
 
 function swap(n1: number, n2: number) {
@@ -64,7 +65,7 @@ function equal_distances() {
                      :locked="n === 0 || n === props.segments.length-1"
                      :selected="n===n_selected"
                      :style="{color: props.colors?.[n] ?? '#fff'}"
-                     @mousedown="n_selected=n"
+                     @mousedown="n_selected=n; emit('selection_changed', n_selected)"
       />
     </div>
 
@@ -76,13 +77,15 @@ function equal_distances() {
         </span>
       </div>
 
-      <Button icon="pi pi-angle-left" size="small" text raised rounded outlined style="padding: 5px" @click="n_selected = (n_selected-1+props.segments.length) % props.segments.length"/>
-      <Button icon="pi pi-angle-right" size="small" text raised rounded outlined style="padding: 5px" @click="n_selected = (n_selected+1) % props.segments.length"/>
+      <Button icon="pi pi-angle-left" size="small" text raised rounded outlined style="padding: 5px"
+              @click="n_selected = (n_selected-1+props.segments.length) % props.segments.length; emit('selection_changed', n_selected)"/>
+      <Button icon="pi pi-angle-right" size="small" text raised rounded outlined style="padding: 5px"
+              @click="n_selected = (n_selected+1) % props.segments.length; emit('selection_changed', n_selected)"/>
       <Button icon="pi pi-arrows-h" size="small" text raised rounded outlined style="padding: 5px" :disabled="props.segments.length == 2" @click="equal_distances"/>
       <Button icon="pi pi-angle-up" size="small" text raised rounded outlined style="padding: 5px" :disabled="n_selected === null || n_selected == props.segments.length-1"
-              @click="swap(<number>n_selected, n_selected+1); n_selected++"/>
+              @click="swap(<number>n_selected, n_selected+1); n_selected++; emit('selection_changed', n_selected)"/>
       <Button icon="pi pi-angle-down" size="small" text raised rounded outlined style="padding: 5px" :disabled="!n_selected"
-              @click="swap(<number>n_selected, n_selected-1); n_selected--"/>
+              @click="swap(<number>n_selected, n_selected-1); n_selected--; emit('selection_changed', n_selected)"/>
       <Button icon="pi pi-plus" size="small" text raised rounded outlined style="padding: 5px" @click="add"/>
       <Button icon="pi pi-times" size="small" text raised rounded outlined style="padding: 5px"
               @click="props.segments.splice(<number>n_selected, 1); $emit('update:segments', props.segments)"

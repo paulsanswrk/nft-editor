@@ -289,7 +289,7 @@ export default abstract class SpiralViewBase {
     async download_canvas_image(filename: string, render_size: number = 600) {
         const bak_scaling = this.engine.getHardwareScalingLevel();
         const canvas_size = document.getElementById('view')?.clientWidth;
-        if (canvas_size) this.engine.setHardwareScalingLevel(canvas_size / render_size);
+        if (!!canvas_size && (canvas_size < render_size)) this.engine.setHardwareScalingLevel(canvas_size / render_size);
 
         const blob = await this.export_image(render_size);
 

@@ -1,5 +1,5 @@
 import EditorVM from "./EditorVM";
-import {anim_points} from "../animation";
+import {anim_points, current_anim_point_num} from "../animation";
 import {SpiralViewFullControl_instance} from "../SpiralViewFullControl";
 
 const spiral_view = SpiralViewFullControl_instance;
@@ -25,6 +25,10 @@ export default class EditorAnimPointsVM extends EditorVM {
         return JSON.stringify(anim_points.value);
     }
 
+    param_get_curr_point_serialized(): { [p: string]: string } {
+        return anim_points.value[current_anim_point_num.value].val;
+    }
+
     param_set_serialized(param: any, default_value: any): void {
         if (!param) return;
 
@@ -36,5 +40,18 @@ export default class EditorAnimPointsVM extends EditorVM {
                 segment.val[segmentKey] ??= spiral_defaults[segmentKey] ?? spiral_view.defaults[segmentKey];
 
         anim_points.value = segments;
+        current_anim_point_num.value = 0;
+    }
+
+    param_set_curr_point_serialized(segment_val: { [k: string]: any }): void {
+        if (!segment_val) return;
+
+        const spiral_defaults = spiral_view.spiral_factory.get_config();
+
+
+        for (const segmentKey in segment_val)
+            segment_val[segmentKey] ??= spiral_defaults[segmentKey] ?? spiral_view.defaults[segmentKey];
+
+        anim_points.value[current_anim_point_num.value].val = segment_val;
     }
 }

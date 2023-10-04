@@ -6,6 +6,7 @@ import {mapValues, sortBy} from "lodash";
 import EditorNumeric_BJS_VM from "./VMs/EditorNumeric_BJS_VM";
 import EditorAnimPointsVM from "./VMs/EditorAnimPointsVM";
 import {EditorThickness_G_VM, EditorThickness_S_VM} from "./VMs/EditorThicknessVM";
+import {anim_points} from "./animation";
 
 const spiral_view = SpiralViewFullControl_instance;
 
@@ -24,8 +25,9 @@ export class EditorsVM {
         rot_cnt: new EditorNumeric_BJS_VM('rot_cnt', 1, 20, [1]),
         u1: new EditorNumericVM('u1', -40, 17.5),
         u2: new EditorNumericVM('u2', 18, 60),
-        offsetZ: new EditorNumericVM('offsetZ', -50, 30),
-        offsetR: new EditorNumericVM('offsetR', -20, 10),
+        offsetZ: new EditorNumericVM('offsetZ', -80, 30),
+        offsetR: new EditorNumericVM('offsetR', -30, 10),
+        alpha: new EditorNumeric_BJS_VM('alpha', -700, 700, [Math.PI / 2, Math.PI / 20]),
         beta: new EditorNumeric_BJS_VM('beta', 0, 10),
         // tube_radius: new EditorNumericVM('tube_radius', 0, 0.02, [0.001]),
         inner_r: new EditorNumericVM('inner_r', 0, 40),
@@ -59,12 +61,20 @@ export class EditorsVM {
         return mapValues(this.all_models, v => v.param_get_serialized());
     }
 
+    get_curr_anim_point_serialized(): { [p: string]: string } {
+        return (this.all_models['anim_points'] as EditorAnimPointsVM).param_get_curr_point_serialized();
+    }
+
     set_config_serialized(config: { [p: string]: string }, spiral_defaults?: { [p: string]: any }) {
         spiral_defaults ??= spiral_view.spiral_factory.get_config();
 
         for (const k in this.all_models) {
             this.all_models[k].param_set_serialized(config[k], spiral_defaults[k] ?? spiral_view.defaults[k]);
         }
+    }
+
+    set_curr_anim_point_serialized(config: { [p: string]: string }): void {
+        (this.all_models['anim_points'] as EditorAnimPointsVM).param_set_curr_point_serialized(config);
     }
 
     set_config_lerp(a: { [p: string]: any }, b: { [p: string]: any }, pos: number) {
@@ -75,8 +85,17 @@ export class EditorsVM {
         spiral_view.update_spiral();
     }
 
-    color_segments_count_match(configs: { [p: string]: any }[]) {
-        return !configs.some(c => c && c.g_colors.length != configs[0].g_colors.length) && !configs.some(c => c && c.s_colors.length != configs[0].s_colors.length);
+    segments_count_match() {
+        const g_colors_segment_cnt = anim_points.value[0].val.g_colors.length;
+        const s_colors_segment_cnt = anim_points.value[0].val.s_colors.length;
+        const g_thickness_segment_cnt = anim_points.value[0].val.g_thickness.length;
+        const s_thickness_segment_cnt = anim_points.value[0].val.s_thickness.length;
+
+        return !anim_points.value.some(p => p.val.g_colors.length != g_colors_segment_cnt)
+            && !anim_points.value.some(p => p.val.s_colors.length != s_colors_segment_cnt)
+            && !anim_points.value.some(p => p.val.g_thickness.length != g_thickness_segment_cnt)
+            && !anim_points.value.some(p => p.val.s_thickness.length != s_thickness_segment_cnt);
+
     }
 }
 

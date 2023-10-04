@@ -23,6 +23,16 @@ export default class EditorNumericVM extends EditorVM {
         return Number(spiral_view.active_spiral.get_config()[this.param_name]);
     }
 
+    format(v: number): string {
+        if (v === undefined || v === null) return '';
+
+        const n = Number(v);
+
+        if (this.param_name === 'alpha') return `${(n / Math.PI).toFixed(3).replace(/\.?0+$/, '')} π`;
+
+        return n.toFixed(3).replace(/\.?0+$/, '');
+    }
+
     param_set(value: any, do_update_spiral = true) {
         spiral_view.active_spiral.set_config({[this.param_name]: Number(value)});
         spiral_view.active_spiral.need_recalc_z_bounds = true;

@@ -25,6 +25,7 @@ import EditorVM from "./VMs/EditorVM";
 import EditorNumeric from "./components/EditorNumeric.vue";
 import ColorsEditor from "./components/ColorsEditor.vue";
 import {camera_speed, duration, enable_morphing, end_config, fps, playing_morphing, render_sequence, start_config, toggle_playing_morphing} from "./animation";
+import {editor_refs, update_editors} from "./AppVM";
 import AnimationPointsEditor from "./components/AnimationPointsEditor.vue";
 import {force_gdrive_auth, GDriveFile, GDriveFileImage, GDriveFileVideo} from "../common/GDrive/gdrive_file";
 import EditorAnimPointsVM from "./VMs/EditorAnimPointsVM";
@@ -52,11 +53,13 @@ const save_resolution = ref(1400);
 const editors: Ref<EditorVM[]> = ref([
   editor_models.all_models.m1,
   editor_models.all_models.m2,
+  editor_models.all_models.anim_points,
   // editor_models.all_models.g_thickness,
   // editor_models.all_models.s_thickness,
   // editor_models.all_models.g_colors,
   // editor_models.all_models.s_colors,
 ]);
+
 
 const active_editor_names = ref(Object.fromEntries(editors.value.map(e => [e.param_name, true])));
 
@@ -67,12 +70,6 @@ function set_config(config: { [p: string]: any }, b_update_editors: boolean = tr
 
   if (b_update_editors)
     update_editors(config);
-}
-
-function update_editors(config?: { [p: string]: any }) {
-  for (const k in editor_models.all_models)
-    if (!config || config[k] !== undefined)
-      editor_refs.value[k]?.update();
 }
 
 async function save_image() {
@@ -175,8 +172,6 @@ async function file_select(file: GDriveFile) {
   file_browser.value.close();
 }
 
-const editor_refs: Ref<{ [k: string]: any }> = ref({});
-
 function toggle_editor(name: string) {
   if (active_editor_names.value[name]) {
     editors.value.push(editor_models.all_models[name]);
@@ -253,6 +248,22 @@ watch(camera_contols_enabled, (v: boolean) => {
 
 // window['camera'] = spiral_view.camera;
 
+function reload() {
+  sessionStorage['editor_models'] = JSON.stringify(editor_models.get_config_serialized());
+  sessionStorage['common_params'] = JSON.stringify({duration: duration.value, save_resolution: save_resolution.value});
+  location.reload();
+}
+
+if (sessionStorage['editor_models']) {
+  setTimeout(() => {
+    editor_models.set_config_serialized(JSON.parse(sessionStorage['editor_models']));
+    const common_params = JSON.parse(sessionStorage['common_params']);
+    duration.value = common_params.duration;
+    save_resolution.value = common_params.save_resolution;
+  }, 30);
+
+}
+
 </script>
 
 <template>
@@ -320,7 +331,8 @@ watch(camera_contols_enabled, (v: boolean) => {
           // disabled: !errors_list.length,
           class: errors_list.length? 'text-danger' : '',
           command: () => dlg_error_list_visible = true
-        }
+        },
+        { icon:'pi pi-refresh', command: reload },
 
     ]">
 
@@ -366,7 +378,8 @@ watch(camera_contols_enabled, (v: boolean) => {
           <div v-else-if="slotProps.item.class == 'morphing'" class="w-100">
             <div class="mb-2 text-nowrap d-flex align-items-center justify-content-between">Morphing
               <div class="">
-                <Button icon="pi pi-play" :outlined="!playing_morphing" size="small" @click.stop="toggle_playing_morphing().then(()=>update_editors(end_config))" class="mr-1"/>
+                <Button icon="pi pi-play" :outlined="!playing_morphing" :disabled="playing_morphing" size="small" @click.stop="toggle_playing_morphing().then(()=>update_editors(end_config))"
+                        class="mr-1"/>
                 <Button :icon="`pi ${enable_morphing? 'pi-eye' : 'pi-eye-slash'}`" outlined size="small" @click.stop="enable_morphing = !enable_morphing" class=""/>
               </div>
             </div>
@@ -406,6 +419,7 @@ watch(camera_contols_enabled, (v: boolean) => {
                  :opened="opened[editor.param_name]"
                  @remove_editor="remove_editor(editor.param_name)"
                  @collapse="opened[editor.param_name] = !opened[editor.param_name]"
+                 @update_editors="update_editors"
                  class="mb-4"
       />
     </div>
@@ -414,8 +428,10 @@ watch(camera_contols_enabled, (v: boolean) => {
 
     <Dialog v-model:visible="dlg_json_visible" modal maximizable header="JSON" content-style="height:70vh" :style="{ width: '100%' }">
       <div class="mb-2">
-        <Button label="Get" @click="textarea_json = JSON.stringify(editor_models.get_config_serialized(),null, '\t')" class="mr-2"/>
-        <Button label="Set" @click="editor_models.set_config_serialized(JSON.parse(textarea_json)); update_editors()"/>
+        <Button label="Get" @click="textarea_json = JSON.stringify(editor_models.get_config_serialized(),null, '\t')" class="mr-1"/>
+        <Button label="Set" @click="editor_models.set_config_serialized(JSON.parse(textarea_json)); update_editors()" class="mx-1"/>
+        <Button label="Get Current Point" @click="textarea_json = JSON.stringify(editor_models.get_curr_anim_point_serialized(),null, '\t')" class="mx-1"/>
+        <Button label="Set Current Point" @click="editor_models.set_curr_anim_point_serialized(JSON.parse(textarea_json)); update_editors()" class="mx-1"/>
       </div>
       <Textarea class="w-100 h-100" v-model="textarea_json"/>
     </Dialog>
@@ -495,6 +511,6 @@ body {
 }
 
 .p-menuitem-link {
-  padding: 8px 0.7rem !important;
+  padding: 8px 0.5rem !important;
 }
 </style>
