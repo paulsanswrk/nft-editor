@@ -8,6 +8,8 @@ import {editor_models} from "../EditorsVM";
 import {update_editors} from "../AppVM";
 import Checkbox from 'primevue/checkbox';
 import RadioButton from 'primevue/radiobutton';
+import Dropdown from 'primevue/dropdown';
+import {easing_func_names} from "../../common/easing";
 
 const props = defineProps<{ opened: Boolean }>()
 const emit = defineEmits(['collapse', 'remove_editor', 'update_editors'])
@@ -54,11 +56,19 @@ defineExpose({update, collapse_fine_tune});
     <SegmentsEditor v-if="opened" v-model:segments="anim_points" @selection_changed="n => current_anim_point_num = n" :colors="anim_points.map(p => p.val? '#fff' : '#aaa')">
       <template #editors="{ n_selected } : { n_selected: number|null }">
 
-        <div v-if="n_selected !== null">
-          <Button icon="pi pi-file-import" outlined size="small" class="mr-2"
-                  @click.stop="anim_points[n_selected].val=editor_models.get_config()"/>
-          <Button icon="pi pi-file-export" outlined size="small" :disabled="!anim_points[n_selected].val"
-                  @click.stop="editor_models.set_config(anim_points[n_selected].val); emit('update_editors')"/>
+        <div class="d-flex justify-content-between align-items-start">
+
+          <div v-if="n_selected !== null">
+            <Button icon="pi pi-file-import" label="Set" outlined size="small" class="mr-2"
+                    @click.stop="anim_points[n_selected].val=editor_models.get_config()"/>
+            <Button icon="pi pi-file-export" label="Get" outlined size="small" :disabled="!anim_points[n_selected].val"
+                    @click.stop="editor_models.set_config(anim_points[n_selected].val); emit('update_editors')"/>
+          </div>
+
+          <div>
+            <Dropdown v-if="n_selected !== anim_points.length-1" :options="easing_func_names" v-model="anim_points[n_selected].easing" placeholder="easing" size="small"/>
+          </div>
+
         </div>
 
       </template>

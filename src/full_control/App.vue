@@ -257,6 +257,7 @@ function reload() {
 if (sessionStorage['editor_models']) {
   setTimeout(() => {
     editor_models.set_config_serialized(JSON.parse(sessionStorage['editor_models']));
+    update_editors();
     const common_params = JSON.parse(sessionStorage['common_params']);
     duration.value = common_params.duration;
     save_resolution.value = common_params.save_resolution;

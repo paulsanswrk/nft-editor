@@ -2,6 +2,7 @@ import {computed, Ref, ref} from "vue";
 import {editor_models} from "./EditorsVM";
 import {sleep} from "../common/help_funcs";
 import {SpiralViewFullControl_instance} from "./SpiralViewFullControl";
+import {easing} from "../common/easing";
 
 const spiral_view = SpiralViewFullControl_instance;
 
@@ -11,10 +12,8 @@ export const duration = ref(5);
 export const playing_time = ref(0);
 export const enable_morphing = ref(true);
 export const playing_morphing = ref(false);
-// export const start_config: Ref<{ [p: string]: any } | null> = ref(null);
 
-// export const end_config: Ref<{ [p: string]: any } | null> = ref(null);
-export const anim_points: Ref<{ pos: number, val: any } []> = ref([{pos: 0, val: null}, {pos: 1, val: null}]);
+export const anim_points: Ref<{ pos: number, val: any, easing?: string } []> = ref([{pos: 0, val: null}, {pos: 1, val: null}]);
 
 export const current_anim_point_num = ref(0);
 
@@ -82,7 +81,7 @@ export async function toggle_playing_morphing(n_start_point: number = 0, n_end_p
         }
         const morphing_percent_rescaled = (morphing_percent - point_a.pos) / (point_b.pos - point_a.pos)
 
-        do_morphing_increment(morphing_percent_rescaled, point_a.val, point_b.val);
+        do_morphing_increment(morphing_percent_rescaled, point_a.val, point_b.val, point_a.easing);
 
         if (morphing_percent >= point_b.pos)
             n_curr_anim_segment++;
@@ -91,12 +90,15 @@ export async function toggle_playing_morphing(n_start_point: number = 0, n_end_p
     }
 }
 
-export function do_morphing_increment(morphing_percent: number, config_a: { [p: string]: any }, config_b: { [p: string]: any }): boolean {
-    morphing_percent = Math.min(morphing_percent, 1);
+export function do_morphing_increment(morphing_percent_rescaled: number, config_a: { [p: string]: any }, config_b: { [p: string]: any }, easing_type: string): boolean {
+    morphing_percent_rescaled = Math.min(morphing_percent_rescaled, 1);
 
-    editor_models.set_config_lerp(config_a, config_b, morphing_percent);
+    const easing_func = easing[easing_type ?? 'linear'];
+    const morphing_percent_rescaled_w_easing = easing_func(morphing_percent_rescaled);
 
-    return morphing_percent < 1;
+    editor_models.set_config_lerp(config_a, config_b, morphing_percent_rescaled, morphing_percent_rescaled_w_easing);
+
+    return morphing_percent_rescaled < 1;
 }
 
 export async function render_sequence(output_video: boolean, filename: string, image_resolution: number, only_return_blob = false): Promise<Blob> {
@@ -131,7 +133,7 @@ export async function render_sequence(output_video: boolean, filename: string, i
 
             if (do_morphing) {
                 const morphing_percent_rescaled = (morphing_percent - point_a.pos) / (point_b.pos - point_a.pos)
-                do_morphing_increment(morphing_percent_rescaled, point_a.val, point_b.val);
+                do_morphing_increment(morphing_percent_rescaled, point_a.val, point_b.val, point_a.easing);
             }
 
             morphing_percent += morphing_percent_step;

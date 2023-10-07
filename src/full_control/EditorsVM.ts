@@ -77,10 +77,10 @@ export class EditorsVM {
         (this.all_models['anim_points'] as EditorAnimPointsVM).param_set_curr_point_serialized(config);
     }
 
-    set_config_lerp(a: { [p: string]: any }, b: { [p: string]: any }, pos: number) {
+    set_config_lerp(a: { [p: string]: any }, b: { [p: string]: any }, pos: number, pos_w_easing: number) {
         for (const k in this.all_models)
             if (a[k] !== undefined)
-                this.all_models[k].param_set_lerp(a[k], b[k], pos);
+                this.all_models[k].param_set_lerp(a[k], b[k], k === 'alpha' ? pos : pos_w_easing);
 
         spiral_view.update_spiral();
     }
