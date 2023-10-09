@@ -2,7 +2,6 @@ import {createApp} from 'vue';
 import PrimeVue from 'primevue/config';
 // @ts-ignore
 import App from "./App.vue";
-import drag from "v-drag";
 import ToastService from 'primevue/toastservice';
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -20,9 +19,7 @@ globalThis.__VUE_PROD_DEVTOOLS__ = false;
 const app = createApp(App);
 
 app.use(PrimeVue);
-app.use(drag, {
-    // global configuration
-});
+
 app.use(ToastService);
 const router = useRouter();
 app.use(router);

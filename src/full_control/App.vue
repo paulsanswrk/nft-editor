@@ -34,6 +34,8 @@ import Toast from 'primevue/toast';
 
 import {useToast} from 'primevue/usetoast';
 import {Vector3} from "@babylonjs/core/Maths/math.vector";
+import {dlg_cover_view_visible} from "../common/downsampling";
+import CoverView from "./components/CoverView.vue";
 
 const toast = useToast();
 
@@ -73,7 +75,7 @@ function set_config(config: { [p: string]: any }, b_update_editors: boolean = tr
 }
 
 async function save_image() {
-  const blob = await spiral_view.export_image(save_resolution.value);
+  const blob = await spiral_view.export_image_blob(save_resolution.value);
 
   const bak_spiral_name = active_spiral_name.value;
   change_active_spiral('main');
@@ -265,6 +267,10 @@ if (sessionStorage['editor_models']) {
 
 }
 
+function copy_json() {
+  window.navigator.clipboard.writeText(textarea_json.value);
+}
+
 </script>
 
 <template>
@@ -315,6 +321,7 @@ if (sessionStorage['editor_models']) {
                 },
                 // { label: 'Reset scroll pos', command: reset_scroll_pos },
                 { label: camera_contols_enabled? 'Disable panning' : 'Enable panning', command: ()=>camera_contols_enabled=!camera_contols_enabled },
+                { label: 'Cover View', command: ()=>dlg_cover_view_visible=true },
             ]
         },
         { icon: 'pi pi-angle-double-down', command:()=>editor_models.all_params.forEach(k=>opened[k]=false) },
@@ -433,6 +440,7 @@ if (sessionStorage['editor_models']) {
         <Button label="Set" @click="editor_models.set_config_serialized(JSON.parse(textarea_json)); update_editors()" class="mx-1"/>
         <Button label="Get Current Point" @click="textarea_json = JSON.stringify(editor_models.get_curr_anim_point_serialized(),null, '\t')" class="mx-1"/>
         <Button label="Set Current Point" @click="editor_models.set_curr_anim_point_serialized(JSON.parse(textarea_json)); update_editors()" class="mx-1"/>
+        <Button label="Copy" @click="copy_json" class="mx-1"/>
       </div>
       <Textarea class="w-100 h-100" v-model="textarea_json"/>
     </Dialog>
@@ -447,6 +455,8 @@ if (sessionStorage['editor_models']) {
         <Button label="Clear all" @click="errors_list = []"/>
       </div>
     </Dialog>
+
+    <CoverView/>
 
 
     <router-link v-if="false"/>
@@ -464,6 +474,23 @@ $btns-h: 60px;
 
 body {
   overflow: hidden;
+}
+
+#canvas-wrapper {
+  position: relative;
+
+  &.border-visible::after {
+    border: 1px solid white;
+    content: '';
+    height: 789px;
+    left: 50%;
+    margin-left: -394.5px;
+    margin-top: -394.5px;
+    position: absolute;
+    top: 50%;
+    width: 789px;
+  }
+
 }
 
 #app {
@@ -487,6 +514,10 @@ body {
     position: relative;
     padding-bottom: 50px;
 
+  }
+
+  .p-menubar-root-list {
+    margin-bottom: 0;
   }
 
   ul.p-submenu-list {
@@ -513,5 +544,10 @@ body {
 
 .p-menuitem-link {
   padding: 8px 0.5rem !important;
+
+  &, &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 </style>

@@ -11,5 +11,6 @@
     <orderEntry type="library" name="Bootstrap" level="project" />
     <orderEntry type="library" name="vectorious" level="application" />
     <orderEntry type="library" name="@ckpack/vue-color" level="application" />
+    <orderEntry type="library" name="api" level="application" />
   </component>
 </module>

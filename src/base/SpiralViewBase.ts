@@ -265,16 +265,20 @@ export default abstract class SpiralViewBase {
         /// #endif
     }
 
-    export_image(size: number = 600): Promise<Blob> {
-        return new Promise<Blob>((resolve) => {
+    export_image_base64(size: number = 600): Promise<string> {
+        return new Promise<string>((resolve) => {
             // const canvas: HTMLCanvasElement = document.getElementById("view") as any;
             // canvas.toBlob(blob => resolve(blob));
 
             BABYLON.Tools.CreateScreenshot(this.engine, this.camera, size, function (base64_url) {
-                const blob = dataURLToBlob(base64_url);
-                resolve(blob);
+                resolve(base64_url);
             });
         });
+    }
+
+    async export_image_blob(size: number = 600): Promise<Blob> {
+        const base64_url = await this.export_image_base64(size);
+        return dataURLToBlob(base64_url);
     }
 
     async download_file(blob: Blob, filename: string) {
@@ -291,7 +295,7 @@ export default abstract class SpiralViewBase {
         const canvas_size = document.getElementById('view')?.clientWidth;
         if (!!canvas_size && (canvas_size < render_size)) this.engine.setHardwareScalingLevel(canvas_size / render_size);
 
-        const blob = await this.export_image(render_size);
+        const blob = await this.export_image_blob(render_size);
 
         await this.download_file(blob, filename);
 
