@@ -15,6 +15,8 @@ export class SpiralViewFullControl extends SpiralViewBase {
 
     active_spiral = new Spiral_Dynamic();
 
+    // use_inspector = true;
+
     get params() {
         return this.active_spiral ?? this.spiral_factory;
     }
@@ -49,6 +51,22 @@ export class SpiralViewFullControl extends SpiralViewBase {
         this.light.intensity = 5;
 
         const postProcess = new BABYLON.FxaaPostProcess("fxaa", 1.0, this.camera);
+
+
+        // var ground = BABYLON.Mesh.CreateGround("ground1", 6, 6, 2, this.scene);
+        // const ground = MeshBuilder.CreateGround("ground1", {}, this.scene);
+
+        /*const ground = BABYLON.MeshBuilder.CreatePlane("plane", {sideOrientation: 1, size: 10});
+        ground.receiveShadows = true;
+
+        // Create and tweak the background material.
+        var backgroundMaterial = new BABYLON.BackgroundMaterial("backgroundMaterial", this.scene);
+        backgroundMaterial.diffuseTexture = new BABYLON.Texture("https://assets.babylonjs.com/environments/backgroundGround.png", this.scene);
+        backgroundMaterial.diffuseTexture.hasAlpha = true;
+        backgroundMaterial.opacityFresnel = false;
+        backgroundMaterial.shadowLevel = 0.4;
+
+        ground.material = backgroundMaterial;*/
     }
 
 

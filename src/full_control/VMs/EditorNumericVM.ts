@@ -23,6 +23,10 @@ export default class EditorNumericVM extends EditorVM {
         return Number(spiral_view.active_spiral.get_config()[this.param_name]);
     }
 
+    param_get_serialized(): number {
+        return Math.round(this.param_get() * 1000) / 1000;
+    }
+
     format(v: number): string {
         if (v === undefined || v === null) return '';
 

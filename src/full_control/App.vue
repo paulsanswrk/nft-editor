@@ -109,7 +109,7 @@ async function save_image() {
     await (new GDriveFileImage).save(blob, filename.value, {...props});
     toast.add({severity: 'info', summary: 'Info', detail: 'Successfully saved', life: 1000});
   } catch (e) {
-    toast.add({severity: 'error', summary: 'Info', detail: 'Save error', life: 3000});
+    toast.add({severity: 'error', summary: 'Info', detail: 'Save error: ' + e?.response?.data?.error?.errors?.[0]?.message, life: 3000});
   }
 }
 

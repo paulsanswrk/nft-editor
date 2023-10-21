@@ -146,7 +146,9 @@ export abstract class GDriveFile {
             resolve({id: data.data.id});
         } catch (e) {
             console.error(e);
-            reject();
+            if (window['add_error_to_list'])
+                window['add_error_to_list'](e.response?.data?.error?.errors?.[0]?.message ?? e.message ?? 'Save File Error');
+            reject(e);
         }
         resolve();
     }
