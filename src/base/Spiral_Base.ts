@@ -12,6 +12,7 @@ export interface Spiral_Config {
 export abstract class Spiral_Base {
     public m1: number = 1.19;
     public m2: number = 4.5;
+    public m3: number = 1.19;
     public rot_cnt: number = 6;
 
     public at0: number = 4.8;
@@ -23,6 +24,7 @@ export abstract class Spiral_Base {
     public offsetR: number = 0;
     public u1 = 0.21;
     public u2 = 25;
+    public zScale = 0.25;
 
     public tube_radius: number = 0.006;
 
@@ -96,7 +98,7 @@ export abstract class Spiral_Base {
 
     protected G(t) {
         //BJS implements left-handed coordinate system, so negate x
-        return [-this.Gmod(t) * Math.sin(t), Math.cos(t) * this.Gmod(t), this.z_Irreg * Math.sin(this.m1 * t) + (t * Math.tanh(this.cTanh * (t - this.u1 + this.offsetZ))) / 4];
+        return [-this.Gmod(t) * Math.sin(t), Math.cos(t) * this.Gmod(t), this.z_Irreg * Math.sin(this.m3 * t) + (t * Math.tanh(this.cTanh * (t - this.u1 + this.offsetZ))) * this.zScale];
     }
 
     // private z_max = this.G(this.u2)[2];

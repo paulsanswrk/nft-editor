@@ -16,6 +16,7 @@ export class EditorsVM {
     all_models: { [k: string]: EditorVM } = {
         m1: new EditorNumericVM('m1', 0, 30),
         m2: new EditorNumericVM('m2', 0.1, 30),
+        m3: new EditorNumericVM('m3', -5, 5),
         z_Irreg: new EditorNumericVM('z_Irreg', -6, 6),
         cTanh: new EditorNumericVM('cTanh', -1, 1),
         at0: new EditorNumericVM('at0', -25, 8),
@@ -27,6 +28,7 @@ export class EditorsVM {
         u2: new EditorNumericVM('u2', 18, 60),
         offsetZ: new EditorNumericVM('offsetZ', -80, 30),
         offsetR: new EditorNumericVM('offsetR', -30, 10),
+        zScale: new EditorNumericVM('zScale', -2, 2),
         alpha: new EditorNumeric_BJS_VM('alpha', -700, 700, [Math.PI / 2, Math.PI / 20]),
         beta: new EditorNumeric_BJS_VM('beta', 0, 10),
         // tube_radius: new EditorNumericVM('tube_radius', 0, 0.02, [0.001]),
