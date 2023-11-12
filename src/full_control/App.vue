@@ -22,7 +22,7 @@ import {Spiral_Transformed} from "../base/Spiral_Transformed";
 import ColorsDebug from "./components/ColorsDebug.vue";
 import {editor_models} from "./EditorsVM";
 import EditorVM from "./VMs/EditorVM";
-import EditorNumeric from "./components/EditorNumeric.vue";
+import NumericEditor from "./components/NumericEditor.vue";
 import ColorsEditor from "./components/ColorsEditor.vue";
 import {camera_speed, duration, enable_morphing, end_config, fps, playing_morphing, render_sequence, start_config, toggle_playing_morphing} from "./animation";
 import {editor_refs, update_editors} from "./AppVM";
@@ -36,10 +36,11 @@ import {useToast} from 'primevue/usetoast';
 import {Vector3} from "@babylonjs/core/Maths/math.vector";
 import {dlg_cover_view_visible} from "../common/downsampling";
 import CoverView from "./components/CoverView.vue";
+import NumericOrSegmentedEditor from "./components/NumericOrSegmentedEditor.vue";
 
 const toast = useToast();
 
-const component_mappings = {EditorNumeric, ColorsEditor, AnimationPointsEditor, ThicknessEditor};
+const component_mappings = {NumericEditor, ColorsEditor, AnimationPointsEditor, ThicknessEditor, NumericOrSegmentedEditor};
 
 const spiral_view = SpiralViewFullControl_instance;
 
@@ -55,7 +56,7 @@ const save_resolution = ref(1400);
 const editors: Ref<EditorVM[]> = ref([
   editor_models.all_models.m1,
   editor_models.all_models.m2,
-  editor_models.all_models.anim_points,
+  // editor_models.all_models.anim_points,
   // editor_models.all_models.g_thickness,
   // editor_models.all_models.s_thickness,
   // editor_models.all_models.g_colors,
@@ -209,6 +210,7 @@ function toggle_shadow_spiral() {
 function change_active_spiral(name?: ('main' | 'shadow')) {
   if (name) active_spiral_name.value = name;
   spiral_view.set_active_spiral(active_spiral_name.value);
+  editor_models.active_spiral_changed();
   update_editors();
 }
 
@@ -543,7 +545,7 @@ body {
 }
 
 .p-menuitem-link {
-  padding: 8px 0.5rem !important;
+  padding: 6px 0.5rem !important;
 
   &, &:hover {
     color: inherit;

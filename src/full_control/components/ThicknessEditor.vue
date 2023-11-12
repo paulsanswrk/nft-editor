@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SegmentsEditor from "./SegmentsEditor.vue";
-import {ref} from "vue";
+import {Ref, ref} from "vue";
 import Button from "primevue/button";
 import {EditorThickness_G_VM} from "../VMs/EditorThicknessVM";
 import Slider from 'primevue/slider';
@@ -10,7 +10,7 @@ const emit = defineEmits(['collapse', 'remove_editor'])
 const fine_tune_needed = ref(true);
 const extended = ref(fine_tune_needed.value);
 
-const segments = ref(props.model.param_get());
+const segments: Ref<{ pos: number; val: number }[]> = ref(props.model.param_get());
 
 function collapse_fine_tune() {
   extended.value = false;

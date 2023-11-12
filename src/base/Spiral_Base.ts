@@ -131,7 +131,6 @@ export abstract class Spiral_Base {
             }
 
         // console.log(this.spiralPoints);
-
     }
 
 

@@ -17,7 +17,7 @@ export default class EditorNumericVM extends EditorVM {
     param_max: number;
     steps?: number[];
 
-    component_name = 'EditorNumeric';
+    component_name = 'NumericEditor';
 
     param_get(): number {
         return Number(spiral_view.active_spiral.get_config()[this.param_name]);
@@ -37,7 +37,7 @@ export default class EditorNumericVM extends EditorVM {
         return n.toFixed(3).replace(/\.?0+$/, '');
     }
 
-    param_set(value: any, do_update_spiral = true) {
+    param_set(value: number | string, do_update_spiral = true) {
         spiral_view.active_spiral.set_config({[this.param_name]: Number(value)});
         spiral_view.active_spiral.need_recalc_z_bounds = true;
 

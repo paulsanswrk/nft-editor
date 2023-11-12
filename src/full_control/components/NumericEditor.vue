@@ -46,6 +46,7 @@ defineExpose({update, collapse_fine_tune});
       <h6 class="text-white" @click="$emit('collapse')">{{ model.param_name }}: {{ props.model.format(value_total) }}</h6>
 
       <span class="p-buttonset">
+        <slot name="extra_buttons"></slot>
         <Button label="0" :outlined="true" style="padding: 0 7px;" @click="value = 0"/>
         <Button v-if="opened && fine_tune_needed" label="F" :outlined="!extended" style="padding: 0 7px;" @click="extended = !extended"/>
         <Button :icon="opened? 'pi pi-minus' : 'pi pi-plus'" outlined @click="$emit('collapse')"/>

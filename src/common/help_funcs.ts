@@ -1,6 +1,7 @@
 import {TinyColor} from "@ctrl/tinycolor";
 import {Color4} from "@babylonjs/core/Legacy/legacy";
 import {Color3} from "@babylonjs/core";
+import {isString} from "lodash";
 
 export function sleep(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -45,3 +46,31 @@ export function moveItemInArray<T>(workArray: T[], fromIndex: number, toIndex: n
     workArray[toIndex] = target;
     return workArray;
 }
+
+export function is_segment_string(s: any) {
+    return isString(s) && s.startsWith('0:');
+}
+
+export function avg_of_segments(segments: { pos: number; val: number; }[]) {
+    let avg = 0;
+
+    for (let i = 0; i < segments.length - 1; i++)
+        avg += segments[i].val * (segments[i + 1].pos - segments[i].pos);
+
+    return avg;
+}
+
+export function add_to_array(from: number[], to: number[], start_pos: number = 0, mul_by: number = 1) {
+    for (let i = 0; i < from.length; i++)
+        to[start_pos + i] += from[i] * mul_by;
+}
+
+export function left_deriv(segments: { pos: number; val: number; }[], full_len = 1) {
+    return (segments[1].val - segments[0].val) / (segments[1].pos * full_len);
+}
+
+export function right_deriv(segments: { pos: number; val: number; }[], full_len = 1) {
+    const len = segments.length;
+    return (segments[len - 1].val - segments[len - 2].val) / (segments[len - 1].pos - segments[len - 2].pos) / full_len;
+}
+

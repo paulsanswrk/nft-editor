@@ -2,11 +2,12 @@ import {SpiralViewFullControl_instance} from "./SpiralViewFullControl";
 import EditorNumericVM from "./VMs/EditorNumericVM";
 import {EditorColors_G_VM, EditorColors_S_VM} from "./VMs/EditorColorsVM";
 import EditorVM from "./VMs/EditorVM";
-import {mapValues, sortBy} from "lodash";
+import {forEach, mapValues, sortBy} from "lodash";
 import EditorNumeric_BJS_VM from "./VMs/EditorNumeric_BJS_VM";
 import EditorAnimPointsVM from "./VMs/EditorAnimPointsVM";
 import {EditorThickness_G_VM, EditorThickness_S_VM} from "./VMs/EditorThicknessVM";
 import {anim_points} from "./animation";
+import EditorNumericOrSegmentedVM from "./VMs/EditorNumericOrSegmentedVM";
 
 const spiral_view = SpiralViewFullControl_instance;
 
@@ -14,11 +15,11 @@ const spiral_view = SpiralViewFullControl_instance;
 export class EditorsVM {
 
     all_models: { [k: string]: EditorVM } = {
-        m1: new EditorNumericVM('m1', 0, 30),
-        m2: new EditorNumericVM('m2', 0.1, 30),
-        m3: new EditorNumericVM('m3', -5, 5),
-        z_Irreg: new EditorNumericVM('z_Irreg', -6, 6),
-        cTanh: new EditorNumericVM('cTanh', -1, 1),
+        m1: new EditorNumericOrSegmentedVM('m1', 0, 30),
+        m2: new EditorNumericOrSegmentedVM('m2', 0.1, 50),
+        m3: new EditorNumericOrSegmentedVM('m3', -5, 5),
+        z_Irreg: new EditorNumericOrSegmentedVM('z_Irreg', -6, 6),
+        cTanh: new EditorNumericOrSegmentedVM('cTanh', -1, 1),
         at0: new EditorNumericVM('at0', -25, 8),
         at4: new EditorNumericVM('at4', 8.1, 50),
         camH: new EditorNumeric_BJS_VM('camH', -30, 30),
@@ -26,9 +27,9 @@ export class EditorsVM {
         rot_cnt: new EditorNumeric_BJS_VM('rot_cnt', 1, 20, [1]),
         u1: new EditorNumericVM('u1', -40, 17.5),
         u2: new EditorNumericVM('u2', 18, 60),
-        offsetZ: new EditorNumericVM('offsetZ', -80, 30),
-        offsetR: new EditorNumericVM('offsetR', -30, 10),
-        zScale: new EditorNumericVM('zScale', -2, 2),
+        offsetZ: new EditorNumericOrSegmentedVM('offsetZ', -80, 30),
+        offsetR: new EditorNumericOrSegmentedVM('offsetR', -30, 10),
+        zScale: new EditorNumericOrSegmentedVM('zScale', -2, 2),
         alpha: new EditorNumeric_BJS_VM('alpha', -700, 700, [Math.PI / 2, Math.PI / 20]),
         beta: new EditorNumeric_BJS_VM('beta', 0, 10),
         // tube_radius: new EditorNumericVM('tube_radius', 0, 0.02, [0.001]),
@@ -70,6 +71,8 @@ export class EditorsVM {
     set_config_serialized(config: { [p: string]: string }, spiral_defaults?: { [p: string]: any }) {
         spiral_defaults ??= spiral_view.spiral_factory.get_config();
 
+        if (config.m3 === undefined) config.m3 = config.m1;
+
         for (const k in this.all_models) {
             this.all_models[k].param_set_serialized(config[k], spiral_defaults[k] ?? spiral_view.defaults[k]);
         }
@@ -98,6 +101,10 @@ export class EditorsVM {
             && !anim_points.value.some(p => p.val.g_thickness.length != g_thickness_segment_cnt)
             && !anim_points.value.some(p => p.val.s_thickness.length != s_thickness_segment_cnt);
 
+    }
+
+    active_spiral_changed() {
+        forEach(this.all_models, m => m.active_spiral_changed());
     }
 }
 

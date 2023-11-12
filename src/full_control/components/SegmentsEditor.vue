@@ -47,7 +47,7 @@ function equal_distances() {
 
 <template>
 
-  <div class="segments-editor position-relative">
+  <div v-if="props.segments?.length" class="segments-editor position-relative">
 
     <Slider v-model="props.segments[n_selected].pos"
             :step="0.01" :min="(props.segments[n_selected-1]?.pos ?? 0) + 0.01" :max="(props.segments[n_selected+1]?.pos ?? 1) - 0.01"
