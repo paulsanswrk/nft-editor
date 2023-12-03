@@ -51,6 +51,10 @@ export default class EditorNumericOrSegmentedVM extends EditorVM {
         this.editor.param_set_lerp(a, b, pos);
     }
 
+    private param_remove_serialized() {
+        spiral_view.active_spiral.set_segmented_param(this.param_name, null);
+    }
+
     param_set_serialized(param: string, default_value: any): void {
         if (Array.isArray(param) || is_segment_string(param)) {
             this.is_segmented = true;
@@ -58,6 +62,7 @@ export default class EditorNumericOrSegmentedVM extends EditorVM {
         } else {
             this.is_segmented = false;
             this.editorNumericVM.param_set_serialized(param, default_value);
+            this.param_remove_serialized();
         }
     }
 
