@@ -93,7 +93,7 @@ async function save_image() {
     const colors_props = {'ss_g_colors': shadow_spiral_props.g_colors, 'ss_s_colors': shadow_spiral_props.s_colors};
     const thickness_props = {'ss_g_thickness': shadow_spiral_props.g_thickness, 'ss_s_thickness': shadow_spiral_props.s_thickness};
 
-    for (const p of ['g_colors', 's_colors', 'g_thickness', 's_thickness', 'anim_points'])
+    for (const p of ['g_colors', 's_colors', 'g_thickness', 's_thickness', 'anim_points', 'smod_a', 'smod_f'])
       delete shadow_spiral_props[p];
 
     shadow_spiral_props['transform_type'] = spiral_view.shadow_spiral.transform_type;
@@ -473,6 +473,7 @@ function copy_json() {
 
 $name-h: 15px;
 $btns-h: 60px;
+$ipad-h: 940px;
 
 body {
   overflow: hidden;
@@ -526,6 +527,13 @@ body {
     //min-width: 350px;
     max-height: calc(100vh - $btns-h);
     overflow: auto;
+    //border: 3px solid;
+  }
+
+  @media (hover: none) {
+    ul.p-submenu-list {
+      max-height: calc($ipad-h - $btns-h);
+    }
   }
 }
 

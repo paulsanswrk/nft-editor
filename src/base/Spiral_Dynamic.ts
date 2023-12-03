@@ -23,6 +23,8 @@ export interface Spiral_Dynamic_Config extends Spiral_Config {
     offsetR?: number;
     tube_radius?: number;
     zScale?: number;
+    smod_a?: number;
+    smod_f?: number;
     g_colors?: { pos: number, color: string }[];
     s_colors?: { pos: number, color: string }[];
     g_thickness?: { pos: number, val: number }[];
@@ -77,6 +79,8 @@ export class Spiral_Dynamic extends Spiral_Base {
             offsetZ: this.offsetZ,
             offsetR: this.offsetR,
             zScale: this.zScale,
+            smod_a: this.smod_a,
+            smod_f: this.smod_f,
             rot_cnt: this.rot_cnt,
             tube_radius: this.tube_radius,
             g_colors: this.g_colors,
@@ -106,6 +110,8 @@ export class Spiral_Dynamic extends Spiral_Base {
         if (config.s_colors !== undefined) this.s_colors = config.s_colors;
         if (config.g_thickness !== undefined) this.g_thickness = config.g_thickness;
         if (config.s_thickness !== undefined) this.s_thickness = config.s_thickness;
+        if (config.smod_a !== undefined) this.smod_a = config.smod_a;
+        if (config.smod_f !== undefined) this.smod_f = config.smod_f;
 
         this.calc_cc();
         this.calc_points();
@@ -120,6 +126,8 @@ export class Spiral_Dynamic extends Spiral_Base {
         z_Irreg: null,
         cTanh: null,
         zScale: null,
+        smod_a: null,
+        smod_f: null,
     };
 
     private have_segmented_params() {
@@ -136,10 +144,9 @@ export class Spiral_Dynamic extends Spiral_Base {
         this.calc_points();
     }
 
-    private calc_all_segmented_params_values(t_norm: number): { [p: string]: number } {
+    private calc_all_segmented_params_values(t_norm: number, segmented_params: ({ [k: string]: { pos: number, val: number }[] | null }) = null): { [p: string]: number } {
         const config = this.get_config();
-        return mapValues(this.segmented_params, (v, k) => v ? lerp_numeric(v, t_norm) : config[k]);
-        // return this.segmented_params_names.map(k => this.segmented_params[k] ? lerp_numeric(this.segmented_params[k], t_norm) : config[k]);
+        return mapValues(segmented_params ?? this.segmented_params, (v, k) => v ? lerp_numeric(v, t_norm) : config[k]);
     }
 
     private get_all_segmented_params_bound_values(bnd: 'top' | 'bot'): { [p: string]: number } {
@@ -159,6 +166,13 @@ export class Spiral_Dynamic extends Spiral_Base {
         return [-this.Gmod1(t, m1, m2, offsetR) * Math.sin(t),
             Math.cos(t) * this.Gmod1(t, m1, m2, offsetR),
             z_Irreg * Math.sin(m3 * t) + (t * Math.tanh(cTanh * (t - this.u1 + offsetZ))) * zScale];
+    }
+
+    protected override S(t): number[] {
+        const t_norm = (t - this.at4) / (this.at0 - this.at4);
+        const {smod_a, smod_f} = this.calc_all_segmented_params_values(t_norm, {smod_a: this.segmented_params.smod_a, smod_f: this.segmented_params.smod_f});
+        const factor = 1 + smod_a * (1 - Sech(50 * (-this.at0 + t)) - Sech(50 * (-this.at4 + t))) * Sin(smod_f * t);
+        return super.S(t).map(v => factor * v);
     }
 
     protected calc_cc() {
@@ -205,12 +219,12 @@ export class Spiral_Dynamic extends Spiral_Base {
         if (this.have_segmented_params()) {
             set_GA1_config({...bot_config, u1});
             for (const name in this.segmented_params)
-                if (!!this.segmented_params[name])
+                if (!!this.segmented_params[name] && !!G_derivatives[name])
                     add_to_array(G_derivatives[name](u1), rp, 3, -left_deriv(this.segmented_params[name], u2 - u1));
 
             set_GA1_config({...top_config, u1});
             for (const name in this.segmented_params)
-                if (!!this.segmented_params[name])
+                if (!!this.segmented_params[name] && !!G_derivatives[name])
                     add_to_array(G_derivatives[name](u2), rp, 9, -right_deriv(this.segmented_params[name], u2 - u1));
         }
 

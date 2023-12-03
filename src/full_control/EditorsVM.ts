@@ -34,6 +34,8 @@ export class EditorsVM {
         beta: new EditorNumeric_BJS_VM('beta', 0, 10),
         // tube_radius: new EditorNumericVM('tube_radius', 0, 0.02, [0.001]),
         inner_r: new EditorNumericVM('inner_r', 0, 40),
+        smod_a: new EditorNumericOrSegmentedVM('smod_a', -5, 5),
+        smod_f: new EditorNumericOrSegmentedVM('smod_f', 0.01, 40),
         g_colors: new EditorColors_G_VM(),
         s_colors: new EditorColors_S_VM(),
         anim_points: new EditorAnimPointsVM(),

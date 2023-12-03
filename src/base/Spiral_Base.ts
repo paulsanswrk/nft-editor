@@ -25,6 +25,8 @@ export abstract class Spiral_Base {
     public u1 = 0.21;
     public u2 = 25;
     public zScale = 0.25;
+    public smod_a = 0;
+    public smod_f = 5;
 
     public tube_radius: number = 0.006;
 
@@ -103,7 +105,7 @@ export abstract class Spiral_Base {
 
     // private z_max = this.G(this.u2)[2];
 
-    private S(t) {
+    protected S(t): number[] {
         return [
             //BJS implements left-handed coordinate system, so negate x
             -(this.cx0 + this.cx1 * t + this.cx2 * Math.pow(t, 2) + this.cx3 * Math.pow(t, 3)),
