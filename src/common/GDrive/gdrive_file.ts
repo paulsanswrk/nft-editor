@@ -110,7 +110,7 @@ export abstract class GDriveFile {
     protected async request_files_list(resolve: (value: GDriveFile[]) => void, reject: (reason?: any) => void) {
         try {
             const response = await gapi.client.drive.files.list({
-                'pageSize': 200,
+                'pageSize': 1000,
                 'fields': 'files(name,properties,appProperties,thumbnailLink)',
                 'q': `"${this.folder_id}" in parents and mimeType != "application/vnd.google-apps.folder"`
             });
@@ -165,7 +165,7 @@ export class GDriveFileImage extends GDriveFile {
 
     init_from_gapi_file(f: gapi.client.drive.File) {
         super.init_from_gapi_file(f);
-        this.properties = {...f.properties, ...f.appProperties, g_colors: f.appProperties?.gc, s_colors: f.appProperties?.sc};
+        this.properties = {...f.properties, ...f.appProperties, g_colors: f.appProperties?.gc, s_colors: f.appProperties?.sc, lighting: f.appProperties?.lit};
         return this;
     }
 
@@ -178,10 +178,11 @@ export class GDriveFileImage extends GDriveFile {
     }) {
         const appProperties: {
             [k: string]: any
-        } = {gc: properties.g_colors, sc: properties.s_colors,}
+        } = {gc: properties.g_colors, sc: properties.s_colors, lit: properties.lighting}
 
         delete properties.g_colors;
         delete properties.s_colors;
+        delete properties.lighting;
 
         if (properties.ss_g_colors) {
             appProperties['ssgc'] = properties.ss_g_colors;

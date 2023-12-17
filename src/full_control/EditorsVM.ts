@@ -8,6 +8,7 @@ import EditorAnimPointsVM from "./VMs/EditorAnimPointsVM";
 import {EditorThickness_G_VM, EditorThickness_S_VM} from "./VMs/EditorThicknessVM";
 import {anim_points} from "./animation";
 import EditorNumericOrSegmentedVM from "./VMs/EditorNumericOrSegmentedVM";
+import EditorLighting_BJS_VM from "./VMs/EditorLighting_BJS_VM";
 
 const spiral_view = SpiralViewFullControl_instance;
 
@@ -41,6 +42,7 @@ export class EditorsVM {
         anim_points: new EditorAnimPointsVM(),
         g_thickness: new EditorThickness_G_VM(),
         s_thickness: new EditorThickness_S_VM(),
+        lighting: new EditorLighting_BJS_VM('lighting'),
     };
 
     all_params: string[] = sortBy(Object.keys(this.all_models), k => k);

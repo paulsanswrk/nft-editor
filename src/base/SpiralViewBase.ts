@@ -3,7 +3,7 @@ import {Engine} from "@babylonjs/core/Engines/engine";
 import {Scene} from "@babylonjs/core/scene";
 import {ArcRotateCamera} from "@babylonjs/core/Cameras/arcRotateCamera";
 import * as BABYLON from "@babylonjs/core";
-import {Color3, DirectionalLight, Mesh, StandardMaterial} from "@babylonjs/core";
+import {Light, Mesh, StandardMaterial} from "@babylonjs/core";
 import {MorphTarget} from "@babylonjs/core/Legacy/legacy";
 import {Inspector} from "@babylonjs/inspector";
 import {MeshBuilder} from "@babylonjs/core/Meshes/meshBuilder";
@@ -22,7 +22,7 @@ export default abstract class SpiralViewBase {
     camera: ArcRotateCamera;
     spiralMaterial = new StandardMaterial("spiralMaterial", this.scene);
 
-    light: DirectionalLight;
+    light: Light;
 
     // curr_n = 14; //m1 == 8.6
     curr_n = 0;
@@ -72,18 +72,24 @@ export default abstract class SpiralViewBase {
         // this.scene.blockMaterialDirtyMechanism = true;
         this.scene.getAnimationRatio();
 
-        /// #if INSPECTOR
+        /// if INSPECTOR
         if (this.use_inspector)
             Inspector.Show(this.scene, {
                 overlay: true,
             });
-        /// #endif
+        /// endif
 
         // Watch for browser/canvas resize events
         window.addEventListener("resize", () => this.numberOfTimes = 5);
 
         this.init_additional();
 
+    }
+
+    public show_inspector(on: boolean) {
+        if (on)
+            Inspector.Show(this.scene, {overlay: true});
+        else Inspector.Hide();
     }
 
     protected init_additional() {
@@ -111,8 +117,8 @@ export default abstract class SpiralViewBase {
 
         this.meshes[spiral_target_n] = [mesh];
 
-        this.spiralMaterial.specularColor = Color3.Black();
-        mesh.freezeNormals();
+        // this.spiralMaterial.specularColor = Color3.Black();
+        // mesh.freezeNormals();
 
         mesh.setEnabled(set_enabled);
         mesh.hasVertexAlpha = true;
@@ -125,7 +131,7 @@ export default abstract class SpiralViewBase {
         // this.spiralMaterial.alphaMode = 4;
         this.spiralMaterial.needDepthPrePass = true;
         this.spiralMaterial.separateCullingPass = true;
-        this.spiralMaterial.disableLighting = true;
+        // this.spiralMaterial.disableLighting = true;
         this.spiralMaterial.emissiveColor = BABYLON.Color3.White();
         this.spiralMaterial.diffuseColor = BABYLON.Color3.White();
         this.spiralMaterial.specularColor = BABYLON.Color3.Black();

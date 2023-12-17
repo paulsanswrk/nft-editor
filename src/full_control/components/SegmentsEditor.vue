@@ -5,7 +5,7 @@ import {moveItemInArray} from "../../common/help_funcs";
 import Slider from 'primevue/slider';
 import SegmentMarker from "./SegmentMarker.vue";
 
-const props = defineProps<{ segments: { pos: number, val: any }[], colors: string[] | null }>()
+const props = defineProps<{ segments: { pos: number, val: any }[], colors?: string[] | null }>()
 const emit = defineEmits(['update:segments', 'selection_changed'])
 
 

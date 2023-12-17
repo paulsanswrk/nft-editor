@@ -3,7 +3,7 @@ import {Spiral_Dynamic} from "../base/Spiral_Dynamic";
 import {ArcRotateCamera} from "@babylonjs/core/Cameras/arcRotateCamera";
 import {Vector3} from "@babylonjs/core/Maths/math.vector";
 import * as BABYLON from "@babylonjs/core";
-import {Mesh} from "@babylonjs/core";
+import {Color3, Mesh} from "@babylonjs/core";
 import {MeshBuilder} from "@babylonjs/core/Meshes/meshBuilder";
 import {Spiral_Transformed} from "../base/Spiral_Transformed";
 
@@ -15,13 +15,34 @@ export class SpiralViewFullControl extends SpiralViewBase {
 
     active_spiral = new Spiral_Dynamic();
 
-    // use_inspector = true;
+    use_inspector = false;
 
     get params() {
         return this.active_spiral ?? this.spiral_factory;
     }
 
-    readonly defaults = {fov: 0.8732, alpha: Math.PI / 2, beta: 0, camH: 6.96};
+    readonly defaults = {
+        fov: 0.8732,
+        alpha: Math.PI / 2,
+        beta: 0,
+        camH: 6.96,
+        lighting: {
+            scene_clearColor: "#000000FF",
+            scene_ambientColor: "#000000",
+            light_diffuseColor: "#FFFFFF",
+            light_groundColor: "#000000",
+            light_direction: {
+                x: 0,
+                y: 0,
+                z: -1
+            },
+            mat_ambientColor: "#000000",
+            mat_diffuseColor: "#FFFFFF",
+            mat_emissiveColor: "#FFFFFF",
+            mat_specularColor: "#000000",
+            mat_specularPower: 64
+        }
+    };
 
     curr_n = 0;
 
@@ -45,13 +66,21 @@ export class SpiralViewFullControl extends SpiralViewBase {
 
         this.camera.inputs.clear();
 
-        this.light = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(0, 0, -1), this.scene);
-        this.light.diffuse = new BABYLON.Color3(1, 1, 1);
-        this.light.specular = new BABYLON.Color3(1, 1, 1);
-        this.light.intensity = 5;
+        // this.light = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(0, 0, -1), this.scene);
+        const {x, y, z} = this.defaults.lighting.light_direction;
+        const hemispheric_light = new BABYLON.HemisphericLight("HemisphericLight", new BABYLON.Vector3(x, y, z), this.scene);
+        hemispheric_light.diffuse = BABYLON.Color3.FromHexString(this.defaults.lighting.light_diffuseColor);
+        hemispheric_light.groundColor = BABYLON.Color3.FromHexString(this.defaults.lighting.light_groundColor);
+        // hemispheric_light.specular = new BABYLON.Color3(1, 1, 1);
+        hemispheric_light.intensity = 5;
+        this.light = hemispheric_light;
 
         const postProcess = new BABYLON.FxaaPostProcess("fxaa", 1.0, this.camera);
 
+        this.spiralMaterial.ambientColor = Color3.FromHexString(this.defaults.lighting.mat_ambientColor);
+        this.spiralMaterial.diffuseColor = Color3.FromHexString(this.defaults.lighting.mat_diffuseColor);
+        this.spiralMaterial.emissiveColor = Color3.FromHexString(this.defaults.lighting.mat_emissiveColor);
+        this.spiralMaterial.specularColor = Color3.FromHexString(this.defaults.lighting.mat_specularColor);
 
         // var ground = BABYLON.Mesh.CreateGround("ground1", 6, 6, 2, this.scene);
         // const ground = MeshBuilder.CreateGround("ground1", {}, this.scene);

@@ -37,10 +37,11 @@ import {Vector3} from "@babylonjs/core/Maths/math.vector";
 import {dlg_cover_view_visible} from "../common/downsampling";
 import CoverView from "./components/CoverView.vue";
 import NumericOrSegmentedEditor from "./components/NumericOrSegmentedEditor.vue";
+import LightingEditor from "./components/LightingEditor.vue";
 
 const toast = useToast();
 
-const component_mappings = {NumericEditor, ColorsEditor, AnimationPointsEditor, ThicknessEditor, NumericOrSegmentedEditor};
+const component_mappings = {NumericEditor, ColorsEditor, AnimationPointsEditor, ThicknessEditor, NumericOrSegmentedEditor, LightingEditor};
 
 const spiral_view = SpiralViewFullControl_instance;
 
@@ -55,7 +56,9 @@ const save_resolution = ref(1400);
 
 const editors: Ref<EditorVM[]> = ref([
   editor_models.all_models.m1,
-  editor_models.all_models.m2,
+  editor_models.all_models.rot_cnt,
+  // editor_models.all_models.m2,
+  // editor_models.all_models.lighting,
   // editor_models.all_models.anim_points,
   // editor_models.all_models.g_thickness,
   // editor_models.all_models.s_thickness,
@@ -93,7 +96,7 @@ async function save_image() {
     const colors_props = {'ss_g_colors': shadow_spiral_props.g_colors, 'ss_s_colors': shadow_spiral_props.s_colors};
     const thickness_props = {'ss_g_thickness': shadow_spiral_props.g_thickness, 'ss_s_thickness': shadow_spiral_props.s_thickness};
 
-    for (const p of ['g_colors', 's_colors', 'g_thickness', 's_thickness', 'anim_points', 'smod_a', 'smod_f'])
+    for (const p of ['g_colors', 's_colors', 'g_thickness', 's_thickness', 'anim_points', 'smod_a', 'smod_f', 'lighting'])
       delete shadow_spiral_props[p];
 
     shadow_spiral_props['transform_type'] = spiral_view.shadow_spiral.transform_type;
@@ -151,6 +154,7 @@ async function file_select(file: GDriveFile) {
       ...shadow_spiral_props,
       ...{g_colors: file.properties.ssgc, s_colors: file.properties.sssc},
       ...{g_thickness: file.properties.ssgth, s_thickness: file.properties.sssth},
+      lighting: file.properties.lighting,
     }, defaults); //shadow editor_models?
     update_editors(shadow_spiral_props);
 
@@ -236,8 +240,8 @@ function reset_scroll_pos() {
 
 const textarea_json = ref('');
 
-const camera_contols_enabled = ref(false);
-watch(camera_contols_enabled, (v: boolean) => {
+const camera_controls_enabled = ref(false);
+watch(camera_controls_enabled, (v: boolean) => {
       if (v) {
         spiral_view.camera.inputs.addPointers();
         // console.log(spiral_view.camera.position);
@@ -250,17 +254,35 @@ watch(camera_contols_enabled, (v: boolean) => {
     }
 );
 
+const inspector_enabled = ref(false);
+
 // window['camera'] = spiral_view.camera;
 
 function reload() {
   sessionStorage['editor_models'] = JSON.stringify(editor_models.get_config_serialized());
   sessionStorage['common_params'] = JSON.stringify({duration: duration.value, save_resolution: save_resolution.value});
+
+  if (shadow_spiral_enabled.value) {
+    const bak_spiral_name = active_spiral_name.value;
+    change_active_spiral("shadow");
+    sessionStorage['editor_models_shadow'] = JSON.stringify(editor_models.get_config_serialized());
+    change_active_spiral(bak_spiral_name);
+  } else sessionStorage['editor_models_shadow'] = undefined;
+
   location.reload();
 }
 
 if (sessionStorage['editor_models']) {
   setTimeout(() => {
     editor_models.set_config_serialized(JSON.parse(sessionStorage['editor_models']));
+
+    if (sessionStorage['editor_models_shadow']) {
+      spiral_view.create_shadow_spiral();
+      change_active_spiral("shadow");
+      editor_models.set_config_serialized(JSON.parse(sessionStorage['editor_models_shadow']));
+      change_active_spiral("main");
+    }
+
     update_editors();
     const common_params = JSON.parse(sessionStorage['common_params']);
     duration.value = common_params.duration;
@@ -322,7 +344,8 @@ function copy_json() {
                   command: () => render_sequence(true, filename, save_resolution).then(()=>update_editors(end_config))
                 },
                 // { label: 'Reset scroll pos', command: reset_scroll_pos },
-                { label: camera_contols_enabled? 'Disable panning' : 'Enable panning', command: ()=>camera_contols_enabled=!camera_contols_enabled },
+                { label: camera_controls_enabled? 'Disable panning' : 'Enable panning', command: ()=>camera_controls_enabled=!camera_controls_enabled },
+                { label: inspector_enabled? 'Disable Inspector' : 'Enable Inspector', command: ()=>{inspector_enabled=!inspector_enabled; spiral_view.show_inspector(inspector_enabled)} },
                 { label: 'Cover View', command: ()=>dlg_cover_view_visible=true },
             ]
         },

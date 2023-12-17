@@ -14,7 +14,7 @@ export class Spiral_Transformed extends Spiral_Dynamic {
 
     transform_type: string = 'squeeze_out_cylinder';
 
-    param_limits = {...super.param_limits, ...{m2: {lo: 1.1}, offsetR: {lo: 0.1}}};
+    param_limits = {m2: {lo: 1.1}, offsetR: {lo: 0.1}};
 
     get id(): string {
         return `shadow_spiral`;
