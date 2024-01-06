@@ -72,10 +72,8 @@ export default class EditorLighting_BJS_VM extends EditorVM {
 
         const color_props = Object.keys(a).filter(p => p.includes('Color'));
 
-        for (const color_prop of color_props) {
-            const color = HSVA_Lerp(color4_to_hsva_array(a[color_prop]), color4_to_hsva_array(b[color_prop]), morphing_percent).toHexString(true);
-            res[color_prop] = color;
-        }
+        for (const color_prop of color_props)
+            res[color_prop] = HSVA_Lerp(color4_to_hsva_array(a[color_prop]), color4_to_hsva_array(b[color_prop]), morphing_percent).toHexString(true);
 
         res.light_direction = mapValues({x: 0, y: 0, z: 0}, (v, k) => a.light_direction[k] + morphing_percent * (b.light_direction[k] - a.light_direction[k]));
         res.mat_specularPower = a.mat_specularPower + morphing_percent * (b.mat_specularPower - a.mat_specularPower);

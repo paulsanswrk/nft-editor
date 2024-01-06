@@ -13,7 +13,7 @@ const crop_ratio = ref(1);
 
 const dialog_size = ref(383);
 
-const dialog: Dialog = ref(null);
+const dialog: Ref<Dialog | null> = ref(null);
 
 const chosen_size = ref(383);
 
@@ -21,11 +21,13 @@ type position_type = "center" | "top" | "bottom" | "left" | "right" | "topleft" 
 
 const dialog_pos: Ref<position_type> = ref('center' as position_type);
 
-const show_object_bounds = ref(false);
+const show_object_bounds_789 = ref(false);
+const show_object_bounds_383 = ref(false);
 
 const circle_mode = ref(false);
 
-watch(show_object_bounds, v => document.getElementById('canvas-wrapper').className = v ? 'border-visible' : '');
+watch([show_object_bounds_789, show_object_bounds_383], v =>
+    document.getElementById('canvas-wrapper').className = [show_object_bounds_789.value ? 'border-visible-789' : '', show_object_bounds_383.value ? 'border-visible-383' : ''].join(' '));
 
 watch(crop_ratio, () => downsample_resolution.value = 640 / crop_ratio.value);
 
@@ -57,10 +59,17 @@ watch(crop_ratio, () => downsample_resolution.value = 640 / crop_ratio.value);
       </div>
 
       <div class="mx-2 d-inline-flex flex-column justify-content-between">
+
         <div class="mb-2 text-nowrap">
-          Show object bounds
-          <Checkbox v-model="show_object_bounds" :binary="true"/>
+          Show object bounds (789)
+          <Checkbox v-model="show_object_bounds_789" :binary="true"/>
         </div>
+
+        <div class="mb-2 text-nowrap">
+          Show object bounds (383)
+          <Checkbox v-model="show_object_bounds_383" :binary="true"/>
+        </div>
+
       </div>
 
     </div>

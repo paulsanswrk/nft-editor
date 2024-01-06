@@ -32,7 +32,7 @@ export default class EditorNumericVM extends EditorVM {
 
         const n = Number(v);
 
-        if (this.param_name === 'alpha') return `${(n / Math.PI).toFixed(3).replace(/\.?0+$/, '')} π`;
+        if (this.param_name === 'alpha' || this.param_name === 'beta') return `${(n / Math.PI).toFixed(3).replace(/\.?0+$/, '')} π`;
 
         return n.toFixed(3).replace(/\.?0+$/, '');
     }

@@ -347,6 +347,11 @@ function copy_json() {
                 { label: camera_controls_enabled? 'Disable panning' : 'Enable panning', command: ()=>camera_controls_enabled=!camera_controls_enabled },
                 { label: inspector_enabled? 'Disable Inspector' : 'Enable Inspector', command: ()=>{inspector_enabled=!inspector_enabled; spiral_view.show_inspector(inspector_enabled)} },
                 { label: 'Cover View', command: ()=>dlg_cover_view_visible=true },
+                { label: 'View Point:',
+                  items: [
+                      {label: 'Top', command: ()=>{spiral_view.camera.setTarget(new Vector3(0, 0, 3)); set_config({beta: 0})}},
+                      {label: 'Front', command: ()=>{spiral_view.camera.setTarget(new Vector3(0, 0, 3)); set_config({beta: Math.PI/2})}},
+                  ] },
             ]
         },
         { icon: 'pi pi-angle-double-down', command:()=>editor_models.all_params.forEach(k=>opened[k]=false) },
@@ -505,16 +510,26 @@ body {
 #canvas-wrapper {
   position: relative;
 
-  &.border-visible::after {
+
+  @mixin border-visible($w) {
     border: 1px solid white;
     content: '';
-    height: 789px;
+    height: $w;
     left: 50%;
-    margin-left: -394.5px;
-    margin-top: -394.5px;
+    margin-left: -(calc($w / 2));
+    margin-top: -(calc($w / 2));
+    pointer-events: none;
     position: absolute;
     top: 50%;
-    width: 789px;
+    width: $w;
+  }
+
+  &.border-visible-383::after {
+    @include border-visible(383px);
+  }
+
+  &.border-visible-789::after {
+    @include border-visible(789px);
   }
 
 }
@@ -549,7 +564,7 @@ body {
   ul.p-submenu-list {
     //min-width: 350px;
     max-height: calc(100vh - $btns-h);
-    overflow: auto;
+    //overflow: auto;
     //border: 3px solid;
   }
 

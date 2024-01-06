@@ -32,7 +32,7 @@ export class EditorsVM {
         offsetR: new EditorNumericOrSegmentedVM('offsetR', -30, 10),
         zScale: new EditorNumericOrSegmentedVM('zScale', -2, 2),
         alpha: new EditorNumeric_BJS_VM('alpha', -700, 700, [Math.PI / 2, Math.PI / 20]),
-        beta: new EditorNumeric_BJS_VM('beta', 0, 10),
+        beta: new EditorNumeric_BJS_VM('beta', 0, 10, [Math.PI / 2, Math.PI / 20]),
         // tube_radius: new EditorNumericVM('tube_radius', 0, 0.02, [0.001]),
         inner_r: new EditorNumericVM('inner_r', 0, 40),
         smod_a: new EditorNumericOrSegmentedVM('smod_a', -5, 5),
