@@ -26,6 +26,13 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.vue$/i,
+                exclude: /(node_modules)/,
+                use: {
+                    loader: "vue-loader",
+                },
+            },
+            {
                 test: /\.ts$/,
                 loader: 'ts-loader',
                 options: {appendTsSuffixTo: [/\.vue$/]}
@@ -35,13 +42,6 @@ module.exports = {
                     CONTROLS: global.CONTROLS,
                     INSPECTOR: global.INSPECTOR,
                 }
-            },
-            {
-                test: /\.vue$/i,
-                exclude: /(node_modules)/,
-                use: {
-                    loader: "vue-loader",
-                },
             },
             {
                 test: /\.scss$/,

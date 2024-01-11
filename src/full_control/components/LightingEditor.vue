@@ -26,6 +26,25 @@ function update() {
   lighting_model.value = {...props.model.param_get()};
 }
 
+function put_to_localstorage() {
+  let lighting_params = props.model.param_get();
+  localStorage['lighting'] = JSON.stringify(lighting_params);
+}
+
+function get_from_localstorage() {
+  if (!localStorage['lighting']) return;
+
+  try {
+    let lighting_params = JSON.parse(localStorage['lighting']);
+
+    props.model.param_set(lighting_params);
+    update();
+
+  } catch (e) {
+  }
+
+}
+
 defineExpose({update, collapse_fine_tune})
 
 </script>
@@ -38,6 +57,8 @@ defineExpose({update, collapse_fine_tune})
       <h6 class="font-weight-bold text-white" @click="$emit('collapse')">{{ props.model.param_name }}</h6>
 
       <span class="p-buttonset">
+        <Button icon="pi pi-file-export" outlined @click="put_to_localstorage()" title="Save to buffer"/>
+        <Button icon="pi pi-file-import" outlined @click="get_from_localstorage()" title="Load from buffer"/>
         <Button v-if="opened && fine_tune_needed" label="F" :outlined="!extended" style="padding: 0 7px;" @click="extended = !extended"/>
         <Button :icon="opened? 'pi pi-minus' : 'pi pi-plus'" outlined @click="$emit('collapse')"/>
         <Button icon="pi pi-times" outlined @click="$emit('remove_editor')"/>

@@ -4,6 +4,7 @@ import {Chrome} from '@ckpack/vue-color';
 import {computed, Ref, ref} from "vue";
 import Button from "primevue/button";
 import {EditorColors_G_VM} from "../VMs/EditorColorsVM";
+import {pullAt} from "lodash";
 
 
 const props = defineProps<{ model: EditorColors_G_VM, opened: Boolean }>()
@@ -23,6 +24,30 @@ function update() {
   segments.value = props.model.param_get();
 }
 
+function put_to_localstorage() {
+  let segments = props.model.param_get();
+  if (props.model.param_name === 's_colors')
+    pullAt(segments, [0, segments.length - 1]);
+
+  localStorage['color_segments'] = JSON.stringify(segments);
+}
+
+function get_from_localstorage() {
+  if (!localStorage['color_segments']) return;
+
+  try {
+    let stored_segments = JSON.parse(localStorage['color_segments']);
+    if (props.model.param_name === 's_colors')
+      stored_segments = [segments.value[0], ...stored_segments, segments.value[segments.value.length - 1]];
+
+    props.model.param_set(stored_segments);
+    segments.value = stored_segments;
+
+  } catch (e) {
+  }
+
+}
+
 defineExpose({update, collapse_fine_tune});
 
 const g_colors_buffer: Ref<{ pos: number, val: string }[]> = ref([]);
@@ -37,8 +62,8 @@ const g_colors_buffer: Ref<{ pos: number, val: string }[]> = ref([]);
       <h6 class="font-weight-bold text-white" @click="$emit('collapse')">{{ props.model.param_name }}</h6>
 
       <span class="p-buttonset">
-        <Button v-if="props.model.param_name == 'g_colors'" icon="pi pi-file-export" outlined @click="g_colors_buffer = props.model.param_get()"/>
-        <Button v-if="props.model.param_name == 'g_colors' && g_colors_buffer.length" icon="pi pi-file-import" outlined @click="props.model.param_set(g_colors_buffer); update()"/>
+        <Button icon="pi pi-file-export" outlined @click="put_to_localstorage()" title="Save to buffer"/>
+        <Button icon="pi pi-file-import" outlined @click="get_from_localstorage()" title="Load from buffer"/>
         <Button v-if="opened && fine_tune_needed" label="F" :outlined="!extended" style="padding: 0 7px;" @click="extended = !extended"/>
         <Button :icon="opened? 'pi pi-minus' : 'pi pi-plus'" outlined @click="$emit('collapse')"/>
         <Button icon="pi pi-times" outlined @click="$emit('remove_editor')"/>

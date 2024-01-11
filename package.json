@@ -22,16 +22,16 @@
   "devDependencies": {
     "@babel/core": "^7.23.6",
     "@babel/preset-env": "^7.23.6",
-    "@babylonjs/gui": "^6.34.1",
-    "@babylonjs/inspector": "^6.34.1",
-    "@babylonjs/materials": "^6.34.1",
+    "@babylonjs/gui": "^6.37.1",
+    "@babylonjs/inspector": "^6.37.1",
+    "@babylonjs/materials": "^6.37.1",
     "@types/gapi": "^0.0.47",
-    "@types/gapi.client.drive": "^3.0.15",
+    "@types/gapi.client.drive-v3": "^0.0.4",
     "@types/gapi.client.oauth2-v2": "^0.0.4",
     "@types/google.accounts": "^0.0.14",
     "@types/lodash": "^4.14.202",
-    "@vue/compiler-sfc": "^3.3.12",
-    "axios": "^1.6.2",
+    "@vue/compiler-sfc": "^3.4.6",
+    "axios": "^1.6.5",
     "bootstrap": "^4.6.2",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
@@ -45,7 +45,7 @@
     "style-loader": "^3.3.3",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",
-    "vue": "^3.3.12",
+    "vue": "^3.4.6",
     "vue-axios": "^3.5.2",
     "webpack": "5.89.0",
     "webpack-bundle-analyzer": "^4.10.1",
@@ -56,7 +56,7 @@
     "webpack-obfuscator": "^3.5.1"
   },
   "dependencies": {
-    "@babylonjs/core": "^6.34.1",
+    "@babylonjs/core": "^6.37.1",
     "@bluemath/linalg": "^0.2.2",
     "@ckpack/vue-color": "^1.5.0",
     "@ctrl/tinycolor": "^4.0.2",
@@ -66,9 +66,9 @@
     "mini-css-extract-plugin": "^2.7.6",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "primeicons": "^6.0.1",
-    "primevue": "^3.44.0",
+    "primevue": "^3.46.0",
     "ts-image-processor": "^1.1.17",
-    "vue-loader": "^17.3.1",
+    "vue-loader": "^17.4.2",
     "vue-router": "^4.2.5"
   }
 }
