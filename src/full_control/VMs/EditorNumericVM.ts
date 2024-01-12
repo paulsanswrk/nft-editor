@@ -19,6 +19,10 @@ export default class EditorNumericVM extends EditorVM {
 
     component_name = 'NumericEditor';
 
+    get affects_geometry(): boolean {
+        return true;
+    }
+
     param_get(): number {
         return Number(spiral_view.active_spiral.get_config()[this.param_name]);
     }
@@ -42,15 +46,15 @@ export default class EditorNumericVM extends EditorVM {
         spiral_view.active_spiral.need_recalc_z_bounds = true;
 
         if (do_update_spiral)
-            spiral_view.update_spiral();
+            spiral_view.update_spiral_geometry();
     }
 
-    param_set_serialized(value: string, default_value: any) {
-        this.param_set(value ?? default_value);
+    param_set_serialized(value: string, default_value: any, do_update_spiral = true) {
+        this.param_set(value ?? default_value, do_update_spiral);
     }
 
-    param_set_lerp(a: number, b: number, pos: number): void {
+    param_set_lerp(a: number, b: number, pos: number, do_update_spiral = true): void {
         const value = a + pos * (b - a);
-        this.param_set(value, false);
+        this.param_set(value, do_update_spiral);
     }
 }

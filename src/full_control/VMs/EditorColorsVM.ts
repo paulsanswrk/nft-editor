@@ -24,13 +24,14 @@ export class EditorColors_G_VM extends EditorVM {
         return spiral_view.active_spiral.get_config()[this.param_name].map(s => `${(s.pos * 100).toFixed(0)}:${s.color}`).join('|');
     }
 
-    param_set(segments: { pos: number, val: string }[]) {
+    param_set(segments: { pos: number, val: string }[], do_update_spiral = true) {
         spiral_view.active_spiral.set_config({g_colors: segments.map(c => ({pos: c.pos, color: c.val}))});
 
-        spiral_view.update_colors();
+        if (do_update_spiral)
+            spiral_view.update_colors();
     }
 
-    param_set_serialized(param: any, default_value: any) {
+    param_set_serialized(param: any, default_value: any, do_update_spiral = true) {
         const segments: { color: string; pos: number }[] =
             Array.isArray(param) ? param.map(a => ({pos: a.pos, color: a.val})) :
                 param?.split('|')
@@ -39,10 +40,11 @@ export class EditorColors_G_VM extends EditorVM {
 
         spiral_view.active_spiral.set_config({[this.param_name]: segments ?? default_value})
 
-        spiral_view.update_colors();
+        if (do_update_spiral)
+            spiral_view.update_colors();
     }
 
-    param_set_lerp(a: { pos: number, val: string }[], b: { pos: number, val: string }[], morphing_percent: number): void {
+    param_set_lerp(a: { pos: number, val: string }[], b: { pos: number, val: string }[], morphing_percent: number, do_update_spiral = true): void {
         const new_segments = a.map((s, n) => {
             const pos = a[n].pos + morphing_percent * (b[n].pos - a[n].pos);
             const val = HSVA_Lerp(color4_to_hsva_array(a[n].val), color4_to_hsva_array(b[n].val), morphing_percent).toHexString();
@@ -67,18 +69,19 @@ export class EditorColors_S_VM
         return segments.map(s => ({pos: s.pos, val: s.color}));
     }
 
-    param_set(segments: { pos: number, val: string }[]) {
+    param_set(segments: { pos: number, val: string }[], do_update_spiral = true) {
         segments = segments.slice(1, -1);
         spiral_view.active_spiral.set_config({s_colors: segments.map(c => ({pos: c.pos, color: c.val}))});
 
-        spiral_view.update_colors();
+        if (do_update_spiral)
+            spiral_view.update_colors();
     }
 
-    param_set_serialized(param: any, default_value: any) {
+    param_set_serialized(param: any, default_value: any, do_update_spiral = true) {
         if (Array.isArray(param))
             param = param.slice(1, -1);
 
-        super.param_set_serialized(param, default_value);
+        super.param_set_serialized(param, default_value, do_update_spiral);
     }
 
 }

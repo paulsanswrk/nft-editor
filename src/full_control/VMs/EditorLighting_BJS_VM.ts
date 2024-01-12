@@ -46,7 +46,9 @@ export default class EditorLighting_BJS_VM extends EditorVM {
         }
     }
 
-    param_set(arg: Lighting_Params): void {
+    param_set(arg: Lighting_Params, do_update_spiral = true): void {
+        if (!do_update_spiral) return;
+
         if (arg.scene_clearColor) spiral_view.scene.clearColor = Color4.FromHexString(arg.scene_clearColor);
         if (arg.scene_ambientColor) spiral_view.scene.ambientColor = Color3.FromHexString(arg.scene_ambientColor);
         if (arg.light_diffuseColor) (spiral_view.scene.lights[0] as HemisphericLight).diffuse = Color3.FromHexString(arg.light_diffuseColor);
@@ -101,7 +103,7 @@ export default class EditorLighting_BJS_VM extends EditorVM {
 
     }
 
-    param_set_serialized(s: string, default_value: any): void {
+    param_set_serialized(s: string, default_value: any, do_update_spiral = true): void {
         if (!s) {
             this.param_set(default_value);
             return;

@@ -133,11 +133,11 @@ export class SpiralViewFullControl extends SpiralViewBase {
         this.create_rotated_clones(this.active_spiral, this.meshes[nMesh][0], nMesh);
     }
 
-    update_spiral() {
+    update_spiral_geometry(spiralPoints: Vector3[] | null = null) {
         const nMesh = this.active_spiral.type === 'dynamic' ? 0 : 1;
 
         const mesh: Mesh = MeshBuilder.CreateTube(`spiral_${this.spiral.id}`, {
-            path: this.active_spiral.spiralPoints,
+            path: spiralPoints ?? this.active_spiral.spiralPoints,
             radius: this.active_spiral.tube_radius,
             radiusFunction: (index, distance) => {
                 return this.active_spiral.radius_function(index);

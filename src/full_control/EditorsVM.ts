@@ -55,12 +55,12 @@ export class EditorsVM {
         return mapValues(this.all_models, v => v.param_get() as any);
     }
 
-    set_config(config: { [p: string]: any }, defaults?: { [p: string]: any }) {
+    set_config(config: { [p: string]: any }, defaults?: { [p: string]: any }, do_update_spiral = true) {
         defaults ??= spiral_view.spiral_factory.get_config();
 
         for (const k in this.all_models)
             if (config[k] !== undefined)
-                this.all_models[k].param_set(config[k] ?? defaults[k] ?? spiral_view.defaults[k]);
+                this.all_models[k].param_set(config[k] ?? defaults[k] ?? spiral_view.defaults[k], do_update_spiral);
 
     }
 
@@ -78,7 +78,7 @@ export class EditorsVM {
         if (config.m3 === undefined) config.m3 = config.m1;
 
         for (const k in this.all_models) {
-            this.all_models[k].param_set_serialized(config[k], spiral_defaults[k] ?? spiral_view.defaults[k]);
+            this.all_models[k].param_set_serialized(config[k], spiral_defaults[k] ?? spiral_view.defaults[k], true);
         }
     }
 
@@ -86,12 +86,12 @@ export class EditorsVM {
         (this.all_models['anim_points'] as EditorAnimPointsVM).param_set_curr_point_serialized(config);
     }
 
-    set_config_lerp(a: { [p: string]: any }, b: { [p: string]: any }, pos: number, pos_w_easing: number) {
+    set_config_lerp(a: { [p: string]: any }, b: { [p: string]: any }, pos: number, pos_w_easing: number, direct_morphing: boolean) {
         for (const k in this.all_models)
-            if (a[k] !== undefined)
-                this.all_models[k].param_set_lerp(a[k], b[k], k === 'alpha' ? pos : pos_w_easing);
+            if (a[k] !== undefined && (!direct_morphing || !this.all_models[k].affects_geometry))
+                this.all_models[k].param_set_lerp(a[k], b[k], k === 'alpha' ? pos : pos_w_easing, false);
 
-        spiral_view.update_spiral();
+        spiral_view.update_spiral_geometry();
     }
 
     segments_count_match() {

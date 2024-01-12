@@ -149,7 +149,7 @@ export default abstract class SpiralViewBase {
     }
 
     protected assign_colors(mesh: Mesh, spiral: Spiral_Base) {
-        mesh.setVerticesData("color", spiral.calc_colors(mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind)));
+        mesh.setVerticesData("color", spiral.calc_colors(mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind))); //TODO: vertices data is unused
     }
 
     protected create_rotated_clones(spiral: Spiral_Base, mesh: Mesh, spiral_target_n: number = 0) {

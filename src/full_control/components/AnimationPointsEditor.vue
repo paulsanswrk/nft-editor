@@ -65,8 +65,17 @@ defineExpose({update, collapse_fine_tune});
                     @click.stop="editor_models.set_config(anim_points[n_selected].val); emit('update_editors')"/>
           </div>
 
-          <div>
-            <Dropdown v-if="n_selected !== anim_points.length-1" :options="easing_func_names" v-model="anim_points[n_selected].easing" placeholder="easing" size="small"/>
+          <div v-if="n_selected !== anim_points.length-1">
+            <Dropdown :options="easing_func_names" v-model="anim_points[n_selected].easing" placeholder="easing" size="small"/>
+
+            <div class="d-flex align-items-start mt-2 text-white">
+              <Checkbox v-model="anim_points[n_selected].direct_morphing" :binary="true" input-id="chk-direct_morphing"/>
+              &nbsp;
+              <label for="chk-direct_morphing">
+                Direct Morphing
+              </label>
+            </div>
+
           </div>
 
         </div>

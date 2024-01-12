@@ -15,10 +15,10 @@ export default class EditorAnimPointsVM extends EditorVM {
         // return undefined;
     }
 
-    param_set(arg: any): void {
+    param_set(arg: any, do_update_spiral = true): void {
     }
 
-    param_set_lerp(a: any, b: any, pos: number): void {
+    param_set_lerp(a: any, b: any, pos: number, do_update_spiral: boolean): void {
     }
 
     param_get_serialized(): string {
@@ -29,7 +29,7 @@ export default class EditorAnimPointsVM extends EditorVM {
         return anim_points.value[current_anim_point_num.value].val;
     }
 
-    param_set_serialized(param: any, default_value: any): void {
+    param_set_serialized(param: any, default_value: any, do_update_spiral = true): void {
         if (!param) return;
 
         const segments: { pos: number, val: { [k: string]: any } } [] = Array.isArray(param) ? param : JSON.parse(param);

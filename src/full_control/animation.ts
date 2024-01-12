@@ -3,6 +3,8 @@ import {editor_models} from "./EditorsVM";
 import {sleep} from "../common/help_funcs";
 import {SpiralViewFullControl_instance} from "./SpiralViewFullControl";
 import {easing} from "../common/easing";
+import SpiralViewBase from "../base/SpiralViewBase";
+import {Vector3} from "@babylonjs/core/Maths/math.vector";
 
 const spiral_view = SpiralViewFullControl_instance;
 
@@ -13,7 +15,7 @@ export const playing_time = ref(0);
 export const enable_morphing = ref(true);
 export const playing_morphing = ref(false);
 
-export const anim_points: Ref<{ pos: number, val: any, easing?: string } []> = ref([{pos: 0, val: null}, {pos: 1, val: null}]);
+export const anim_points: Ref<{ pos: number, val: any, easing?: string, direct_morphing?: boolean } []> = ref([{pos: 0, val: null}, {pos: 1, val: null}]);
 
 export const current_anim_point_num = ref(0);
 
@@ -62,6 +64,18 @@ export async function toggle_playing_morphing(n_start_point: number = 0, n_end_p
     let last_render_time = morphing_started_at;
     let n_curr_anim_segment = n_start_point;
 
+    const base_points: Array<Array<Vector3>> = [];
+    let points_buffer: Array<Vector3>;
+
+    if (anim_points.value.some(p => p.direct_morphing)) {
+        for (const anim_point of anim_points.value) {
+            editor_models.set_config(anim_point.val, null, false);
+            base_points.push([...spiral_view.active_spiral.spiralPoints]);
+        }
+        points_buffer = Array(base_points[0].length);
+        for (let i = 0; i < points_buffer.length; i++) points_buffer[i] = new Vector3();
+    }
+
     while (true) {
         if (last_render_time + dt > new Date().getTime())
             await sleep(last_render_time + dt - new Date().getTime());
@@ -81,7 +95,21 @@ export async function toggle_playing_morphing(n_start_point: number = 0, n_end_p
         }
         const morphing_percent_rescaled = (morphing_percent - point_a.pos) / (point_b.pos - point_a.pos)
 
-        do_morphing_increment(morphing_percent_rescaled, point_a.val, point_b.val, point_a.easing);
+        do_morphing_increment(morphing_percent_rescaled, point_a.val, point_b.val, point_a.easing, point_a.direct_morphing);
+
+        if (point_a.direct_morphing) {
+            const easing_func = easing[point_a.easing ?? 'linear'];
+            const morphing_percent_rescaled_w_easing = easing_func(morphing_percent_rescaled);
+
+            for (let i = 0; i < base_points[n_curr_anim_segment].length; i++) {
+                points_buffer[i].setAll(0);
+                base_points[n_curr_anim_segment][i].scaleAndAddToRef(1 - morphing_percent_rescaled_w_easing, points_buffer[i]);
+                base_points[n_curr_anim_segment + 1][i].scaleAndAddToRef(morphing_percent_rescaled_w_easing, points_buffer[i]);
+            }
+
+            spiral_view.update_spiral_geometry(points_buffer);
+        }
+
 
         if (morphing_percent >= point_b.pos)
             n_curr_anim_segment++;
@@ -90,13 +118,13 @@ export async function toggle_playing_morphing(n_start_point: number = 0, n_end_p
     }
 }
 
-export function do_morphing_increment(morphing_percent_rescaled: number, config_a: { [p: string]: any }, config_b: { [p: string]: any }, easing_type: string): boolean {
+export function do_morphing_increment(morphing_percent_rescaled: number, config_a: { [p: string]: any }, config_b: { [p: string]: any }, easing_type: string, direct_morphing: boolean): boolean {
     morphing_percent_rescaled = Math.min(morphing_percent_rescaled, 1);
 
     const easing_func = easing[easing_type ?? 'linear'];
     const morphing_percent_rescaled_w_easing = easing_func(morphing_percent_rescaled);
 
-    editor_models.set_config_lerp(config_a, config_b, morphing_percent_rescaled, morphing_percent_rescaled_w_easing);
+    editor_models.set_config_lerp(config_a, config_b, morphing_percent_rescaled, morphing_percent_rescaled_w_easing, direct_morphing);
 
     return morphing_percent_rescaled < 1;
 }
@@ -114,6 +142,18 @@ export async function render_sequence(output_video: boolean, filename: string, i
         const do_rotation = camera_speed.value !== 0;
         const bak_rot_speed = camera_speed.value;
 
+        const base_points: Array<Array<Vector3>> = [];
+        let points_buffer: Array<Vector3>;
+
+        if (anim_points.value.some(p => p.direct_morphing)) {
+            for (const anim_point of anim_points.value) {
+                editor_models.set_config(anim_point.val, null, false);
+                base_points.push([...spiral_view.active_spiral.spiralPoints]);
+            }
+            points_buffer = Array(base_points[0].length);
+            for (let i = 0; i < points_buffer.length; i++) points_buffer[i] = new Vector3();
+        }
+
         if (do_rotation) {
             camera_speed.value = 0;
             spiral_view.camera.alpha = spiral_view.defaults.alpha;
@@ -124,7 +164,7 @@ export async function render_sequence(output_video: boolean, filename: string, i
         const dt = 1 / fps.value;
         let n_curr_anim_segment = 0;
 
-        const inc_func = v => {
+        const inc_func = (v: SpiralViewBase) => {
             //rot_speed is rad/sec
             // if (do_rotation) v.camera.alpha -= bak_rot_speed * dt;
 
@@ -133,7 +173,20 @@ export async function render_sequence(output_video: boolean, filename: string, i
 
             if (do_morphing) {
                 const morphing_percent_rescaled = (morphing_percent - point_a.pos) / (point_b.pos - point_a.pos)
-                do_morphing_increment(morphing_percent_rescaled, point_a.val, point_b.val, point_a.easing);
+                do_morphing_increment(morphing_percent_rescaled, point_a.val, point_b.val, point_a.easing, point_a.direct_morphing);
+
+                if (point_a.direct_morphing) {
+                    const easing_func = easing[point_a.easing ?? 'linear'];
+                    const morphing_percent_rescaled_w_easing = easing_func(morphing_percent_rescaled);
+
+                    for (let i = 0; i < base_points[n_curr_anim_segment].length; i++) {
+                        points_buffer[i].setAll(0);
+                        base_points[n_curr_anim_segment][i].scaleAndAddToRef(1 - morphing_percent_rescaled_w_easing, points_buffer[i]);
+                        base_points[n_curr_anim_segment + 1][i].scaleAndAddToRef(morphing_percent_rescaled_w_easing, points_buffer[i]);
+                    }
+
+                    spiral_view.update_spiral_geometry(points_buffer);
+                }
             }
 
             morphing_percent += morphing_percent_step;

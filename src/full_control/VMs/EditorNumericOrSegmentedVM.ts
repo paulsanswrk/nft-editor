@@ -21,6 +21,10 @@ export default class EditorNumericOrSegmentedVM extends EditorVM {
         this.editorSegmentedVM = new EditorSegmentedVM(param_name); // + '_segmented'
     }
 
+    get affects_geometry(): boolean {
+        return this.editorNumericVM.affects_geometry;
+    }
+
     private get editor(): EditorSegmentedVM | EditorNumericVM {
         return this.is_segmented ? this.editorSegmentedVM : this.editorNumericVM;
     }
@@ -47,21 +51,21 @@ export default class EditorNumericOrSegmentedVM extends EditorVM {
         // spiral_view.update_spiral();
     }
 
-    param_set_lerp(a: any, b: any, pos: number): void {
-        this.editor.param_set_lerp(a, b, pos);
+    param_set_lerp(a: any, b: any, pos: number, do_update_spiral = true): void {
+        this.editor.param_set_lerp(a, b, pos, do_update_spiral);
     }
 
     private param_remove_serialized() {
         spiral_view.active_spiral.set_segmented_param(this.param_name, null);
     }
 
-    param_set_serialized(param: string, default_value: any): void {
+    param_set_serialized(param: string, default_value: any, do_update_spiral = true): void {
         if (Array.isArray(param) || is_segment_string(param)) {
             this.is_segmented = true;
-            this.editorSegmentedVM.param_set_serialized(param, default_value);
+            this.editorSegmentedVM.param_set_serialized(param, default_value, do_update_spiral);
         } else {
             this.is_segmented = false;
-            this.editorNumericVM.param_set_serialized(param, default_value);
+            this.editorNumericVM.param_set_serialized(param, default_value, do_update_spiral);
             this.param_remove_serialized();
         }
     }

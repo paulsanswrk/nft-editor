@@ -55,11 +55,11 @@ const filename = ref(Date.now().toString());
 const save_resolution = ref(1400);
 
 const editors: Ref<EditorVM[]> = ref([
+  editor_models.all_models.anim_points,
   editor_models.all_models.m1,
   editor_models.all_models.rot_cnt,
   // editor_models.all_models.m2,
   // editor_models.all_models.lighting,
-  // editor_models.all_models.anim_points,
   // editor_models.all_models.g_thickness,
   // editor_models.all_models.s_thickness,
   // editor_models.all_models.g_colors,
@@ -158,7 +158,7 @@ async function file_select(file: GDriveFile) {
     }, defaults); //shadow editor_models?
     update_editors(shadow_spiral_props);
 
-    spiral_view.update_spiral();
+    spiral_view.update_spiral_geometry();
   } else
     shadow_spiral_enabled.value = false;
 
@@ -174,7 +174,7 @@ async function file_select(file: GDriveFile) {
   if (have_shadow_spiral)
     change_active_spiral('shadow');
 
-  spiral_view.update_spiral();
+  spiral_view.update_spiral_geometry();
   update_editors();
   file_browser.value.close();
 }
