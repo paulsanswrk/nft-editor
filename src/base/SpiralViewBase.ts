@@ -11,6 +11,7 @@ import {Vector3} from "@babylonjs/core/Maths/math.vector";
 import {arrayBufferToBlob, blobToDataURL, dataURLToBlob} from "blob-util";
 import * as HME from "h264-mp4-encoder";
 import {sleep} from "../common/help_funcs";
+import {fps} from "../full_control/AppVM";
 
 export default abstract class SpiralViewBase {
     protected abstract spiral_factory: Spiral_Base;
@@ -301,40 +302,46 @@ export default abstract class SpiralViewBase {
         const canvas_size = document.getElementById('view')?.clientWidth;
         if (!!canvas_size && (canvas_size < render_size)) this.engine.setHardwareScalingLevel(canvas_size / render_size);
 
-        const blob = await this.export_image_blob(render_size);
+        const img_data_url = await this.export_image_base64(render_size);
 
-        await this.download_file(blob, filename);
+        if ((window as any).pp_func)
+            (window as any).pp_func(img_data_url);
+        else {
+            const blob = dataURLToBlob(img_data_url);
+            await this.download_file(blob, filename);
+        }
 
         this.engine.setHardwareScalingLevel(bak_scaling);
     }
 
-    async download_image_sequence(increment: ((v: SpiralViewBase) => boolean), size: number = 1200, fn_prefix = '') {
-        let n = 1;
+    async download_image_sequence(gen_frame: (n_frame: number) => void, size: number = 1200, n_start_frame: number, n_end_frame: number, fn_prefix: string) {
+        const numberFormat = new Intl.NumberFormat('en', {minimumIntegerDigits: 6, useGrouping: false});
 
-        do {
-            await this.download_canvas_image(fn_prefix + new Intl.NumberFormat('en', {minimumIntegerDigits: 6, useGrouping: false}).format(n++), size);
-        } while (increment(this));
+        for (let n_frame = n_start_frame; n_frame <= n_end_frame; n_frame++) {
+            gen_frame(n_frame);
+            await this.download_canvas_image(fn_prefix + numberFormat.format(n_frame + 1), size);
+        }
     }
 
-    async render_mp4(increment: ((v: SpiralViewBase) => boolean), fps: number = 30) {
+    async render_mp4(gen_frame: (n_frame: number) => void, n_start_frame: number, n_end_frame: number) {
         const size = this.canvas.width;
         const encoder = await HME.createH264MP4Encoder();
         // Must be a multiple of 2.
         encoder.width = size;
         encoder.height = size;
-        encoder.frameRate = fps;
+        encoder.frameRate = fps.value;
         // encoder.debug = true;
         encoder.initialize();
         const ctx = this.canvas.getContext("webgl2", {preserveDrawingBuffer: true});
         const pixels = new Uint8Array(size * size * 4);
-        let frame_cnt = 0;
-        do {
+
+        for (let n_frame = n_start_frame; n_frame <= n_end_frame; n_frame++) {
+            gen_frame(n_frame);
             ctx.readPixels(0, 0, encoder.width, encoder.height, ctx.RGBA, ctx.UNSIGNED_BYTE, pixels);
             encoder.addFrameRgba(pixels);
-            frame_cnt++;
-            console.log({frame_cnt})
+            console.log({n_frame})
             await sleep(1);
-        } while (increment(this));
+        }
 
         encoder.finalize();
         const uint8Array = encoder.FS.readFile(encoder.outputFilename, {encoding: "binary"});

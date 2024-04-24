@@ -6,7 +6,7 @@ import 'primeicons/primeicons.css';
 
 import {nextTick, ref, Ref, watch} from "vue";
 import {SpiralViewFullControl_instance} from "./SpiralViewFullControl";
-import {remove, sortBy} from "lodash";
+import {pickBy, remove, sortBy} from "lodash";
 import Button from "primevue/button";
 import FileBrowser from "./components/FileBrowser.vue";
 import Inplace from 'primevue/inplace';
@@ -20,12 +20,11 @@ import Textarea from 'primevue/textarea';
 import RadioButton from 'primevue/radiobutton';
 import {Spiral_Transformed} from "../base/Spiral_Transformed";
 import ColorsDebug from "./components/ColorsDebug.vue";
-import {editor_models} from "./EditorsVM";
-import EditorVM from "./VMs/EditorVM";
+import {editor_models, editors, update_editors} from "./EditorsVM";
 import NumericEditor from "./components/NumericEditor.vue";
 import ColorsEditor from "./components/ColorsEditor.vue";
-import {camera_speed, duration, enable_morphing, end_config, fps, playing_morphing, render_sequence, start_config, toggle_playing_morphing} from "./animation";
-import {editor_refs, update_editors} from "./AppVM";
+import {anim_points, camera_speed, enable_morphing, end_config, play_animation, playing_animation, render_sequence, start_config} from "./animation";
+import {duration, editor_refs, filename, fps, save_resolution} from "./AppVM";
 import AnimationPointsEditor from "./components/AnimationPointsEditor.vue";
 import {force_gdrive_auth, GDriveFile, GDriveFileImage, GDriveFileVideo} from "../common/GDrive/gdrive_file";
 import EditorAnimPointsVM from "./VMs/EditorAnimPointsVM";
@@ -39,6 +38,9 @@ import CoverView from "./components/CoverView.vue";
 import NumericOrSegmentedEditor from "./components/NumericOrSegmentedEditor.vue";
 import LightingEditor from "./components/LightingEditor.vue";
 
+import * as sample from './JSON/sample.json';
+import {PrimeIcons} from "primevue/api";
+
 const toast = useToast();
 
 const component_mappings = {NumericEditor, ColorsEditor, AnimationPointsEditor, ThicknessEditor, NumericOrSegmentedEditor, LightingEditor};
@@ -50,22 +52,6 @@ window['add_error_to_list'] = s => {
   if (errors_list.value.length > 50) errors_list.value = [];
   errors_list.value.push(s);
 }
-
-const filename = ref(Date.now().toString());
-const save_resolution = ref(1400);
-
-const editors: Ref<EditorVM[]> = ref([
-  editor_models.all_models.anim_points,
-  editor_models.all_models.m1,
-  editor_models.all_models.rot_cnt,
-  // editor_models.all_models.m2,
-  // editor_models.all_models.lighting,
-  // editor_models.all_models.g_thickness,
-  // editor_models.all_models.s_thickness,
-  // editor_models.all_models.g_colors,
-  // editor_models.all_models.s_colors,
-]);
-
 
 const active_editor_names = ref(Object.fromEntries(editors.value.map(e => [e.param_name, true])));
 
@@ -260,33 +246,63 @@ const inspector_enabled = ref(false);
 
 function reload() {
   sessionStorage['editor_models'] = JSON.stringify(editor_models.get_config_serialized());
-  sessionStorage['common_params'] = JSON.stringify({duration: duration.value, save_resolution: save_resolution.value});
+  sessionStorage['common_params'] = JSON.stringify({
+    duration: duration.value,
+    save_resolution: save_resolution.value,
+    fps: fps.value,
+    target: spiral_view.camera.target.asArray(),
+    beta: spiral_view.camera.beta,
+    fov: spiral_view.camera.fov,
+    active_editor_names: Object.keys(pickBy(active_editor_names.value, v => v)).join(','),
+  });
 
   if (shadow_spiral_enabled.value) {
     const bak_spiral_name = active_spiral_name.value;
     change_active_spiral("shadow");
     sessionStorage['editor_models_shadow'] = JSON.stringify(editor_models.get_config_serialized());
     change_active_spiral(bak_spiral_name);
-  } else sessionStorage['editor_models_shadow'] = undefined;
+  } else delete sessionStorage['editor_models_shadow'];
 
   location.reload();
 }
 
-if (sessionStorage['editor_models']) {
+function apply_common_params(common_params: any) {
+  duration.value = common_params.duration;
+  fps.value = common_params.fps ?? 30;
+  save_resolution.value = common_params.save_resolution;
+  if (common_params.target) spiral_view.camera.setTarget(Vector3.FromArray(common_params.target));
+  if (common_params.beta) set_config({beta: common_params.beta});
+  if (common_params.fov) spiral_view.camera.fov = common_params.fov;
+  if (common_params.active_editor_names) {
+    const ed_names = common_params.active_editor_names.split(',');
+    active_editor_names.value = Object.fromEntries(ed_names.map(ed => [ed, true]));
+    editors.value = [];
+    ed_names.forEach(ed => toggle_editor(ed));
+  }
+}
+
+if (new URL(location.href).searchParams.get('puppeteer') !== null) {
+  setTimeout(() => {
+    editor_models.set_config_serialized(JSON.parse(sample['editor_models']));
+    apply_common_params(JSON.parse(sample['common_params']));
+    update_editors();
+  }, 30);
+
+} else if (sessionStorage['editor_models']) {
   setTimeout(() => {
     editor_models.set_config_serialized(JSON.parse(sessionStorage['editor_models']));
 
     if (sessionStorage['editor_models_shadow']) {
       spiral_view.create_shadow_spiral();
       change_active_spiral("shadow");
-      editor_models.set_config_serialized(JSON.parse(sessionStorage['editor_models_shadow']));
+      editor_models.set_config_serialized(JSON.parse(sample['editor_models_shadow']));
+      // editor_models.set_config_serialized(JSON.parse(sessionStorage['editor_models_shadow']));
       change_active_spiral("main");
     }
 
+    apply_common_params(JSON.parse(sessionStorage['common_params']));
     update_editors();
-    const common_params = JSON.parse(sessionStorage['common_params']);
-    duration.value = common_params.duration;
-    save_resolution.value = common_params.save_resolution;
+
   }, 30);
 
 }
@@ -294,6 +310,15 @@ if (sessionStorage['editor_models']) {
 function copy_json() {
   window.navigator.clipboard.writeText(textarea_json.value);
 }
+
+(window as any).export_data = {
+  download_image: function () {
+    spiral_view.download_canvas_image('ga_img.jpg', save_resolution.value)
+  },
+  render_sequence: async function () {
+    await render_sequence(false, filename.value, save_resolution.value).then(() => update_editors(end_config))
+  },
+};
 
 </script>
 
@@ -306,7 +331,7 @@ function copy_json() {
             icon: 'pi pi-fw pi-file',
             items: [
                 { class: 'force-gdrive-auth' },
-                { label: 'Open Image', icon: 'pi pi-fw pi-file', command: ()=>file_browser.open('image') },
+                { label: 'Open Image', icon: PrimeIcons.FILE, command: ()=>file_browser.open('image') },
                 { label: 'Open Video', icon: 'pi pi-fw pi-file', command: ()=>file_browser.open('video') },
                 { separator: true },
                 { label: 'Save Image', icon: 'pi pi-fw pi-save', command: save_image },
@@ -317,6 +342,7 @@ function copy_json() {
         },
         {
             icon: 'pi pi-fw pi-sliders-h',
+            class: 'submenu-editors',
             items: [
                 { label: 'Clear all', icon: 'pi pi-fw pi-trash', command: ()=>{editors.length = 0; active_editor_names={}} },
                 ...editor_models.all_params.map(p=>({
@@ -332,7 +358,7 @@ function copy_json() {
                 { label: 'JSON', icon: 'pi pi-fw pi-file-export', command: ()=>dlg_json_visible=true },
                 { label: 'Download image', icon: 'pi pi-fw pi-download', command: ()=>spiral_view.download_canvas_image(filename, save_resolution) },
                 { class: 'camera_speed', },
-                { class: 'morphing', },
+                // { class: 'morphing', },
                 { class: 'duration', },
                 { class: 'fps', },
                 {
@@ -351,6 +377,8 @@ function copy_json() {
                   items: [
                       {label: 'Top', command: ()=>{spiral_view.camera.setTarget(new Vector3(0, 0, 3)); set_config({beta: 0})}},
                       {label: 'Front', command: ()=>{spiral_view.camera.setTarget(new Vector3(0, 0, 3)); set_config({beta: Math.PI/2})}},
+                      {label: 'z = 0', command: ()=>{spiral_view.camera.setTarget(new Vector3(0, 0, 0))}},
+                      {label: 'Front & z=0', command: ()=>{spiral_view.camera.setTarget(new Vector3(0, 0, 0)); set_config({beta: Math.PI/2})}},
                   ] },
             ]
         },
@@ -401,7 +429,7 @@ function copy_json() {
           </div>
           <div v-else-if="slotProps.item.class == 'fps'" class="w-100">
             <div class="mb-2 text-nowrap">FPS: {{ fps }}</div>
-            <Slider v-model="fps" @click.stop="() => {}" :min="5" :max="100" :step="1"/>
+            <Slider v-model="fps" @click.stop="() => {}" :min="1" :max="100" :step="1"/>
           </div>
           <div v-else-if="slotProps.item.class == 'camera_speed'" class="w-100">
             <div class="mb-2 text-nowrap">Camera speed: {{ camera_speed }}
@@ -416,7 +444,7 @@ function copy_json() {
           <div v-else-if="slotProps.item.class == 'morphing'" class="w-100">
             <div class="mb-2 text-nowrap d-flex align-items-center justify-content-between">Morphing
               <div class="">
-                <Button icon="pi pi-play" :outlined="!playing_morphing" :disabled="playing_morphing" size="small" @click.stop="toggle_playing_morphing().then(()=>update_editors(end_config))"
+                <Button icon="pi pi-play" :outlined="!playing_animation" :disabled="playing_animation || anim_points.some(p => !p.val)" size="small" @click.stop="play_animation().then(()=>update_editors(end_config))"
                         class="mr-1"/>
                 <Button :icon="`pi ${enable_morphing? 'pi-eye' : 'pi-eye-slash'}`" outlined size="small" @click.stop="enable_morphing = !enable_morphing" class=""/>
               </div>
@@ -561,10 +589,13 @@ body {
     margin-bottom: 0;
   }
 
+  .submenu-editors ul.p-submenu-list {
+    overflow: auto;
+  }
+
   ul.p-submenu-list {
     //min-width: 350px;
     max-height: calc(100vh - $btns-h);
-    //overflow: auto;
     //border: 3px solid;
   }
 

@@ -62,6 +62,14 @@ function easeInOutQuint(x) {
     return x < 0.5 ? 16 * x * x * x * x * x : 1 - Math.pow(-2 * x + 2, 5) / 2;
 }
 
+function easeInOut6(x) {
+    return x < 0.5 ? 32 * Math.pow(x, 6) : 1 - Math.pow(-2 * x + 2, 6) / 2;
+}
+
+function easeInOut7(x) {
+    return x < 0.5 ? 64 * Math.pow(x, 7) : 1 - Math.pow(-2 * x + 2, 7) / 2;
+}
+
 function easeInExpo(x) {
     return x === 0 ? 0 : Math.pow(2, 10 * x - 10);
 }
@@ -184,6 +192,8 @@ export const easing: { [k: string]: (x: number) => number } = {
     easeInQuint,
     easeOutQuint,
     easeInOutQuint,
+    easeInOut6,
+    easeInOut7,
     easeInExpo,
     easeOutExpo,
     easeInOutExpo,

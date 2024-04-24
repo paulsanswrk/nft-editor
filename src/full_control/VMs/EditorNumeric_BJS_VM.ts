@@ -11,6 +11,10 @@ export default class EditorNumeric_BJS_VM extends EditorNumericVM {
         super(param_name, param_min, param_max, steps);
     }
 
+    get affects_geometry(): boolean {
+        return false;
+    }
+
     param_get(): number {
         let res = 0;
 
@@ -38,7 +42,7 @@ export default class EditorNumeric_BJS_VM extends EditorNumericVM {
     }
 
     param_set(value: number, do_update_spiral = true) {
-        if (!do_update_spiral) return;
+        // if (!do_update_spiral) return;
 
         switch (this.param_name) {
             case 'camH':

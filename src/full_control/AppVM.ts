@@ -1,10 +1,9 @@
 import {ref, Ref} from "vue";
-import {editor_models} from "./EditorsVM";
 
 export const editor_refs: Ref<{ [k: string]: any }> = ref({});
 
-export function update_editors(config?: { [p: string]: any }) {
-    for (const k in editor_models.all_models)
-        if (!config || config[k] !== undefined)
-            editor_refs.value[k]?.update();
-}
+export const fps = ref(30);
+export const duration = ref(5);
+
+export const filename = ref(Date.now().toString());
+export const save_resolution = ref(1400);

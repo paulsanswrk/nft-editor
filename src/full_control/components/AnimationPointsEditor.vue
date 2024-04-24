@@ -3,13 +3,13 @@
 import SegmentsEditor from "./SegmentsEditor.vue";
 import {computed, ref, watch} from "vue";
 import Button from "primevue/button";
-import {anim_points, current_anim_point_num, playing_morphing, playing_time, toggle_playing_morphing} from "../animation";
-import {editor_models} from "../EditorsVM";
-import {update_editors} from "../AppVM";
+import {anim_points, current_anim_point_num, interpolate_alpha, play_animation, playing_animation, playing_time, render_sequence} from "../animation";
+import {editor_models, update_editors} from "../EditorsVM";
 import Checkbox from 'primevue/checkbox';
 import RadioButton from 'primevue/radiobutton';
 import Dropdown from 'primevue/dropdown';
 import {easing_func_names} from "../../common/easing";
+import {filename} from "../AppVM";
 
 const props = defineProps<{ opened: Boolean }>()
 const emit = defineEmits(['collapse', 'remove_editor', 'update_editors'])
@@ -86,9 +86,14 @@ defineExpose({update, collapse_fine_tune});
     <div v-if="extended" class="mt-4 text-white">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <Button icon="pi pi-play" :outlined="!playing_morphing" :disabled="playing_morphing"
+          <Button icon="pi pi-play" :outlined="!playing_animation" :disabled="playing_animation || anim_points.some(p => !p.val)"
                   size="small"
-                  @click="toggle_playing_morphing(...(play_from_current_point? [current_anim_point_num, stop_at_point]: [0, 0])).then(()=>update_editors(anim_points[stop_at_point].val))"
+                  @click="play_animation(...(play_from_current_point? [current_anim_point_num, stop_at_point]: [0, 0])).then(()=>update_editors(anim_points[stop_at_point].val))"
+                  class="mr-1"/>
+
+          <Button icon="pi pi-file-export" :outlined="!playing_animation" :disabled="playing_animation"
+                  size="small"
+                  @click="render_sequence(false, filename, 1400, false, ...(play_from_current_point? [current_anim_point_num, stop_at_point]: [0, 0])).then(()=>update_editors(anim_points[stop_at_point].val))"
                   class="mr-1"/>
         </div>
 
@@ -116,6 +121,10 @@ defineExpose({update, collapse_fine_tune});
       <div v-if="playing_time">
         {{ playing_time.toFixed(1) }} s
       </div>
+
+      <Button title="Interpolate &#945;" class="my-2" @click="interpolate_alpha()" size="small">
+        <span class="pi pi-arrows-h"></span>&nbsp; &#945;
+      </Button>
 
     </div>
 

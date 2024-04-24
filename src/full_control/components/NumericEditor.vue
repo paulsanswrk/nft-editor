@@ -5,6 +5,8 @@ import Button from 'primevue/button';
 import Dropdown from 'primevue/dropdown';
 import {ref, watch} from "vue";
 import EditorNumericVM from "../VMs/EditorNumericVM";
+import {editors} from "../EditorsVM";
+import {anim_points} from "../animation";
 
 const props = defineProps<{ model: EditorNumericVM, opened: Boolean }>()
 
@@ -34,6 +36,10 @@ function collapse_fine_tune() {
   extended.value = false;
 }
 
+function set_to_all_animation_segments() {
+  anim_points.value.filter(p => !!p.val).forEach(p => p.val[props.model.param_name] = value.value);
+}
+
 defineExpose({update, collapse_fine_tune});
 
 </script>
@@ -47,6 +53,8 @@ defineExpose({update, collapse_fine_tune});
 
       <span class="p-buttonset">
         <slot name="extra_buttons"></slot>
+        <Button label="*" v-if="editors.some(e => e.param_name === 'anim_points')" :outlined="true" style="padding: 0 7px;"
+                @click="set_to_all_animation_segments()" title="Set to all animation segments"/>
         <Button label="0" :outlined="true" style="padding: 0 7px;" @click="value = 0"/>
         <Button v-if="opened && fine_tune_needed" label="F" :outlined="!extended" style="padding: 0 7px;" @click="extended = !extended"/>
         <Button :icon="opened? 'pi pi-minus' : 'pi pi-plus'" outlined @click="$emit('collapse')"/>

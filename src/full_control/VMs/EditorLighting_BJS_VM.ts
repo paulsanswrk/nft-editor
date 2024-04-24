@@ -109,17 +109,21 @@ export default class EditorLighting_BJS_VM extends EditorVM {
             return;
         }
 
-        const [scene_clearColor, scene_ambientColor, s_x, s_y, s_z, light_diffuseColor, light_groundColor, mat_ambientColor, mat_diffuseColor,
-            mat_emissiveColor, mat_specularColor, s_mat_specularPower] = s.split('|');
-        const x = Number(s_x);
-        const y = Number(s_y);
-        const z = Number(s_z);
-        const mat_specularPower = Number(s_mat_specularPower);
+        if (typeof s === 'string') {
+            const [scene_clearColor, scene_ambientColor, s_x, s_y, s_z, light_diffuseColor, light_groundColor, mat_ambientColor, mat_diffuseColor,
+                mat_emissiveColor, mat_specularColor, s_mat_specularPower] = s.split('|');
+            const x = Number(s_x);
+            const y = Number(s_y);
+            const z = Number(s_z);
+            const mat_specularPower = Number(s_mat_specularPower);
 
-        this.param_set({
-            scene_clearColor, scene_ambientColor, light_direction: {x, y, z}, light_diffuseColor, light_groundColor, mat_ambientColor, mat_diffuseColor,
-            mat_emissiveColor, mat_specularColor, mat_specularPower
-        });
+            this.param_set({
+                scene_clearColor, scene_ambientColor, light_direction: {x, y, z}, light_diffuseColor, light_groundColor, mat_ambientColor, mat_diffuseColor,
+                mat_emissiveColor, mat_specularColor, mat_specularPower
+            });
+        } else {
+            this.param_set(<object>s);
+        }
     }
 
 }

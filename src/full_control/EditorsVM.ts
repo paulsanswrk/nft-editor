@@ -9,6 +9,8 @@ import {EditorThickness_G_VM, EditorThickness_S_VM} from "./VMs/EditorThicknessV
 import {anim_points} from "./animation";
 import EditorNumericOrSegmentedVM from "./VMs/EditorNumericOrSegmentedVM";
 import EditorLighting_BJS_VM from "./VMs/EditorLighting_BJS_VM";
+import {ref, Ref} from "vue";
+import {editor_refs} from "./AppVM";
 
 const spiral_view = SpiralViewFullControl_instance;
 
@@ -87,9 +89,12 @@ export class EditorsVM {
     }
 
     set_config_lerp(a: { [p: string]: any }, b: { [p: string]: any }, pos: number, pos_w_easing: number, direct_morphing: boolean) {
-        for (const k in this.all_models)
+        for (const k in this.all_models) {
+            if (k === 'rot_cnt') continue;
+
             if (a[k] !== undefined && (!direct_morphing || !this.all_models[k].affects_geometry))
                 this.all_models[k].param_set_lerp(a[k], b[k], k === 'alpha' ? pos : pos_w_easing, false);
+        }
 
         spiral_view.update_spiral_geometry();
     }
@@ -113,3 +118,22 @@ export class EditorsVM {
 }
 
 export const editor_models = new EditorsVM();
+
+export const editors: Ref<EditorVM[]> = ref([
+    editor_models.all_models.anim_points,
+    editor_models.all_models.m1,
+    editor_models.all_models.rot_cnt,
+    // editor_models.all_models.m2,
+    // editor_models.all_models.lighting,
+    // editor_models.all_models.g_thickness,
+    // editor_models.all_models.s_thickness,
+    // editor_models.all_models.g_colors,
+    // editor_models.all_models.s_colors,
+]);
+
+export function update_editors(config?: { [p: string]: any }) {
+    for (const k in editor_models.all_models)
+        if (!config || config[k] !== undefined)
+            editor_refs.value[k]?.update();
+}
+

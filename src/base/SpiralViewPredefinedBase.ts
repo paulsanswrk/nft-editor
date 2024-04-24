@@ -60,22 +60,6 @@ export abstract class SpiralViewPredefinedBase extends SpiralViewBase implements
         }
     }
 
-    switch_spiral_to(config: Spiral_Config) {
-        const n = config.n_config;
-
-        if (this.do_transition || n === this.new_n) return;
-        // console.log('switch to', n);
-
-        // this.create_spiral_mesh(n, this.spirals[n]);
-        this.curr_n = this.new_n;
-        this.new_n = n;
-        this.do_transition = true;
-
-        /// #if CONTROLS
-        this.notify_gui({m1: this.spirals[this.new_n].m1})
-        /// #endif
-    }
-
     protected post_transition() {
         /*for (let n = 0; n < this.spiral_factory.config_len; n++) {
             if (n === this.start_n) continue;
