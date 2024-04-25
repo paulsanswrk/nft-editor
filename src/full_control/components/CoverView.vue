@@ -22,12 +22,16 @@ type position_type = "center" | "top" | "bottom" | "left" | "right" | "topleft" 
 const dialog_pos: Ref<position_type> = ref('center' as position_type);
 
 const show_object_bounds_789 = ref(false);
+const show_object_bounds_640 = ref(false);
 const show_object_bounds_383 = ref(false);
 
 const circle_mode = ref(false);
 
-watch([show_object_bounds_789, show_object_bounds_383], v =>
-    document.getElementById('canvas-wrapper').className = [show_object_bounds_789.value ? 'border-visible-789' : '', show_object_bounds_383.value ? 'border-visible-383' : ''].join(' '));
+watch([show_object_bounds_789, show_object_bounds_640, show_object_bounds_383], v =>
+    document.getElementById('canvas-wrapper').className =
+        [show_object_bounds_789.value ? 'border-visible-789' : '',
+          show_object_bounds_640.value ? 'border-visible-640' : '',
+          show_object_bounds_383.value ? 'border-visible-383' : ''].join(' '));
 
 watch(crop_ratio, () => downsample_resolution.value = 640 / crop_ratio.value);
 
@@ -45,7 +49,7 @@ watch(crop_ratio, () => downsample_resolution.value = 640 / crop_ratio.value);
       <div class="mx-2">
         <div class="mb-2 overflow-hidden">
           Size: {{ cropped_size }}
-          <Dropdown class="float-right p-0" :options="[383, 578, 789]" v-model="chosen_size" @change="crop_ratio=1; dialog_size=cropped_size=chosen_size" size="small"/>
+          <Dropdown class="float-right p-0" :options="[383, 578, 640, 789]" v-model="chosen_size" @change="crop_ratio=1; dialog_size=cropped_size=chosen_size" size="small"/>
         </div>
         <Slider v-model="cropped_size" :min="300" :max="2400" :step="1" style="min-width: 175px;"/>
       </div>
@@ -63,6 +67,11 @@ watch(crop_ratio, () => downsample_resolution.value = 640 / crop_ratio.value);
         <div class="mb-2 text-nowrap">
           Show object bounds (789)
           <Checkbox v-model="show_object_bounds_789" :binary="true"/>
+        </div>
+
+        <div class="mb-2 text-nowrap">
+          Show object bounds (640)
+          <Checkbox v-model="show_object_bounds_640" :binary="true"/>
         </div>
 
         <div class="mb-2 text-nowrap">

@@ -177,8 +177,8 @@ function prepare_buffers(n_start_point: number, n_end_point: number) {
                 else if (is_segment_included(n_segment + 1))
                     n_segment_by_frame[n_frame] = n_segment + 1;
             } else { //frame starts in the next segment
-                if (is_segment_included(n_segment))
-                    n_segment_by_frame[n_frame] = n_segment;
+                if (is_segment_included(n_segment + 1))
+                    n_segment_by_frame[n_frame] = n_segment + 1;
             }
             n_segment++;
         }

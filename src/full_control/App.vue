@@ -247,6 +247,7 @@ const inspector_enabled = ref(false);
 function reload() {
   sessionStorage['editor_models'] = JSON.stringify(editor_models.get_config_serialized());
   sessionStorage['common_params'] = JSON.stringify({
+    filename: filename.value,
     duration: duration.value,
     save_resolution: save_resolution.value,
     fps: fps.value,
@@ -270,6 +271,7 @@ function apply_common_params(common_params: any) {
   duration.value = common_params.duration;
   fps.value = common_params.fps ?? 30;
   save_resolution.value = common_params.save_resolution;
+  if (common_params.filename) filename.value = common_params.filename;
   if (common_params.target) spiral_view.camera.setTarget(Vector3.FromArray(common_params.target));
   if (common_params.beta) set_config({beta: common_params.beta});
   if (common_params.fov) spiral_view.camera.fov = common_params.fov;
@@ -416,15 +418,15 @@ function copy_json() {
             </Inplace>
           </div>
           <div v-else-if="slotProps.item.class == 'editor'" class="w-100">
-            <Checkbox v-model="active_editor_names[slotProps.item.key]" @change.stop="toggle_editor(slotProps.item.key)" :binary="true"/>
+            <Checkbox v-model="active_editor_names[slotProps.item.key]" @click.stop @change="toggle_editor(slotProps.item.key)" :binary="true"/>
           </div>
           <div v-else-if="slotProps.item.class == 'select-spiral-main'" class="w-100">
-            <RadioButton v-model="active_spiral_name" name="active_spiral_name" value="main" @change.stop="()=>change_active_spiral()"/>
+            <RadioButton v-model="active_spiral_name" name="active_spiral_name" value="main" @click.stop @change="()=>change_active_spiral()"/>
             Main
           </div>
           <div v-else-if="slotProps.item.class == 'select-spiral-shadow'" class="w-100">
-            <RadioButton v-model="active_spiral_name" name="active_spiral_name" value="shadow" :disabled="!shadow_spiral_enabled" @change.stop="()=>change_active_spiral()"/>
-            <Checkbox v-model="shadow_spiral_enabled" @change.stop="toggle_shadow_spiral" :binary="true"/>
+            <RadioButton v-model="active_spiral_name" name="active_spiral_name" value="shadow" :disabled="!shadow_spiral_enabled" @click.stop @change="()=>change_active_spiral()"/>
+            <Checkbox v-model="shadow_spiral_enabled" @click.stop @change="toggle_shadow_spiral" :binary="true"/>
             Shadow
           </div>
           <div v-else-if="slotProps.item.class == 'fps'" class="w-100">
@@ -463,7 +465,7 @@ function copy_json() {
             </table>
           </div>
           <div v-else-if="slotProps.item.class == 'force-gdrive-auth'" class="w-100">
-            <Checkbox v-model="force_gdrive_auth" @change.stop="" :binary="true"/>&nbsp;
+            <Checkbox v-model="force_gdrive_auth" @click.stop :binary="true"/>&nbsp;
             Force Gdrive Auth
           </div>
 
@@ -554,6 +556,10 @@ body {
 
   &.border-visible-383::after {
     @include border-visible(383px);
+  }
+
+  &.border-visible-640::after {
+    @include border-visible(640px);
   }
 
   &.border-visible-789::after {

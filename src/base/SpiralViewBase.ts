@@ -332,12 +332,23 @@ export default abstract class SpiralViewBase {
         encoder.frameRate = fps.value;
         // encoder.debug = true;
         encoder.initialize();
-        const ctx = this.canvas.getContext("webgl2", {preserveDrawingBuffer: true});
-        const pixels = new Uint8Array(size * size * 4);
+        const ctx = this.canvas.getContext("webgl2", {preserveDrawingBuffer: true,});
+
+        const row = encoder.width * 4;
+        const end = (encoder.height - 1) * row;
+        const length = encoder.width * encoder.height * 4;
+        const arr = new Uint8Array(length);
+        const pixels = new Uint8Array(length);
 
         for (let n_frame = n_start_frame; n_frame <= n_end_frame; n_frame++) {
             gen_frame(n_frame);
-            ctx.readPixels(0, 0, encoder.width, encoder.height, ctx.RGBA, ctx.UNSIGNED_BYTE, pixels);
+            ctx.readPixels(0, 0, encoder.width, encoder.height, ctx.RGBA, ctx.UNSIGNED_BYTE, arr);
+
+            //revert array according to https://stackoverflow.com/questions/67811153/webgl-readpixels-returns-flipped-y-axis
+            for (let i = 0; i < length; i += row) {
+                pixels.set(arr.subarray(i, i + row), end - i);
+            }
+
             encoder.addFrameRgba(pixels);
             console.log({n_frame})
             await sleep(1);
