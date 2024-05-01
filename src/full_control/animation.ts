@@ -135,6 +135,7 @@ function gen_frame(n_frame: number) {
         spiral_view.prevent_updating_geometry = false;
         spiral_view.update_spiral_geometry(points_buffer);
     }
+    spiral_view.prevent_updating_geometry = false;
 
 }
 
