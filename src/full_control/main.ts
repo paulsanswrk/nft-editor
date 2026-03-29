@@ -9,7 +9,7 @@ import ToastService from 'primevue/toastservice';
 // @ts-ignore
 import 'bootstrap/dist/css/bootstrap.css'
 import {SpiralViewFullControl_instance} from "./SpiralViewFullControl";
-import {useRouter} from 'vue-router';
+import {createRouter, createWebHashHistory} from 'vue-router';
 import {gdrive_init, CLIENT_ID} from "../common/GDrive/gdrive_file";
 
 globalThis.__VUE_OPTIONS_API__ = true;
@@ -25,7 +25,10 @@ app.use(PrimeVue, {
 });
 
 app.use(ToastService);
-const router = useRouter();
+const router = createRouter({
+    history: createWebHashHistory(),
+    routes: []
+});
 app.use(router);
 function initApp() {
     const loginContainer = document.getElementById('login-container');

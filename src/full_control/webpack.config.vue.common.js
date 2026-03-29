@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const {VueLoaderPlugin} = require("vue-loader");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const webpack = require('webpack');
 
 global.__basedir = __dirname;
 
@@ -76,6 +77,9 @@ module.exports = {
         new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
             template: "!!handlebars-loader!src/full_control/index.hbs",
+        }),
+        new webpack.DefinePlugin({
+            __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
         }),
         new NodePolyfillPlugin()
     ],
