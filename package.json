@@ -37,8 +37,11 @@
     "css-loader": "^7.1.1",
     "handlebars": "^4.7.8",
     "handlebars-loader": "^1.7.3",
+    "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.0",
     "ifdef-loader": "^2.3.2",
+    "javascript-obfuscator": "^5.4.1",
+    "node-polyfill-webpack-plugin": "^4.1.0",
     "sass": "^1.75.0",
     "sass-loader": "^14.2.1",
     "style-loader": "^4.0.0",
@@ -50,7 +53,8 @@
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.2",
-    "webpack-merge": "^5.10.0"
+    "webpack-merge": "^5.10.0",
+    "webpack-obfuscator": "^3.6.0"
   },
   "dependencies": {
     "@babylonjs/core": "^7.3.2",

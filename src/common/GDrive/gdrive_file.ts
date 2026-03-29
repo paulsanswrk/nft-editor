@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ref} from "vue";
+import { ref } from "vue";
 
 /*axios.interceptors.response.use(function (response) {
     return response;
@@ -8,7 +8,7 @@ import {ref} from "vue";
     return Promise.reject(error);
 });*/
 
-const CLIENT_ID = '245623700514-utgsq529q9a820svr8k7djt2l1k3c37l.apps.googleusercontent.com';
+export const CLIENT_ID = '245623700514-87c54hfiean4m0mi3658qjiapbspd6ej.apps.googleusercontent.com';
 const API_KEY = 'AIzaSyA2Nsh3yDFbJT3S84_1CMQGHFkpgdNRX00';
 
 // Discovery doc URL for APIs used by the quickstart
@@ -66,7 +66,7 @@ export abstract class GDriveFile {
         const expires_at = localStorage['expires_at'];
 
         if (!!access_token && !!expires_at && Number(expires_at) > new Date().getTime()) {
-            gapi.client.setToken({access_token});
+            gapi.client.setToken({ access_token });
             return true;
         }
 
@@ -89,7 +89,7 @@ export abstract class GDriveFile {
                 if (force_gdrive_auth.value || !this.have_valid_token()) {
                     // Prompt the user to select a Google Account and ask for consent to share their data
                     // when establishing a new session.
-                    tokenClient.requestAccessToken({prompt: 'consent'});
+                    tokenClient.requestAccessToken({ prompt: 'consent' });
                     force_gdrive_auth.value = false;
                 } else {
                     // Skip display of account chooser and consent dialog for an existing session.
@@ -126,24 +126,24 @@ export abstract class GDriveFile {
 
     protected async request_file_with_contents(resolve: (value: any) => void, reject: (reason?: any) => void, fileId: string) {
         try {
-            const response = await gapi.client.drive.files.get({fileId, alt: 'media'});
-            resolve({content: response.body});
+            const response = await gapi.client.drive.files.get({ fileId, alt: 'media' });
+            resolve({ content: response.body });
         } catch (e) {
             console.error(e);
             reject();
         }
     }
 
-    abstract save(blob: Blob, filename: string, properties: any) ;
+    abstract save(blob: Blob, filename: string, properties: any);
 
     protected async request_save_file(resolve: (v?: {
         id: string
     }) => void, reject: (reason?: any) => void, form_data: FormData) {
         try {
             const data = await axios.post('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true', form_data,
-                {headers: {'Authorization': `Bearer ${this.accessToken}`, 'Content-Type': 'multipart/form-data'}});
+                { headers: { 'Authorization': `Bearer ${this.accessToken}`, 'Content-Type': 'multipart/form-data' } });
 
-            resolve({id: data.data.id});
+            resolve({ id: data.data.id });
         } catch (e) {
             console.error(e);
             if (window['add_error_to_list'])
@@ -165,7 +165,7 @@ export class GDriveFileImage extends GDriveFile {
 
     init_from_gapi_file(f: gapi.client.drive.File) {
         super.init_from_gapi_file(f);
-        this.properties = {...f.properties, ...f.appProperties, g_colors: f.appProperties?.gc, s_colors: f.appProperties?.sc, lighting: f.appProperties?.lit};
+        this.properties = { ...f.properties, ...f.appProperties, g_colors: f.appProperties?.gc, s_colors: f.appProperties?.sc, lighting: f.appProperties?.lit };
         return this;
     }
 
@@ -178,7 +178,7 @@ export class GDriveFileImage extends GDriveFile {
     }) {
         const appProperties: {
             [k: string]: any
-        } = {gc: properties.g_colors, sc: properties.s_colors, lit: properties.lighting}
+        } = { gc: properties.g_colors, sc: properties.s_colors, lit: properties.lighting }
 
         delete properties.g_colors;
         delete properties.s_colors;
@@ -210,7 +210,7 @@ export class GDriveFileImage extends GDriveFile {
         };
 
         const form_data = new FormData();
-        form_data.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
+        form_data.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
         form_data.append('file', blob);
 
         return await this.do_auth_call((resolve, reject) => this.request_save_file(resolve, reject, form_data));
@@ -242,7 +242,7 @@ export class GDriveFileVideo extends GDriveFile {
     async load_details() {
         const file = await this.do_auth_call((resolve, reject) => this.request_file_with_contents(resolve, reject, this.json_file_id));
         const anim_points = JSON.parse(file.content);
-        this.properties = {anim_points, ...anim_points[0].val};
+        this.properties = { anim_points, ...anim_points[0].val };
     }
 
     async save(blob: Blob, filename: string, properties: string) {
@@ -256,8 +256,8 @@ export class GDriveFileVideo extends GDriveFile {
         };
 
         let form_data = new FormData();
-        form_data.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
-        form_data.append('file', new Blob([properties], {type: 'application/json'}));
+        form_data.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+        form_data.append('file', new Blob([properties], { type: 'application/json' }));
         const res = await this.do_auth_call((resolve, reject) => this.request_save_file(resolve, reject, form_data));
 
         //save video file
@@ -272,7 +272,7 @@ export class GDriveFileVideo extends GDriveFile {
         };
 
         form_data = new FormData();
-        form_data.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
+        form_data.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
         form_data.append('file', blob);
 
         return await this.do_auth_call((resolve, reject) => this.request_save_file(resolve, reject, form_data));

@@ -13,7 +13,7 @@ module.exports = {
     devtool: "inline-source-map",
     entry: "./src/full_control/main.ts",
     output: {
-        path: path.resolve(__dirname, "./dist"),
+        path: path.resolve(__dirname, "../../dist"),
         filename: '[name].[contenthash].js',
         clean: true,
     },

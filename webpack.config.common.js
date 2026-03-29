@@ -13,6 +13,7 @@ module.exports = {
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".glsl"],
+        fallback: { "fs": false, "path": false, "crypto": false },
     },
     module: {
         rules: [

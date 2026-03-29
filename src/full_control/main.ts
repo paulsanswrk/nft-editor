@@ -10,7 +10,7 @@ import "primevue/resources/themes/bootstrap4-dark-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import {SpiralViewFullControl_instance} from "./SpiralViewFullControl";
 import {useRouter} from 'vue-router';
-import {gdrive_init} from "../common/GDrive/gdrive_file";
+import {gdrive_init, CLIENT_ID} from "../common/GDrive/gdrive_file";
 
 globalThis.__VUE_OPTIONS_API__ = true;
 globalThis.__VUE_PROD_DEVTOOLS__ = false;
@@ -23,13 +23,42 @@ app.use(PrimeVue);
 app.use(ToastService);
 const router = useRouter();
 app.use(router);
-app.mount('#app')
+function initApp() {
+    const loginContainer = document.getElementById('login-container');
+    if (loginContainer) loginContainer.style.display = 'none';
+    
+    const canvasWrapper = document.getElementById('canvas-wrapper');
+    if (canvasWrapper) canvasWrapper.style.display = 'block';
+    
+    const appContainer = document.getElementById('app');
+    if (appContainer) appContainer.style.display = 'block';
 
-SpiralViewFullControl_instance.init();
+    app.mount('#app');
+    SpiralViewFullControl_instance.init();
 
-gapi.load('client', async () => {
-    await gdrive_init();
-});
+    gapi.load('client', async () => {
+        await gdrive_init();
+    });
+}
+
+function handleCredentialResponse(response: any) {
+    if (response.credential) {
+        initApp();
+    }
+}
+
+window.onload = function () {
+    // @ts-ignore
+    google.accounts.id.initialize({
+      client_id: CLIENT_ID,
+      callback: handleCredentialResponse
+    });
+    // @ts-ignore
+    google.accounts.id.renderButton(
+      document.getElementById("login-container")!,
+      { type: "standard", theme: "outline", size: "large" }
+    );
+};
 
 
 window.onerror = function (msg, url, line, col, error) {
