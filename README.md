@@ -1,59 +1,88 @@
-# BABYLON.js Typescript Starter
+# Interactive Spirals
 
-This repository contains a sample BABYLON.js application.
+A 3D geometry and interactive math visualization application built with [Babylon.js](https://www.babylonjs.com/), [Vue 3](https://vuejs.org/), and TypeScript.
 
-## Setup
+This project contains multiple visualizations and entry points for generating, rendering, and animating different mathematical spiral shapes.
 
-Run the following commands from within the repository's root folder to setup the
-application:
+## Features
 
-1. `npm install`
+- **3D Rendering**: High-performance WebGL 3D rendering powered by Babylon.js.
+- **Parametric Generation**: Real-time generation of spirals and geometric forms.
+- **Multiple Visualization Modes**: Different isolated views like `top_8_rot`, `bot_6_rot`, `plain`, and `wire`.
+- **Full Control Dashboard**: An interactive Vue 3-powered GUI (`full_control`) with rich UI components (PrimeVue) to manipulate spiral parameters in real-time.
 
-## Running
+## Setup & Installation
 
-Run the following commands from within the repository's root folder to run the 
-project using `webpack-dev-server`:
+Ensure you have [Node.js](https://nodejs.org/) installed, then run the following command from the repository's root folder to install all dependencies:
 
-1. `npm start`
+```bash
+npm install
+```
 
-Then open http://localhost:9000 in your browser
+## Running the Application
 
-## Build
+The project uses Webpack and provides multiple development server entry points depending on the visualization you want to test. 
 
-Run the following commands from within the repository's root folder to build the
-project using `webpack`:
+Run any of the following commands to start a `webpack-dev-server`:
 
-1. `npm run build`
+- **Main / Default dev server:**
+  ```bash
+  npm start
+  ```
+- **Full Control App (Vue 3 GUI):**
+  ```bash
+  npm run start_full_control
+  ```
+- **Top 8 Rot View:**
+  ```bash
+  npm run start_top_8
+  ```
+- **Bottom 6 Rot View:**
+  ```bash
+  npm run start_bot_6
+  ```
+- **Plain View:**
+  ```bash
+  npm run start_plain
+  ```
+- **Wire View:**
+  ```bash
+  npm run start_wire
+  ```
 
-## Automatic Deployment
+After starting a local server, the application is typically accessible via `http://localhost:8080` (or the port indicated in your console output).
 
-Every push on master triggers a build and deploy workflow. The build output is
-published to itch.io.
+## Building for Production
 
-This workflow should be easily changeable to run on different triggers, e.g.
-creating a release or pushing a tag.
+To create an optimized production build, you can use the following commands:
 
-For this deployment to work, you have to create your project on itch.io 
-beforehand.
+- **Build main application:**
+  ```bash
+  npm run build
+  ```
+- **Build Full Control App:**
+  ```bash
+  npm run build_full_control
+  ```
+- **Build Multipage App:**
+  ```bash
+  npm run multipage
+  ```
 
-When you use this template, create a secret `ITCH_API_KEY` in your repository's
-secret settings. You also have to adjust your username and project name in the
-[workflow file](.github/workflows/build_and_publish.yml).
+Build artifacts will be output to the `dist/` directory.
 
-After the build was published, you have to configure it on itch.io to run in the
-browser.
+## Project Structure
 
-A demonstration of the deployment for this repository can be found at
-https://oktinaut.itch.io/babylon-example.
+- `src/` - Contains all TypeScript source code and assets.
+  - `full_control/` - Vue 3 application containing the complex GUI controls.
+  - `top_8_rot/`, `bot_6_rot/`, `plain/` - Specialized Babylon.js entry points for distinct visualization modes.
+  - `common/` - Shared types, math utilities, and data structures.
+- `public/`, `build/`, `dist/` - Static assets and configured build outputs.
 
-## Structure
+## Technologies Used
 
-- `src/` *source code folder*
-
-    - `SpiralViewBot6.ts` *application entry point*
-
-- `public` *folder containing static assets*
-
-    - `index.html` *HTML entry point*
-
-- `dist` *folder containing output of build process*
+- [TypeScript](https://www.typescriptlang.org/)
+- [Babylon.js Series 7](https://www.babylonjs.com/)
+- [Vue 3](https://vuejs.org/)
+- [PrimeVue](https://primevue.org/)
+- [Webpack 5](https://webpack.js.org/)
