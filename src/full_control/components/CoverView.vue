@@ -2,7 +2,7 @@
 import Dialog from 'primevue/dialog';
 import Slider from 'primevue/slider';
 import Button from "primevue/button";
-import Dropdown from 'primevue/dropdown';
+import Select from 'primevue/select';
 import Checkbox from 'primevue/checkbox';
 
 import {create_downsampled_image, dlg_cover_view_visible, downsample_img, downsample_resolution} from "../../common/downsampling";
@@ -49,7 +49,7 @@ watch(crop_ratio, () => downsample_resolution.value = 640 / crop_ratio.value);
       <div class="mx-2">
         <div class="mb-2 overflow-hidden">
           Size: {{ cropped_size }}
-          <Dropdown class="float-right p-0" :options="[383, 578, 640, 789]" v-model="chosen_size" @change="crop_ratio=1; dialog_size=cropped_size=chosen_size" size="small"/>
+          <Select class="float-right p-0" :options="[383, 578, 640, 789]" v-model="chosen_size" @change="crop_ratio=1; dialog_size=cropped_size=chosen_size" size="small"/>
         </div>
         <Slider v-model="cropped_size" :min="300" :max="2400" :step="1" style="min-width: 175px;"/>
       </div>

@@ -7,7 +7,7 @@ import {anim_points, current_anim_point_num, interpolate_alpha, play_animation, 
 import {editor_models, update_editors} from "../EditorsVM";
 import Checkbox from 'primevue/checkbox';
 import RadioButton from 'primevue/radiobutton';
-import Dropdown from 'primevue/dropdown';
+import Select from 'primevue/select';
 import {easing_func_names} from "../../common/easing";
 import {filename} from "../AppVM";
 
@@ -66,7 +66,7 @@ defineExpose({update, collapse_fine_tune});
           </div>
 
           <div v-if="n_selected !== anim_points.length-1">
-            <Dropdown :options="easing_func_names" v-model="anim_points[n_selected].easing" placeholder="easing" size="small"/>
+            <Select :options="easing_func_names" v-model="anim_points[n_selected].easing" placeholder="easing" size="small"/>
 
             <div class="d-flex align-items-start mt-2 text-white">
               <Checkbox v-model="anim_points[n_selected].direct_morphing" :binary="true" input-id="chk-direct_morphing"/>

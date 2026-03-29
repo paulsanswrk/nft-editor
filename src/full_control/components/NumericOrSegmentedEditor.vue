@@ -6,7 +6,7 @@ import Button from "primevue/button";
 import NumericEditor from "./NumericEditor.vue";
 import SegmentsEditor from "./SegmentsEditor.vue";
 import Slider from "primevue/slider";
-import Dropdown from "primevue/dropdown";
+import Select from "primevue/select";
 import InputNumber from "primevue/inputnumber";
 import {throttle} from "lodash";
 
@@ -107,7 +107,7 @@ const segments_changed = throttle(() => {
                                :step="step" :min="model.editorNumericVM.param_min" :max="model.editorNumericVM.param_max"/>
                   <Button icon="pi pi-plus" @click="() => {segment.val += step; segments_changed()}"/>
 
-                  <Dropdown v-if="steps.length > 1" v-model="step" :options="steps.map(s=>({label: props.model.editorNumericVM.format(s), val: s}))" option-label="label" option-value="val"/>
+                  <Select v-if="steps.length > 1" v-model="step" :options="steps.map(s=>({label: props.model.editorNumericVM.format(s), val: s}))" option-label="label" option-value="val"/>
 
                 </div>
 

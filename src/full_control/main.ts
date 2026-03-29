@@ -27,7 +27,7 @@ app.use(PrimeVue, {
 app.use(ToastService);
 const router = createRouter({
     history: createWebHashHistory(),
-    routes: []
+    routes: [{ path: '/:pathMatch(.*)*', component: { template: '' } }]
 });
 app.use(router);
 function initApp() {

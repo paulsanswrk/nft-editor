@@ -2,7 +2,7 @@
 import InputNumber from 'primevue/inputnumber';
 import Slider from 'primevue/slider';
 import Button from 'primevue/button';
-import Dropdown from 'primevue/dropdown';
+import Select from 'primevue/select';
 import {ref, watch} from "vue";
 import EditorNumericVM from "../VMs/EditorNumericVM";
 import {editors} from "../EditorsVM";
@@ -70,7 +70,7 @@ defineExpose({update, collapse_fine_tune});
                      input-class="w-100"
                      :step="step" :min="model.param_min" :max="model.param_max"/>
         <Button icon="pi pi-plus" @click="value += step"/>
-        <Dropdown v-if="steps.length > 1" v-model="step" :options="steps.map(s=>({label: props.model.format(s), val: s}))" option-label="label" option-value="val"/>
+        <Select v-if="steps.length > 1" v-model="step" :options="steps.map(s=>({label: props.model.format(s), val: s}))" option-label="label" option-value="val"/>
       </div>
 
       <Slider v-model="value" class="w-100" :min="model.param_min" :max="model.param_max" :step="step"/>
@@ -85,7 +85,7 @@ defineExpose({update, collapse_fine_tune});
                        :step="fine_tune_step" :min="-step" :max="step"
           />
           <Button icon="pi pi-plus" @click="fine_tune_value += fine_tune_step"/>
-          <Dropdown v-model="fine_tune_step" :options="[0.01, 0.001].filter(x=>x<step)" style="max-width: 90px"/>
+          <Select v-model="fine_tune_step" :options="[0.01, 0.001].filter(x=>x<step)" style="max-width: 90px"/>
           <Button icon="pi pi-times" @click="fine_tune_value=0"/>
         </div>
         <Slider v-model="fine_tune_value" class="w-100" :min="-step" :max="step" :step="fine_tune_step"/>
