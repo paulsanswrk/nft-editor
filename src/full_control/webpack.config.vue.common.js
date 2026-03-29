@@ -1,9 +1,7 @@
 const path = require("path")
-const CopyPlugin = require("copy-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const {VueLoaderPlugin} = require("vue-loader");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 global.__basedir = __dirname;
@@ -70,15 +68,9 @@ module.exports = {
     plugins: [
         new VueLoaderPlugin(),
         new MiniCssExtractPlugin(),
-        /*new CopyPlugin({
-            patterns: [
-                {from: "public"},
-            ],
-        }),*/
         new HtmlWebpackPlugin({
             template: "!!handlebars-loader!src/full_control/index.hbs",
         }),
-        // new BundleAnalyzerPlugin(),
         new NodePolyfillPlugin()
     ],
     devServer: {
