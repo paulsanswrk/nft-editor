@@ -13,7 +13,7 @@ const crop_ratio = ref(1);
 
 const dialog_size = ref(383);
 
-const dialog: Ref<Dialog | null> = ref(null);
+const dialog = ref<InstanceType<typeof Dialog> | null>(null);
 
 const chosen_size = ref(383);
 

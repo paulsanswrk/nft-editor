@@ -1,0 +1,144 @@
+
+> spirals@1.0.0 build
+> webpack --config src/full_control/webpack.config.vue.common.js
+
+assets by status 12.7 MiB [cached] 86 assets
+assets by status 96.2 MiB [emitted]
+  assets by path *.js 95 MiB
+    asset vendors-node_modules_babylonjs_inspector_lib_index_js-node_modules_bluemath_linalg_lib_index_-fdb9ef.08e3481c7c9964e8ac83.js 93.9 MiB [emitted] [immutable] (id hint: vendors)
+    asset main.e97a9afa12ab1b7d7ae9.js 1.07 MiB [emitted] [immutable] (name: main)
+  asset vendors-node_modules_babylonjs_inspector_lib_index_js-node_modules_bluemath_linalg_lib_index_-fdb9ef.css 1.15 MiB [emitted] (id hint: vendors)
+  asset index.html 1.5 KiB [emitted] [compared for emit]
+Entrypoint main 96.2 MiB (618 KiB) = vendors-node_modules_babylonjs_inspector_lib_index_js-node_modules_bluemath_linalg_lib_index_-fdb9ef.css 1.15 MiB vendors-node_modules_babylonjs_inspector_lib_index_js-node_modules_bluemath_linalg_lib_index_-fdb9ef.08e3481c7c9964e8ac83.js 93.9 MiB main.e97a9afa12ab1b7d7ae9.js 1.07 MiB 5 auxiliary assets
+orphan modules 11.1 MiB (javascript) 618 KiB (asset) 1.06 KiB (runtime) [orphan] 1316 modules
+runtime modules 18.2 KiB 21 modules
+modules by path ./node_modules/ 37.3 MiB (javascript) 291 KiB (css/mini-extract) 3807 modules
+modules by path ./src/ 303 KiB
+  modules by path ./src/full_control/components/*.vue 141 KiB 79 modules
+  modules by path ./src/full_control/VMs/*.ts 19.9 KiB 9 modules
+  modules by path ./src/full_control/*.vue 58 KiB 8 modules
+  modules by path ./src/full_control/*.ts 23.3 KiB 5 modules
+  modules by path ./src/common/ 17.9 KiB 5 modules
+  modules by path ./src/base/*.ts 30.5 KiB
+    ./src/base/SpiralViewBase.ts 11 KiB [built] [code generated]
+    + 3 modules
+  ./src/CommonMath.ts 1 KiB [built] [code generated]
+  ./src/full_control/JSON/sample.json 11.4 KiB [built] [code generated]
++ 15 modules
+
+WARNING in ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts) 244:63-86
+Should not import the named export 'editor_models' (imported as 'sample') from default-exporting module (only default export is available soon)
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 7:0-28 16:22-25
+
+WARNING in ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts) 245:47-70
+Should not import the named export 'common_params' (imported as 'sample') from default-exporting module (only default export is available soon)
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 7:0-28 16:22-25
+
+WARNING in ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts) 255:67-97
+export 'editor_models_shadow' (imported as 'sample') was not found in './JSON/sample.json' (possible exports: common_params, editor_models)
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 7:0-28 16:22-25
+
+WARNING in ./src/full_control/App.vue?vue&type=template&id=26b070f8&ts=true (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=template&id=26b070f8&ts=true)
+Module Warning (from ./node_modules/vue-loader/dist/templateLoader.js):
+<tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+450|              </div>
+451|              <table class="w-100">
+452|                <tr>
+   |                ^^^^
+453|                  <td class="text-nowrap">Start: <br/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+454|                    <Button icon="pi pi-file-import" outlined size="small" @click.stop="start_config=editor_models.get_config()" class="mr-1"/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+455|                    <Button icon="pi pi-file-export" outlined size="small" :disabled="!start_config" @click.stop="set_config(start_config)" class=""/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+456|                  </td>
+   |  ^^^^^^^^^^^^^^^^^^^^^
+457|                  <td class="text-nowrap text-right">End: <br/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+458|                    <Button icon="pi pi-file-import" outlined size="small" @click.stop="end_config=editor_models.get_config()" class="mr-1"/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+459|                    <Button icon="pi pi-file-export" outlined size="small" :disabled="!end_config" @click.stop="set_config(end_config)" class=""/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+460|                  </td>
+   |  ^^^^^^^^^^^^^^^^^^^^^
+461|                </tr>
+   |  ^^^^^^^^^^^^^^^^^^^
+ @ ./src/full_control/App.vue?vue&type=template&id=26b070f8&ts=true 1:0-331 1:0-331
+ @ ./src/full_control/App.vue 1:0-72 8:68-74
+ @ ./src/full_control/main.ts 7:0-28 16:22-25
+
+1 warning has detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+ERROR in ./node_modules/@vue/devtools-shared/dist/index.js 43:21-27
+Module not found: Error: Can't resolve '/home/ubuntu/projects/nft-editor/node_modules/buffer' in '/home/ubuntu/projects/nft-editor/node_modules/@vue/devtools-shared/dist'
+Did you mean 'index.js'?
+BREAKING CHANGE: The request '/home/ubuntu/projects/nft-editor/node_modules/buffer' failed to resolve only because it was resolved as fully specified
+(probably because the origin is strict EcmaScript Module, e. g. a module with javascript mimetype, a '*.mjs' file, or a '*.js' file where the package.json contains '"type": "module"').
+The extension in the request is mandatory for it to be fully specified.
+Add the extension to the request.
+ @ ./node_modules/@vue/devtools-kit/dist/index.js 1:0-132 30:5-49 34:23-29 51:18-26 51:27-35 416:0-51 418:1-52 423:6-30 432:19-43 443:11-35 445:7-31 607:6-15 611:39-48 631:0-41 632:41-82 653:0-37 654:36-73 851:0-39 852:0-45 853:0-48 854:0-39 855:0-43 872:0-6 882:37-76 883:30-69 884:8-47 887:1-40 887:47-86 890:1-40 892:34-79 893:30-75 894:32-80 895:8-53 899:5-11 902:8-47 903:12-55 907:1-46 911:1-49 914:32-38 918:39-78 919:43-86 920:9-15 928:2-8 933:15-21 937:5-11 941:168-174 942:15-21 962:30-41 966:14-53 975:18-61 988:18-61 1000:1-48 1015:20-67 1016:3-40 1022:0-41 1023:39-80 1097:22-48 1539:22-30 1699:82-90 1745:9-17 1745:63-71 2004:6-15 2241:0-51 2261:1-59 2264:5-60 2266:1-56 2275:0-6 2279:0-6 2280:37-43 2281:8-14 2283:33-39 2284:34-40 2327:2-8 2328:32-41 2329:11-20 2331:2-8 2339:89-95 2427:12-54 2443:0-27 2445:8-35 2448:1-28 2449:5-32 2456:0-35 2468:24-59 3940:22-66 3984:11-20 4067:17-23 4069:24-59 4070:5-40 4072:5-40 4073:2-45 4074:2-37 4079:2-43 4127:2-49 4127:50-98 4131:6-41 4131:65-71 4137:11-20 4197:21-27 4287:0-46 4948:8-14 4951:1-7 4954:8-14 4957:1-7 4960:8-14 4963:1-7 5021:8-14 5024:1-7 5117:8-14 5120:1-7 5125:6-15 5145:6-15 5173:8-14 5176:1-7 5179:8-14 5182:1-7 5213:0-44 5214:0-38 5215:0-38 5216:0-43 5217:0-43 5218:0-48 5220:1-39 5223:1-39 5226:8-46 5229:8-46 5232:1-44 5235:1-44 5238:8-51 5241:8-51
+ @ ./node_modules/@vue/devtools-api/dist/index.js 1:0-201 2:0-153 2:0-153 2:0-153 2:0-153 2:0-153 2:0-153 2:0-153
+ @ ./node_modules/vue-router/dist/devtools-DUDsFuj9.js 8:0-56 745:1-20
+ @ ./node_modules/vue-router/dist/vue-router.js 7:0-778 24:9-18 26:8-17 49:10-28 50:35-62 50:65-89 50:92-119 70:60-81 99:26-47 130:46-52 142:11-32 144:63-69 162:8-21 173:14-29 197:15-20 199:8-21 209:9-27 214:12-17 217:14-29 234:13-18 239:33-57 239:60-87 287:91-97 593:35-41 675:6-17 711:30-36 718:71-77 839:98-104 840:98-104 849:141-147 855:91-97 877:58-64 911:8-23 911:46-52 912:8-14 924:41-63 927:172-194 930:133-158 954:32-47 1091:36-53 1144:2-8 1161:44-54 1162:52-66 1165:22-34 1166:29-41 1167:21-33 1168:33-58 1169:23-48 1172:47-58 1173:47-53 1177:6-17 1179:57-63 1187:50-56 1198:30-38 1202:31-37 1203:43-49 1207:10-16 1212:48-63 1213:3-9 1218:143-149 1219:53-61 1228:78-84 1230:19-31 1231:9-19 1236:30-36 1237:42-48 1242:31-45 1242:48-62 1249:34-42 1273:4-10 1298:16-35 1308:50-69 1309:6-12 1337:61-83 1338:11-34 1340:15-31 1346:56-72 1350:12-35 1352:16-32 1358:156-172 1359:20-36 1364:12-35 1369:63-79 1385:37-62 1409:18-36 1409:37-49 1409:78-99 1414:137-155 1424:28-46 1430:21-33 1431:22-34 1446:46-52 1452:38-63 1469:36-58 1469:59-71 1470:104-120 1503:55-80 1506:48-54 1510:21-46 1522:23-48 1525:26-51 1531:94-105 1541:0-420 1541:0-420 1541:0-420 1541:0-420 1541:0-420 1541:0-420
+ @ ./src/full_control/main.ts 12:0-39 23:15-24
+
+ERROR in ./node_modules/axios/lib/helpers/toFormData.js 140:73-79
+Module not found: Error: Can't resolve '/home/ubuntu/projects/nft-editor/node_modules/buffer' in '/home/ubuntu/projects/nft-editor/node_modules/axios/lib/helpers'
+Did you mean 'index.js'?
+BREAKING CHANGE: The request '/home/ubuntu/projects/nft-editor/node_modules/buffer' failed to resolve only because it was resolved as fully specified
+(probably because the origin is strict EcmaScript Module, e. g. a module with javascript mimetype, a '*.mjs' file, or a '*.js' file where the package.json contains '"type": "module"').
+The extension in the request is mandatory for it to be fully specified.
+Add the extension to the request.
+ @ ./node_modules/axios/lib/axios.js 13:0-49 57:19-29
+ @ ./node_modules/axios/index.js 1:0-35 23:4-9 25:0-43:2
+ @ ./src/common/GDrive/gdrive_file.ts 1:0-26 110:31-41
+ @ ./src/full_control/main.ts 13:0-70 38:14-25 49:19-28
+
+ERROR in ./node_modules/axios/lib/helpers/toFormData.js
+Cannot read properties of undefined (reading 'module')
+ @ ./node_modules/axios/lib/axios.js 13:0-49 57:19-29
+ @ ./node_modules/axios/index.js 1:0-35 23:4-9 25:0-43:2
+ @ ./src/common/GDrive/gdrive_file.ts 1:0-26 110:31-41
+ @ ./src/full_control/main.ts 13:0-70 38:14-25 49:19-28
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 53:49-54
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(53,50)
+      TS2694: Namespace 'gapi.client' has no exported member 'drive'.
+ @ ./src/full_control/main.ts 13:0-70 38:14-25 49:19-28
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 112:47-52
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(112,48)
+      TS2339: Property 'drive' does not exist on type 'typeof client'.
+ @ ./src/full_control/main.ts 13:0-70 38:14-25 49:19-28
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 129:47-52
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(129,48)
+      TS2339: Property 'drive' does not exist on type 'typeof client'.
+ @ ./src/full_control/main.ts 13:0-70 38:14-25 49:19-28
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 166:39-44
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(166,40)
+      TS2694: Namespace 'gapi.client' has no exported member 'drive'.
+ @ ./src/full_control/main.ts 13:0-70 38:14-25 49:19-28
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 231:39-44
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(231,40)
+      TS2694: Namespace 'gapi.client' has no exported member 'drive'.
+ @ ./src/full_control/main.ts 13:0-70 38:14-25 49:19-28
+
+8 errors have detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.105.4 compiled with 8 errors and 4 warnings in 63144 ms

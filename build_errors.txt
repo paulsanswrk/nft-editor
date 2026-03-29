@@ -1,0 +1,215 @@
+
+> spirals@1.0.0 build
+> webpack --config src/full_control/webpack.config.vue.common.js
+
+assets by status 108 MiB [cached] 87 assets
+assets by path . 2.23 MiB
+  asset vendors-node_modules_babylonjs_inspector_lib_index_js-node_modules_bluemath_linalg_lib_index_-131683.css 1.15 MiB [compared for emit] (id hint: vendors)
+  asset main.08cfaa21a2e2d0eee0be.js 1.08 MiB [emitted] [immutable] (name: main)
+  asset index.html 1.5 KiB [emitted] [compared for emit]
+Entrypoint main 97.3 MiB (618 KiB) = vendors-node_modules_babylonjs_inspector_lib_index_js-node_modules_bluemath_linalg_lib_index_-131683.css 1.15 MiB vendors-node_modules_babylonjs_inspector_lib_index_js-node_modules_bluemath_linalg_lib_index_-131683.d86f4a934ca30a1708ee.js 95 MiB main.08cfaa21a2e2d0eee0be.js 1.08 MiB 5 auxiliary assets
+orphan modules 10.8 MiB (javascript) 618 KiB (asset) 1.06 KiB (runtime) [orphan] 1289 modules
+runtime modules 18.2 KiB 21 modules
+modules by path ./node_modules/ 37.8 MiB (javascript) 291 KiB (css/mini-extract) 3697 modules
+modules by path ./src/ 327 KiB
+  modules by path ./src/full_control/components/*.vue 147 KiB 79 modules
+  modules by path ./src/full_control/VMs/*.ts 22.9 KiB 9 modules
+  modules by path ./src/full_control/*.vue 62.3 KiB 8 modules
+  modules by path ./src/full_control/*.ts 27.5 KiB 5 modules
+  modules by path ./src/common/ 20 KiB 5 modules
+  modules by path ./src/base/*.ts 34.9 KiB 4 modules
+  ./src/CommonMath.ts 1.23 KiB [built] [code generated]
+  ./src/full_control/JSON/sample.json 11.4 KiB [built] [code generated]
++ 15 modules
+
+WARNING in ./src/full_control/App.vue?vue&type=template&id=26b070f8&ts=true (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=template&id=26b070f8&ts=true)
+Module Warning (from ./node_modules/vue-loader/dist/templateLoader.js):
+<tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+453|              </div>
+454|              <table class="w-100">
+455|                <tr>
+   |                ^^^^
+456|                  <td class="text-nowrap">Start: <br/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+457|                    <Button icon="pi pi-file-import" outlined size="small" @click.stop="start_config=editor_models.get_config()" class="mr-1"/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+458|                    <Button icon="pi pi-file-export" outlined size="small" :disabled="!start_config" @click.stop="set_config(start_config)" class=""/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+459|                  </td>
+   |  ^^^^^^^^^^^^^^^^^^^^^
+460|                  <td class="text-nowrap text-right">End: <br/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+461|                    <Button icon="pi pi-file-import" outlined size="small" @click.stop="end_config=editor_models.get_config()" class="mr-1"/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+462|                    <Button icon="pi pi-file-export" outlined size="small" :disabled="!end_config" @click.stop="set_config(end_config)" class=""/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+463|                  </td>
+   |  ^^^^^^^^^^^^^^^^^^^^^
+464|                </tr>
+   |  ^^^^^^^^^^^^^^^^^^^
+ @ ./src/full_control/App.vue?vue&type=template&id=26b070f8&ts=true 1:0-331 1:0-331
+ @ ./src/full_control/App.vue 1:0-72 8:68-74
+ @ ./src/full_control/main.ts 9:34-54
+
+1 warning has detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+ERROR in ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts) 40:0-68
+Module not found: Error: Can't resolve 'primevue/resources/themes/bootstrap4-light-blue/theme.css' in '/home/ubuntu/projects/nft-editor/src/full_control'
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts) 41:0-46
+Module not found: Error: Can't resolve 'primevue/resources/primevue.min.css' in '/home/ubuntu/projects/nft-editor/src/full_control'
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts) 75:14-37
+Module not found: Error: Can't resolve 'primevue/api' in '/home/ubuntu/projects/nft-editor/src/full_control'
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in ./src/full_control/main.ts 12:0-67
+Module not found: Error: Can't resolve 'primevue/resources/themes/bootstrap4-dark-blue/theme.css' in '/home/ubuntu/projects/nft-editor/src/full_control'
+
+ERROR in ./src/full_control/main.ts 14:0-46
+Module not found: Error: Can't resolve 'primevue/resources/primevue.min.css' in '/home/ubuntu/projects/nft-editor/src/full_control'
+
+ERROR in /home/ubuntu/projects/nft-editor/tsconfig.json
+/home/ubuntu/projects/nft-editor/tsconfig.json
+[tsl] ERROR
+      TS5107: Option 'moduleResolution=node10' is deprecated and will stop functioning in TypeScript 7.0. Specify compilerOption '"ignoreDeprecations": "6.0"' to silence this error.
+  Visit https://aka.ms/ts6 for migration information.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 361:33-50
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(361,34)
+      TS2345: Argument of type 'ArrayBufferLike' is not assignable to parameter of type 'ArrayBuffer'.
+  Type 'SharedArrayBuffer' is missing the following properties from type 'ArrayBuffer': resizable, resize, detached, transfer, transferToFixedLength
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 19:17-23
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(19,18)
+      TS2503: Cannot find namespace 'google'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 30:10-14
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(30,11)
+      TS2304: Cannot find name 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 50:15-19
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(50,16)
+      TS2304: Cannot find name 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 53:37-41
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(53,38)
+      TS2503: Cannot find namespace 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 63:14-18
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(63,15)
+      TS2304: Cannot find name 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 69:12-16
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(69,13)
+      TS2304: Cannot find name 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 78:26-32
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(78,27)
+      TS2304: Cannot find name 'google'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 81:48-54
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(81,49)
+      TS2503: Cannot find namespace 'google'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 112:35-39
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(112,36)
+      TS2304: Cannot find name 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 129:35-39
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(129,36)
+      TS2304: Cannot find name 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 166:27-31
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(166,28)
+      TS2503: Cannot find namespace 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 231:27-31
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(231,28)
+      TS2503: Cannot find namespace 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 7:7-41
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(7,8)
+      TS2882: Cannot find module or type declarations for side-effect import of 'bootstrap/dist/css/bootstrap.css'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 8:7-65
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(8,8)
+      TS2882: Cannot find module or type declarations for side-effect import of 'primevue/resources/themes/bootstrap4-dark-blue/theme.css'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 10:7-44
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(10,8)
+      TS2882: Cannot find module or type declarations for side-effect import of 'primevue/resources/primevue.min.css'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 39:4-8
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(39,5)
+      TS2304: Cannot find name 'gapi'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts
+2:7-66
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts(2,8)
+      TS2882: Cannot find module or type declarations for side-effect import of 'primevue/resources/themes/bootstrap4-light-blue/theme.css'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts
+3:7-44
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts(3,8)
+      TS2882: Cannot find module or type declarations for side-effect import of 'primevue/resources/primevue.min.css'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts
+4:7-34
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts(4,8)
+      TS2882: Cannot find module or type declarations for side-effect import of 'primeicons/primeicons.css'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts
+41:25-39
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts(41,26)
+      TS2307: Cannot find module 'primevue/api' or its corresponding type declarations.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/CoverView.vue.ts
+24:18-24
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/CoverView.vue.ts(24,19)
+      TS2749: 'Dialog' refers to a value, but is being used as a type here. Did you mean 'typeof Dialog'?
+
+28 errors have detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.105.4 compiled with 28 errors and 1 warning in 48111 ms

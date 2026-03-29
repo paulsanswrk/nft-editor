@@ -1,13 +1,13 @@
+/// <reference types="gapi" />
+/// <reference types="google.accounts" />
 import {createApp} from 'vue';
 import PrimeVue from 'primevue/config';
+import Aura from '@primeuix/themes/aura';
 // @ts-ignore
 import App from "./App.vue";
 import ToastService from 'primevue/toastservice';
-
+// @ts-ignore
 import 'bootstrap/dist/css/bootstrap.css'
-import "primevue/resources/themes/bootstrap4-dark-blue/theme.css";
-// import "primevue/resources/themes/bootstrap4-light-blue/theme.css";
-import "primevue/resources/primevue.min.css";
 import {SpiralViewFullControl_instance} from "./SpiralViewFullControl";
 import {useRouter} from 'vue-router';
 import {gdrive_init, CLIENT_ID} from "../common/GDrive/gdrive_file";
@@ -18,7 +18,11 @@ globalThis.__VUE_PROD_DEVTOOLS__ = false;
 
 const app = createApp(App);
 
-app.use(PrimeVue);
+app.use(PrimeVue, {
+    theme: {
+        preset: Aura
+    }
+});
 
 app.use(ToastService);
 const router = useRouter();

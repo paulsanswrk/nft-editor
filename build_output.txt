@@ -1,0 +1,1636 @@
+
+> spirals@1.0.0 build
+> webpack --config src/full_control/webpack.config.vue.common.js
+
+assets by status 109 MiB [cached] 88 assets
+assets by path . 1.15 MiB
+  asset vendors-node_modules_babylonjs_inspector_lib_index_js-node_modules_bluemath_linalg_lib_index_-131683.css 1.15 MiB [compared for emit] (id hint: vendors)
+  asset index.html 1.5 KiB [compared for emit]
+Entrypoint main 97.3 MiB (618 KiB) = vendors-node_modules_babylonjs_inspector_lib_index_js-node_modules_bluemath_linalg_lib_index_-131683.css 1.15 MiB vendors-node_modules_babylonjs_inspector_lib_index_js-node_modules_bluemath_linalg_lib_index_-131683.d86f4a934ca30a1708ee.js 95 MiB main.cd062afdeab6f91876c8.js 1.08 MiB 5 auxiliary assets
+orphan modules 10.8 MiB (javascript) 618 KiB (asset) 1.06 KiB (runtime) [orphan] 1289 modules
+runtime modules 18.2 KiB 21 modules
+modules by path ./node_modules/ 37.8 MiB (javascript) 291 KiB (css/mini-extract) 3697 modules
+modules by path ./src/ 327 KiB
+  modules by path ./src/full_control/components/*.vue 147 KiB
+    ./src/full_control/components/FileBrowser.vue 829 bytes [built] [code generated]
+    ./src/full_control/components/ColorsDebug.vue 813 bytes [built] [code generated]
+    + 77 modules
+  modules with errors 99 KiB [true errors] 19 modules
+  modules by path ./src/full_control/*.vue 62.3 KiB
+    ./src/full_control/App.vue 840 bytes [built] [code generated]
+    ./src/full_control/App.vue?vue&type=template&id=26b070f8&ts=true 331 bytes [built] [code generated]
+    + 6 modules
+  + 6 modules
++ 15 modules
+
+WARNING in ./src/full_control/App.vue?vue&type=template&id=26b070f8&ts=true (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=template&id=26b070f8&ts=true)
+Module Warning (from ./node_modules/vue-loader/dist/templateLoader.js):
+<tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+453|              </div>
+454|              <table class="w-100">
+455|                <tr>
+   |                ^^^^
+456|                  <td class="text-nowrap">Start: <br/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+457|                    <Button icon="pi pi-file-import" outlined size="small" @click.stop="start_config=editor_models.get_config()" class="mr-1"/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+458|                    <Button icon="pi pi-file-export" outlined size="small" :disabled="!start_config" @click.stop="set_config(start_config)" class=""/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+459|                  </td>
+   |  ^^^^^^^^^^^^^^^^^^^^^
+460|                  <td class="text-nowrap text-right">End: <br/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+461|                    <Button icon="pi pi-file-import" outlined size="small" @click.stop="end_config=editor_models.get_config()" class="mr-1"/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+462|                    <Button icon="pi pi-file-export" outlined size="small" :disabled="!end_config" @click.stop="set_config(end_config)" class=""/>
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+463|                  </td>
+   |  ^^^^^^^^^^^^^^^^^^^^^
+464|                </tr>
+   |  ^^^^^^^^^^^^^^^^^^^
+ @ ./src/full_control/App.vue?vue&type=template&id=26b070f8&ts=true 1:0-331 1:0-331
+ @ ./src/full_control/App.vue 1:0-72 8:68-74
+ @ ./src/full_control/main.ts 9:34-54
+
+1 warning has detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+ERROR in ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts) 40:0-68
+Module not found: Error: Can't resolve 'primevue/resources/themes/bootstrap4-light-blue/theme.css' in '/home/ubuntu/projects/nft-editor/src/full_control'
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts) 41:0-46
+Module not found: Error: Can't resolve 'primevue/resources/primevue.min.css' in '/home/ubuntu/projects/nft-editor/src/full_control'
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts) 75:14-37
+Module not found: Error: Can't resolve 'primevue/api' in '/home/ubuntu/projects/nft-editor/src/full_control'
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in ./src/full_control/main.ts 12:0-67
+Module not found: Error: Can't resolve 'primevue/resources/themes/bootstrap4-dark-blue/theme.css' in '/home/ubuntu/projects/nft-editor/src/full_control'
+
+ERROR in ./src/full_control/main.ts 14:0-46
+Module not found: Error: Can't resolve 'primevue/resources/primevue.min.css' in '/home/ubuntu/projects/nft-editor/src/full_control'
+
+ERROR in /home/ubuntu/projects/nft-editor/tsconfig.json
+/home/ubuntu/projects/nft-editor/tsconfig.json
+[tsl] ERROR
+      TS5107: Option 'moduleResolution=node10' is deprecated and will stop functioning in TypeScript 7.0. Specify compilerOption '"ignoreDeprecations": "6.0"' to silence this error.
+  Visit https://aka.ms/ts6 for migration information.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 1:20-21
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(1,21)
+      TS7006: Parameter 't' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 5:20-21
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(5,21)
+      TS7006: Parameter 't' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 9:21-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(9,22)
+      TS7006: Parameter 't' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 13:21-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(13,22)
+      TS7006: Parameter 't' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 17:22-23
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(17,23)
+      TS7006: Parameter 't' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 17:25-26
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(17,26)
+      TS7006: Parameter 'n' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 21:21-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(21,22)
+      TS7006: Parameter 't' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 25:25-26
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(25,26)
+      TS7006: Parameter 'h' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 25:28-29
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(25,29)
+      TS7006: Parameter 's' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 25:31-32
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(25,32)
+      TS7006: Parameter 'v' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 29:25-26
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(29,26)
+      TS7006: Parameter 'h' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 29:28-29
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(29,29)
+      TS7006: Parameter 's' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 29:31-32
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(29,32)
+      TS7006: Parameter 'l' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 32:14-15
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(32,15)
+      TS7006: Parameter 'n' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 34:14-15
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(34,15)
+      TS7006: Parameter 'n' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts
+./src/CommonMath.ts 50:4-10
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/CommonMath.ts(50,5)
+      TS2322: Type 'undefined' is not assignable to type 'number'.
+ @ ./src/base/Spiral_Transformed.ts 5:21-45
+ @ ./src/full_control/SpiralViewFullControl.ts 47:29-66
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 23:4-10
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(23,5)
+      TS2564: Property 'camera' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 26:4-9
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(26,5)
+      TS2564: Property 'light' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 30:4-11
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(30,5)
+      TS2564: Property 'start_n' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 31:4-9
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(31,5)
+      TS2564: Property 'new_n' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 33:4-11
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(33,5)
+      TS2564: Property 'spirals' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 45:23-35
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(45,24)
+      TS7010: 'init_spirals', which lacks return-type annotation, implicitly has an 'any' return type.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 99:23-35
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(99,24)
+      TS7010: 'setup_camera', which lacks return-type annotation, implicitly has an 'any' return type.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 153:57-112
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(153,58)
+      TS2345: Argument of type 'Nullable<FloatArray>' is not assignable to parameter of type 'FloatArray'.
+  Type 'null' is not assignable to type 'FloatArray'.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 193:15-47
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(193,16)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 197:8-40
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(197,9)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 253:18-19
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(253,19)
+      TS7006: Parameter 'p' implicitly has an 'any' type.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 253:21-25
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(253,22)
+      TS7006: Parameter 'pick' implicitly has an 'any' type.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 267:8-18
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(267,9)
+      TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 345:12-15
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(345,13)
+      TS18047: 'ctx' is possibly 'null'.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 345:64-67
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(345,65)
+      TS18047: 'ctx' is possibly 'null'.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 345:74-77
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(345,75)
+      TS18047: 'ctx' is possibly 'null'.
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts
+./src/base/SpiralViewBase.ts 361:33-50
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/SpiralViewBase.ts(361,34)
+      TS2345: Argument of type 'ArrayBufferLike' is not assignable to parameter of type 'ArrayBuffer'.
+  Type 'SharedArrayBuffer' is missing the following properties from type 'ArrayBuffer': resizable, resize, detached, transfer, transferToFixedLength
+ @ ./src/full_control/SpiralViewFullControl.ts 40:41-74
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts
+./src/base/Spiral_Base.ts 79:23-33
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts(79,24)
+      TS7010: 'set_config', which lacks return-type annotation, implicitly has an 'any' return type.
+ @ ./src/base/Spiral_Dynamic.ts 4:22-46
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts
+./src/base/Spiral_Base.ts 97:17-18
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts(97,18)
+      TS7006: Parameter 't' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Dynamic.ts 4:22-46
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts
+./src/base/Spiral_Base.ts 101:16-17
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts(101,17)
+      TS7006: Parameter 't' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Dynamic.ts 4:22-46
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts
+./src/base/Spiral_Base.ts 108:16-17
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts(108,17)
+      TS7006: Parameter 't' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Dynamic.ts 4:22-46
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts
+./src/base/Spiral_Base.ts 168:11-23
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts(168,12)
+      TS2564: Property 'g_colors_ext' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/base/Spiral_Dynamic.ts 4:22-46
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts
+./src/base/Spiral_Base.ts 169:12-24
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts(169,13)
+      TS2564: Property 's_colors_ext' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/base/Spiral_Dynamic.ts 4:22-46
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts
+./src/base/Spiral_Base.ts 242:22-23
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Base.ts(242,23)
+      TS7006: Parameter 't' implicitly has an 'any' type.
+ @ ./src/base/Spiral_Dynamic.ts 4:22-46
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts
+./src/base/Spiral_Dynamic.ts 56:15-24
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts(56,16)
+      TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts
+./src/base/Spiral_Dynamic.ts 138:8-14
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts(138,9)
+      TS2322: Type '{ pos: number; val: number; }[] | null' is not assignable to type '{ pos: number; val: number; }[]'.
+  Type 'null' is not assignable to type '{ pos: number; val: number; }[]'.
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts
+./src/base/Spiral_Dynamic.ts 147:61-142
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts(147,62)
+      TS2322: Type 'null' is not assignable to type '{ [k: string]: { pos: number; val: number; }[] | null; }'.
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts
+./src/base/Spiral_Dynamic.ts 149:108-117
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts(149,109)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Spiral_Dynamic_Config'.
+  No index signature with a parameter of type 'string' was found on type 'Spiral_Dynamic_Config'.
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts
+./src/base/Spiral_Dynamic.ts 154:104-113
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts(154,105)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Spiral_Dynamic_Config'.
+  No index signature with a parameter of type 'string' was found on type 'Spiral_Dynamic_Config'.
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts
+./src/base/Spiral_Dynamic.ts 171:25-26
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts(171,26)
+      TS7006: Parameter 't' implicitly has an 'any' type.
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts
+./src/base/Spiral_Dynamic.ts 222:55-74
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts(222,56)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ m1: (t: number) => any[]; m2: (t: number) => any[]; m3: (t: number) => any[]; offsetR: (t: number) => any[]; offsetZ: (t: number) => any[]; cTanh: (t: number) => any[]; z_Irreg: (t: number) => any[]; zScale: (t: number) => any[]; }'.
+  No index signature with a parameter of type 'string' was found on type '{ m1: (t: number) => any[]; m2: (t: number) => any[]; m3: (t: number) => any[]; offsetR: (t: number) => any[]; offsetZ: (t: number) => any[]; cTanh: (t: number) => any[]; z_Irreg: (t: number) => any[]; zScale: (t: number) => any[]; }'.
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts
+./src/base/Spiral_Dynamic.ts 223:33-52
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts(223,34)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ m1: (t: number) => any[]; m2: (t: number) => any[]; m3: (t: number) => any[]; offsetR: (t: number) => any[]; offsetZ: (t: number) => any[]; cTanh: (t: number) => any[]; z_Irreg: (t: number) => any[]; zScale: (t: number) => any[]; }'.
+  No index signature with a parameter of type 'string' was found on type '{ m1: (t: number) => any[]; m2: (t: number) => any[]; m3: (t: number) => any[]; offsetR: (t: number) => any[]; offsetZ: (t: number) => any[]; cTanh: (t: number) => any[]; z_Irreg: (t: number) => any[]; zScale: (t: number) => any[]; }'.
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts
+./src/base/Spiral_Dynamic.ts 227:55-74
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts(227,56)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ m1: (t: number) => any[]; m2: (t: number) => any[]; m3: (t: number) => any[]; offsetR: (t: number) => any[]; offsetZ: (t: number) => any[]; cTanh: (t: number) => any[]; z_Irreg: (t: number) => any[]; zScale: (t: number) => any[]; }'.
+  No index signature with a parameter of type 'string' was found on type '{ m1: (t: number) => any[]; m2: (t: number) => any[]; m3: (t: number) => any[]; offsetR: (t: number) => any[]; offsetZ: (t: number) => any[]; cTanh: (t: number) => any[]; z_Irreg: (t: number) => any[]; zScale: (t: number) => any[]; }'.
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts
+./src/base/Spiral_Dynamic.ts 228:33-52
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Dynamic.ts(228,34)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ m1: (t: number) => any[]; m2: (t: number) => any[]; m3: (t: number) => any[]; offsetR: (t: number) => any[]; offsetZ: (t: number) => any[]; cTanh: (t: number) => any[]; z_Irreg: (t: number) => any[]; zScale: (t: number) => any[]; }'.
+  No index signature with a parameter of type 'string' was found on type '{ m1: (t: number) => any[]; m2: (t: number) => any[]; m3: (t: number) => any[]; offsetR: (t: number) => any[]; offsetZ: (t: number) => any[]; cTanh: (t: number) => any[]; z_Irreg: (t: number) => any[]; zScale: (t: number) => any[]; }'.
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Predefined_Base.ts
+15:14-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Predefined_Base.ts(15,15)
+      TS2564: Property 'n_config' has no initializer and is not definitely assigned in the constructor.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Predefined_Base.ts
+24:37-45
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Predefined_Base.ts(24,38)
+      TS2565: Property 'n_config' is used before being assigned.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Predefined_Base.ts
+25:35-43
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Predefined_Base.ts(25,36)
+      TS2565: Property 'n_config' is used before being assigned.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Predefined_Base.ts
+33:8-21
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/base/Spiral_Predefined_Base.ts(33,9)
+      TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts
+./src/common/GA1_math_models.ts 11:6-8
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts(11,7)
+      TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+ @ ./src/base/Spiral_Dynamic.ts 8:26-62
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts
+./src/common/GA1_math_models.ts 11:10-12
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts(11,11)
+      TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+ @ ./src/base/Spiral_Dynamic.ts 8:26-62
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts
+./src/common/GA1_math_models.ts 11:14-16
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts(11,15)
+      TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+ @ ./src/base/Spiral_Dynamic.ts 8:26-62
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts
+./src/common/GA1_math_models.ts 11:18-25
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts(11,19)
+      TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+ @ ./src/base/Spiral_Dynamic.ts 8:26-62
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts
+./src/common/GA1_math_models.ts 11:27-34
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts(11,28)
+      TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+ @ ./src/base/Spiral_Dynamic.ts 8:26-62
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts
+./src/common/GA1_math_models.ts 11:36-43
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts(11,37)
+      TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+ @ ./src/base/Spiral_Dynamic.ts 8:26-62
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts
+./src/common/GA1_math_models.ts 11:45-50
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts(11,46)
+      TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+ @ ./src/base/Spiral_Dynamic.ts 8:26-62
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts
+./src/common/GA1_math_models.ts 11:52-58
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts(11,53)
+      TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+ @ ./src/base/Spiral_Dynamic.ts 8:26-62
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts
+./src/common/GA1_math_models.ts 11:60-62
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GA1_math_models.ts(11,61)
+      TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+ @ ./src/base/Spiral_Dynamic.ts 8:26-62
+ @ ./src/full_control/SpiralViewFullControl.ts 41:25-58
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 1:16-17
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(1,17)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 5:20-21
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(5,21)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 9:21-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(9,22)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 13:23-24
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(13,24)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 17:20-21
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(17,21)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 21:21-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(21,22)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 25:23-24
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(25,24)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 29:21-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(29,22)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 33:22-23
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(33,23)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 37:24-25
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(37,25)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 41:21-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(41,22)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 45:22-23
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(45,23)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 49:24-25
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(49,25)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 53:21-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(53,22)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 57:22-23
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(57,23)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 61:24-25
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(61,25)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 65:20-21
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(65,21)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 69:20-21
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(69,21)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 73:20-21
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(73,21)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 77:21-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(77,22)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 81:23-24
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(81,24)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 90:20-21
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(90,21)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 95:21-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(95,22)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 99:23-24
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(99,24)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 105:20-21
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(105,21)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 111:21-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(111,22)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 117:23-24
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(117,24)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 125:23-24
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(125,24)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 134:24-25
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(134,25)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 143:26-27
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(143,27)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 154:22-23
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(154,23)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 158:23-24
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(158,24)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts
+./src/common/easing.ts 172:25-26
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/easing.ts(172,26)
+      TS7006: Parameter 'x' implicitly has an 'any' type.
+ @ ./src/full_control/animation.ts 12:17-44
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 19:17-23
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(19,18)
+      TS2503: Cannot find namespace 'google'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 30:10-14
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(30,11)
+      TS2304: Cannot find name 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 37:4-8
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(37,5)
+      TS2564: Property 'name' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 38:4-14
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(38,5)
+      TS2564: Property 'properties' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 41:4-17
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(41,5)
+      TS2564: Property 'thumbnailLink' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 47:14-23
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(47,15)
+      TS2564: Property 'folder_id' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 50:15-19
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(50,16)
+      TS2304: Cannot find name 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 53:37-41
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(53,38)
+      TS2503: Cannot find namespace 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 63:14-18
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(63,15)
+      TS2304: Cannot find name 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 69:12-16
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(69,13)
+      TS2304: Cannot find name 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 78:26-32
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(78,27)
+      TS2304: Cannot find name 'google'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 81:48-54
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(81,49)
+      TS2503: Cannot find namespace 'google'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 112:35-39
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(112,36)
+      TS2304: Cannot find name 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 118:67-68
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(118,68)
+      TS7006: Parameter 'f' implicitly has an 'any' type.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 129:35-39
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(129,36)
+      TS2304: Cannot find name 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 137:13-17
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(137,14)
+      TS7010: 'save', which lacks return-type annotation, implicitly has an 'any' return type.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 149:23-42
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(149,24)
+      TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 150:23-42
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(150,24)
+      TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 150:44-45
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(150,45)
+      TS18046: 'e' is of type 'unknown'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 150:93-94
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(150,94)
+      TS18046: 'e' is of type 'unknown'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 166:27-31
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(166,28)
+      TS2503: Cannot find namespace 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 222:4-16
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(222,5)
+      TS2564: Property 'json_file_id' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 223:4-18
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(223,5)
+      TS2564: Property 'json_file_name' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 231:27-31
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(231,28)
+      TS2503: Cannot find namespace 'gapi'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts
+./src/common/GDrive/gdrive_file.ts 268:12-25
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/common/GDrive/gdrive_file.ts(268,13)
+      TS2322: Type '{ json_file_id: any; json_file_name: string; }' is not assignable to type 'undefined'.
+ @ ./src/full_control/main.ts 17:22-61
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/EditorsVM.ts
+./src/full_control/EditorsVM.ts 65:73-96
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/EditorsVM.ts(65,74)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ fov: number; alpha: number; beta: number; camH: number; lighting: { scene_clearColor: string; scene_ambientColor: string; light_diffuseColor: string; light_groundColor: string; light_direction: { ...; }; ... 4 more ...; mat_specularPower: number; }; }'.
+  No index signature with a parameter of type 'string' was found on type '{ fov: number; alpha: number; beta: number; camH: number; lighting: { scene_clearColor: string; scene_ambientColor: string; light_diffuseColor: string; light_groundColor: string; light_direction: { ...; }; ... 4 more ...; mat_specularPower: number; }; }'.
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/EditorsVM.ts
+./src/full_control/EditorsVM.ts 83:85-108
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/EditorsVM.ts(83,86)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ fov: number; alpha: number; beta: number; camH: number; lighting: { scene_clearColor: string; scene_ambientColor: string; light_diffuseColor: string; light_groundColor: string; light_direction: { ...; }; ... 4 more ...; mat_specularPower: number; }; }'.
+  No index signature with a parameter of type 'string' was found on type '{ fov: number; alpha: number; beta: number; camH: number; lighting: { scene_clearColor: string; scene_ambientColor: string; light_diffuseColor: string; light_groundColor: string; light_direction: { ...; }; ... 4 more ...; mat_specularPower: number; }; }'.
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/SpiralViewFullControl.ts
+./src/full_control/SpiralViewFullControl.ts 12:4-10
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/SpiralViewFullControl.ts(12,5)
+      TS2564: Property 'spiral' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/SpiralViewFullControl.ts
+./src/full_control/SpiralViewFullControl.ts 13:4-17
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/SpiralViewFullControl.ts(13,5)
+      TS2564: Property 'shadow_spiral' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/main.ts 15:32-66
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/animation.ts
+./src/full_control/animation.ts 124:86-105
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/animation.ts(124,87)
+      TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/animation.ts
+./src/full_control/animation.ts 152:53-57
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/animation.ts(152,54)
+      TS2345: Argument of type 'null' is not assignable to parameter of type '{ [p: string]: any; } | undefined'.
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/animation.ts
+./src/full_control/animation.ts 204:12-18
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/animation.ts(204,13)
+      TS2322: Type 'undefined' is not assignable to type 'Blob'.
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/animation.ts
+./src/full_control/animation.ts 233:15-19
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/animation.ts(233,16)
+      TS2454: Variable 'blob' is used before being assigned.
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 61:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 7:7-41
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(7,8)
+      TS2882: Cannot find module or type declarations for side-effect import of 'bootstrap/dist/css/bootstrap.css'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 8:7-65
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(8,8)
+      TS2882: Cannot find module or type declarations for side-effect import of 'primevue/resources/themes/bootstrap4-dark-blue/theme.css'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 10:7-44
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(10,8)
+      TS2882: Cannot find module or type declarations for side-effect import of 'primevue/resources/primevue.min.css'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 15:11-30
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(15,12)
+      TS7017: Element implicitly has an 'any' type because type 'typeof globalThis' has no index signature.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 16:11-32
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(16,12)
+      TS7017: Element implicitly has an 'any' type because type 'typeof globalThis' has no index signature.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 39:4-8
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(39,5)
+      TS2304: Cannot find name 'gapi'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 66:15-34
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(66,16)
+      TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 67:15-34
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(67,16)
+      TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 73:15-34
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(73,16)
+      TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts
+./src/full_control/main.ts 74:15-34
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/main.ts(74,16)
+      TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorAnimPointsVM.ts
+./src/full_control/VMs/EditorAnimPointsVM.ts 41:44-71
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorAnimPointsVM.ts(41,45)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Spiral_Dynamic_Config'.
+  No index signature with a parameter of type 'string' was found on type 'Spiral_Dynamic_Config'.
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 65:45-80
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorAnimPointsVM.ts
+./src/full_control/VMs/EditorAnimPointsVM.ts 41:75-107
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorAnimPointsVM.ts(41,76)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ fov: number; alpha: number; beta: number; camH: number; lighting: { scene_clearColor: string; scene_ambientColor: string; light_diffuseColor: string; light_groundColor: string; light_direction: { ...; }; ... 4 more ...; mat_specularPower: number; }; }'.
+  No index signature with a parameter of type 'string' was found on type '{ fov: number; alpha: number; beta: number; camH: number; lighting: { scene_clearColor: string; scene_ambientColor: string; light_diffuseColor: string; light_groundColor: string; light_direction: { ...; }; ... 4 more ...; mat_specularPower: number; }; }'.
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 65:45-80
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorColorsVM.ts
+./src/full_control/VMs/EditorColorsVM.ts 20:15-28
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorColorsVM.ts(20,16)
+      TS2532: Object is possibly 'undefined'.
+ @ ./src/full_control/EditorsVM.ts 10:25-56
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorColorsVM.ts
+./src/full_control/VMs/EditorColorsVM.ts 24:15-70
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorColorsVM.ts(24,16)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Spiral_Dynamic_Config'.
+  No index signature with a parameter of type 'string' was found on type 'Spiral_Dynamic_Config'.
+ @ ./src/full_control/EditorsVM.ts 10:25-56
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorColorsVM.ts
+./src/full_control/VMs/EditorColorsVM.ts 24:75-76
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorColorsVM.ts(24,76)
+      TS7006: Parameter 's' implicitly has an 'any' type.
+ @ ./src/full_control/EditorsVM.ts 10:25-56
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorColorsVM.ts
+./src/full_control/VMs/EditorColorsVM.ts 38:25-26
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorColorsVM.ts(38,26)
+      TS7006: Parameter 's' implicitly has an 'any' type.
+ @ ./src/full_control/EditorsVM.ts 10:25-56
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorColorsVM.ts
+./src/full_control/VMs/EditorColorsVM.ts 39:25-26
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorColorsVM.ts(39,26)
+      TS7006: Parameter 'a' implicitly has an 'any' type.
+ @ ./src/full_control/EditorsVM.ts 10:25-56
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorColorsVM.ts
+./src/full_control/VMs/EditorColorsVM.ts 68:59-72
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorColorsVM.ts(68,60)
+      TS2488: Type '{ pos: number; color: string; }[] | undefined' must have a '[Symbol.iterator]()' method that returns an iterator.
+ @ ./src/full_control/EditorsVM.ts 10:25-56
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts
+./src/full_control/VMs/EditorLighting_BJS_VM.ts 17:24-25
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts(17,25)
+      TS7008: Member 'x' implicitly has an 'any' type.
+ @ ./src/full_control/EditorsVM.ts 17:48-86
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts
+./src/full_control/VMs/EditorLighting_BJS_VM.ts 17:27-28
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts(17,28)
+      TS7008: Member 'y' implicitly has an 'any' type.
+ @ ./src/full_control/EditorsVM.ts 17:48-86
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts
+./src/full_control/VMs/EditorLighting_BJS_VM.ts 17:30-31
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts(17,31)
+      TS7008: Member 'z' implicitly has an 'any' type.
+ @ ./src/full_control/EditorsVM.ts 17:48-86
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts
+./src/full_control/VMs/EditorLighting_BJS_VM.ts 92:12-33
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts(92,13)
+      TS18048: 'props.light_direction' is possibly 'undefined'.
+ @ ./src/full_control/EditorsVM.ts 17:48-86
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts
+./src/full_control/VMs/EditorLighting_BJS_VM.ts 93:12-33
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts(93,13)
+      TS18048: 'props.light_direction' is possibly 'undefined'.
+ @ ./src/full_control/EditorsVM.ts 17:48-86
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts
+./src/full_control/VMs/EditorLighting_BJS_VM.ts 94:12-33
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts(94,13)
+      TS18048: 'props.light_direction' is possibly 'undefined'.
+ @ ./src/full_control/EditorsVM.ts 17:48-86
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts
+./src/full_control/VMs/EditorLighting_BJS_VM.ts 101:12-35
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorLighting_BJS_VM.ts(101,13)
+      TS18048: 'props.mat_specularPower' is possibly 'undefined'.
+ @ ./src/full_control/EditorsVM.ts 17:48-86
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 25:15-35
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(25,16)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 29:35-57
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(29,36)
+      TS2322: Type 'EditorSegmentedVM | null' is not assignable to type 'EditorNumericVM | EditorSegmentedVM'.
+  Type 'null' is not assignable to type 'EditorNumericVM | EditorSegmentedVM'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 29:60-80
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(29,61)
+      TS2322: Type 'EditorNumericVM | null' is not assignable to type 'EditorNumericVM | EditorSegmentedVM'.
+  Type 'null' is not assignable to type 'EditorNumericVM | EditorSegmentedVM'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 43:12-34
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(43,13)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 47:12-32
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(47,13)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 49:12-34
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(49,13)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 49:45-49
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(49,46)
+      TS2345: Argument of type 'null' is not assignable to parameter of type '{ pos: number; val: number; }[]'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 65:12-34
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(65,13)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 68:12-32
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(68,13)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 75:12-32
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(75,13)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 75:59-81
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(75,60)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 76:12-34
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(76,13)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 76:45-49
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(76,46)
+      TS2345: Argument of type 'null' is not assignable to parameter of type '{ pos: number; val: number; }[]'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 79:24-44
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(79,25)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts
+./src/full_control/VMs/EditorNumericOrSegmentedVM.ts 80:12-34
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericOrSegmentedVM.ts(80,13)
+      TS2531: Object is possibly 'null'.
+ @ ./src/full_control/EditorsVM.ts 16:53-96
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericVM.ts
+./src/full_control/VMs/EditorNumericVM.ts 27:22-77
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumericVM.ts(27,23)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Spiral_Dynamic_Config'.
+  No index signature with a parameter of type 'string' was found on type 'Spiral_Dynamic_Config'.
+ @ ./src/full_control/EditorsVM.ts 9:42-74
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumeric_BJS_VM.ts
+./src/full_control/VMs/EditorNumeric_BJS_VM.ts 8:4-13
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorNumeric_BJS_VM.ts(8,5)
+      TS2564: Property 'param_min' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/EditorsVM.ts 12:47-84
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorSegmentedVM.ts
+./src/full_control/VMs/EditorSegmentedVM.ts 40:25-26
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorSegmentedVM.ts(40,26)
+      TS7006: Parameter 's' implicitly has an 'any' type.
+ @ ./src/full_control/VMs/EditorThicknessVM.ts 9:44-74
+ @ ./src/full_control/EditorsVM.ts 14:28-62
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorSegmentedVM.ts
+./src/full_control/VMs/EditorSegmentedVM.ts 41:25-26
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorSegmentedVM.ts(41,26)
+      TS7006: Parameter 'a' implicitly has an 'any' type.
+ @ ./src/full_control/VMs/EditorThicknessVM.ts 9:44-74
+ @ ./src/full_control/EditorsVM.ts 14:28-62
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 58:20-42
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorVM.ts
+./src/full_control/VMs/EditorVM.ts 14:4-18
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorVM.ts(14,5)
+      TS2564: Property 'component_name' has no initializer and is not definitely assigned in the constructor.
+ @ ./src/full_control/VMs/EditorAnimPointsVM.ts 6:35-56
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 65:45-80
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorVM.ts
+./src/full_control/VMs/EditorVM.ts 19:15-70
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/VMs/EditorVM.ts(19,16)
+      TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Spiral_Dynamic_Config'.
+  No index signature with a parameter of type 'string' was found on type 'Spiral_Dynamic_Config'.
+ @ ./src/full_control/VMs/EditorAnimPointsVM.ts 6:35-56
+ @ ./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/ifdef-loader/ifdef-loader.js??clonedRuleSet-2!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 65:45-80
+ @ ./src/full_control/App.vue?vue&type=script&setup=true&lang=ts 1:0-265 1:0-265 1:266-520 1:266-520
+ @ ./src/full_control/App.vue 2:0-65 8:49-55 3:0-60 3:0-60
+ @ ./src/full_control/main.ts 9:34-54
+
+ERROR in /home/ubuntu/projects/nft-editor/node_modules/@bluemath/common/src/ops.ts
+114:14-22
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/node_modules/@bluemath/common/src/ops.ts(114,15)
+      TS2345: Argument of type '(val: number) => void' is not assignable to parameter of type '(value: number | Complex, ...index: number[]) => void'.
+  Types of parameters 'val' and 'value' are incompatible.
+    Type 'number | Complex' is not assignable to type 'number'.
+      Type 'Complex' is not assignable to type 'number'.
+
+ERROR in /home/ubuntu/projects/nft-editor/node_modules/@bluemath/common/src/ndarray.ts
+212:10-16
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/node_modules/@bluemath/common/src/ndarray.ts(212,11)
+      TS2564: Property '_shape' has no initializer and is not definitely assigned in the constructor.
+
+ERROR in /home/ubuntu/projects/nft-editor/node_modules/@bluemath/common/src/ndarray.ts
+228:10-15
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/node_modules/@bluemath/common/src/ndarray.ts(228,11)
+      TS2564: Property '_data' has no initializer and is not definitely assigned in the constructor.
+
+ERROR in /home/ubuntu/projects/nft-editor/node_modules/@bluemath/common/src/ndarray.ts
+281:15-20
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/node_modules/@bluemath/common/src/ndarray.ts(281,16)
+      TS2565: Property '_data' is used before being assigned.
+
+ERROR in /home/ubuntu/projects/nft-editor/node_modules/@bluemath/common/src/ndarray.ts
+866:40-50
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/node_modules/@bluemath/common/src/ndarray.ts(866,41)
+      TS2345: Argument of type 'TypedArray' is not assignable to parameter of type 'number[]'.
+  Type 'Int8Array<ArrayBufferLike>' is missing the following properties from type 'number[]': pop, push, concat, shift, and 6 more.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts
+96:55-56
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts(96,56)
+      TS7006: Parameter 'p' implicitly has an 'any' type.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts
+133:95-96
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts(133,96)
+      TS7006: Parameter 'k' implicitly has an 'any' type.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts
+153:30-39
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts(153,31)
+      TS7006: Parameter 'slotProps' implicitly has an 'any' type.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts
+279:102-103
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts(279,103)
+      TS7006: Parameter 'p' implicitly has an 'any' type.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts
+358:106-107
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/App.vue.ts(358,107)
+      TS7006: Parameter 'e' implicitly has an 'any' type.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/ColorsEditor.vue.ts
+26:92-93
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/ColorsEditor.vue.ts(26,93)
+      TS7006: Parameter 's' implicitly has an 'any' type.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/ColorsEditor.vue.ts
+27:73-74
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/ColorsEditor.vue.ts(27,74)
+      TS7006: Parameter 's' implicitly has an 'any' type.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/CoverView.vue.ts
+24:18-24
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/CoverView.vue.ts(24,19)
+      TS2749: 'Dialog' refers to a value, but is being used as a type here. Did you mean 'typeof Dialog'?
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/CoverView.vue.ts
+37:4-45
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/CoverView.vue.ts(37,5)
+      TS2531: Object is possibly 'null'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/SegmentsEditor.vue.ts
+54:26-27
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/SegmentsEditor.vue.ts(54,27)
+      TS7006: Parameter 's' implicitly has an 'any' type.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/SegmentsEditor.vue.ts
+54:29-30
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/SegmentsEditor.vue.ts(54,30)
+      TS7006: Parameter 'n' implicitly has an 'any' type.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/SegmentMarker.vue.ts
+26:19-31
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/SegmentMarker.vue.ts(26,20)
+      TS18047: 'handle.value' is possibly 'null'.
+
+ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/SegmentMarker.vue.ts
+26:19-44
+[tsl] ERROR in /home/ubuntu/projects/nft-editor/src/full_control/components/SegmentMarker.vue.ts(26,20)
+      TS18047: 'handle.value.offsetParent' is possibly 'null'.
+
+199 errors have detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.105.4 compiled with 199 errors and 1 warning in 37076 ms

@@ -358,6 +358,6 @@ export default abstract class SpiralViewBase {
         const uint8Array = encoder.FS.readFile(encoder.outputFilename, {encoding: "binary"});
         encoder.delete();
 
-        return arrayBufferToBlob(uint8Array.buffer, "video/mp4");
+        return arrayBufferToBlob(uint8Array.buffer as ArrayBuffer, "video/mp4");
     }
 }

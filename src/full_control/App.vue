@@ -1,7 +1,5 @@
 <script setup lang="ts">
 
-import "primevue/resources/themes/bootstrap4-light-blue/theme.css";
-import "primevue/resources/primevue.min.css";
 import 'primeicons/primeicons.css';
 
 import {nextTick, ref, Ref, watch} from "vue";
@@ -38,8 +36,7 @@ import CoverView from "./components/CoverView.vue";
 import NumericOrSegmentedEditor from "./components/NumericOrSegmentedEditor.vue";
 import LightingEditor from "./components/LightingEditor.vue";
 
-import * as sample from './JSON/sample.json';
-import {PrimeIcons} from "primevue/api";
+import sample from './JSON/sample.json';
 
 const toast = useToast();
 
@@ -333,7 +330,7 @@ function copy_json() {
             icon: 'pi pi-fw pi-file',
             items: [
                 { class: 'force-gdrive-auth' },
-                { label: 'Open Image', icon: PrimeIcons.FILE, command: ()=>file_browser.open('image') },
+                { label: 'Open Image', icon: 'pi pi-file', command: ()=>file_browser.open('image') },
                 { label: 'Open Video', icon: 'pi pi-fw pi-file', command: ()=>file_browser.open('video') },
                 { separator: true },
                 { label: 'Save Image', icon: 'pi pi-fw pi-save', command: save_image },
@@ -519,7 +516,7 @@ function copy_json() {
     <CoverView/>
 
 
-    <router-link v-if="false"/>
+    <router-link v-if="false" to=""/>
 
   </div>
 

@@ -24,6 +24,12 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.m?js$/,
+                resolve: {
+                    fullySpecified: false,
+                },
+            },
+            {
                 test: /\.vue$/i,
                 exclude: /(node_modules)/,
                 use: {

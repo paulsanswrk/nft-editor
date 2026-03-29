@@ -1,0 +1,4 @@
+
+> spirals@1.0.0 build
+> webpack --config src/full_control/webpack.config.vue.common.js
+
