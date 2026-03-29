@@ -118,7 +118,9 @@ function gen_frame(n_frame: number) {
 
     const render_pos_in_segment = (render_pos - segment_left.pos) / (segment_right.pos - segment_left.pos);
 
-    spiral_view.prevent_updating_geometry = true;
+    if (segment_left.direct_morphing)
+        spiral_view.prevent_updating_geometry = true;
+
     do_morphing_increment(render_pos_in_segment, segment_left.val, segment_right.val, segment_left.easing, segment_left.direct_morphing);
 
     if (segment_left.direct_morphing) {
@@ -135,6 +137,7 @@ function gen_frame(n_frame: number) {
         spiral_view.prevent_updating_geometry = false;
         spiral_view.update_spiral_geometry(points_buffer);
     }
+
     spiral_view.prevent_updating_geometry = false;
 
 }
