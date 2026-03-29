@@ -516,7 +516,7 @@ function copy_json() {
     <CoverView/>
 
 
-    <router-link v-if="false" to=""/>
+
 
   </div>
 

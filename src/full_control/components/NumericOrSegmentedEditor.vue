@@ -36,9 +36,11 @@ function update() {
 
 function collapse_fine_tune() {
   if (is_segmented.value)
-    segments_editor.value.collapse_fine_tune();
+    // @ts-ignore
+    segments_editor.value?.collapse_fine_tune();
   else
-    numeric_editor.value.collapse_fine_tune();
+    // @ts-ignore
+    numeric_editor.value?.collapse_fine_tune();
 }
 
 defineExpose({update, collapse_fine_tune});
@@ -90,7 +92,7 @@ const segments_changed = throttle(() => {
       <SegmentsEditor v-if="opened" :segments="segments"
                       @update:segments="_segments => {props.model.param_set(_segments); update()}"
                       :opened="opened"
-                      ref="segments_editor" colors="">
+                      ref="segments_editor" :colors="[]">
 
         <template #editors="{ n_selected } : { n_selected:number|null }">
 
